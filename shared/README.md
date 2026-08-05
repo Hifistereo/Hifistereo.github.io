@@ -6,10 +6,16 @@ lives in `Hifistereo/Hifistereo.github.io` and is **copied into** each app repo.
 ## Why copied, not linked
 
 It would be tidier for each app to load `https://www.kidmindpath.com/shared/kidmindpath-tokens.css`.
-Don't. Three of the five apps (KidlaTest, ENG-learning, Paint) are offline-first
-PWAs with explicit service-worker precache lists — a stylesheet fetched from
-outside their own scope breaks offline boot, blocks first paint on a network
-round-trip, and widens every app's Content-Security-Policy for no benefit.
+Don't. KidlaTest and ENG-learning are offline-first, with service workers that
+precache an explicit file list — a stylesheet fetched from outside their own
+scope breaks offline boot, blocks first paint on a network round-trip, and
+widens every app's Content-Security-Policy for no benefit. Copying costs 540 KB
+per app and removes the whole class of problem.
+
+(Paint and Memory ship a web app manifest but **no service worker**, so they
+are installable without being offline-capable. That is a pre-existing gap, not
+something the design system introduced — but it does mean an installed Paint
+opens to nothing with no connection. Worth fixing separately.)
 
 So each app carries its own copy, and every file is stamped with a version on
 line 1 so drift is visible at a glance.
