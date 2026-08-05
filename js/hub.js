@@ -79,8 +79,31 @@ function renderSetup(mount) {
 
   const start = (guest) => {
     const name = guest ? '' : draft.name.trim();
+    const existing = window.KMP.profiles();
+
+    // Naming a guest UPGRADES them in place rather than creating a second
+    // profile. Every game namespaces its storage by this id, so minting a new
+    // one would silently orphan everything the guest collected — and the
+    // setup card promises the opposite in as many words.
+    const guestToName = !guest && existing.length === 1 && existing[0].guest
+      ? existing[0]
+      : null;
+
+    if (guestToName) {
+      window.KMP.saveProfiles(existing.map((p) => (p.id === guestToName.id ? {
+        ...p,
+        name,
+        ageYears: draft.ageYears ?? p.ageYears,
+        avatar: draft.avatar,
+        guest: false,
+      } : p)));
+      window.KMP.setActive(guestToName.id);
+      render();
+      return;
+    }
+
     const id = window.KMP.makeId(name || 'draugs');
-    window.KMP.saveProfiles([...window.KMP.profiles(), {
+    window.KMP.saveProfiles([...existing, {
       id,
       name,
       ageYears: draft.ageYears,
@@ -157,7 +180,12 @@ function renderReturning(mount) {
       switcher.append(b);
     }
     if (all.length < window.KMP.MAX_PROFILES) {
-      const add = el('button.chip.chip--add', { type: 'button', text: '+ Pievienot' });
+      // For a guest this is "add your name", not "add another child" — naming
+      // a guest upgrades them in place and keeps everything they collected.
+      const add = el('button.chip.chip--add', {
+        type: 'button',
+        text: child.guest && all.length === 1 ? '✏️ Pievienot vārdu' : '+ Pievienot',
+      });
       add.addEventListener('click', () => { mount.dataset.mode = 'setup'; render(); });
       switcher.append(add);
     }
