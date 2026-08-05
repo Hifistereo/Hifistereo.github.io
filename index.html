@@ -28,7 +28,10 @@
   <link rel="stylesheet" href="/shared/kidmindpath-tokens.css">
   <link rel="stylesheet" href="/shared/kidmindpath-ui.css">
   <link rel="stylesheet" href="/styles.css">
+  <!-- Classic script, so window.KMP exists before the module below runs. -->
+  <script src="/shared/kmp.js"></script>
   <script src="/js/site.js" defer></script>
+  <script type="module" src="/js/hub.js"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -50,7 +53,8 @@
       </a>
       <div class="nav-links">
         <a class="nav-link" href="#speles">Visas spēles</a>
-        <a class="nav-link" href="#vecakiem">Vecākiem</a>
+        <a class="nav-link" href="/kolekcija.html">Mani krājumi</a>
+        <a class="nav-link" href="/vecakiem.html">Vecākiem</a>
       </div>
     </nav>
   </header>
@@ -89,8 +93,13 @@
           <p class="section-note">Nospied “Spēlēt”, un spēle sāksies uzreiz — nekas nav jālejupielādē un nav jāreģistrējas.</p>
         </div>
 
+        <!-- Who is playing. Filled in by js/hub.js and hidden until then, so
+             nobody sees an empty box if JavaScript is off — the game cards
+             below work perfectly well on their own. -->
+        <section id="who" class="who-panel" aria-label="Kurš spēlē" hidden></section>
+
         <div class="game-grid">
-          <article class="kmp-card game-card card-prata">
+          <article class="kmp-card game-card card-prata" data-game="PrataSala">
             <div class="card-top">
               <div class="game-icon" aria-hidden="true">🏝️</div>
               <span class="age">Domāšanai</span>
@@ -102,7 +111,7 @@
             </a>
           </article>
 
-          <article class="kmp-card game-card card-paint">
+          <article class="kmp-card game-card card-paint" data-game="Paint">
             <div class="card-top">
               <div class="game-icon" aria-hidden="true">🎨</div>
               <span class="age">Radošumam</span>
@@ -114,7 +123,7 @@
             </a>
           </article>
 
-          <article class="kmp-card game-card card-kidla">
+          <article class="kmp-card game-card card-kidla" data-game="KidlaTest">
             <div class="card-top">
               <div class="game-icon" aria-hidden="true">🧚</div>
               <span class="age">Lasīšanai</span>
@@ -126,10 +135,10 @@
             </a>
           </article>
 
-          <article class="kmp-card game-card card-eng">
+          <article class="kmp-card game-card card-eng" data-game="ENG-learning">
             <div class="card-top">
               <div class="game-icon" aria-hidden="true">🐲</div>
-              <span class="age">2–7 gadi</span>
+              <span class="age">Valodai</span>
             </div>
             <h3>Mācāmies angliski!</h3>
             <p>Angļu valodas spēle latviešu bērniem ar diviem vecuma līmeņiem un mācīšanos savā tempā.</p>
@@ -138,10 +147,10 @@
             </a>
           </article>
 
-          <article class="kmp-card game-card card-memory">
+          <article class="kmp-card game-card card-memory" data-game="Memory">
             <div class="card-top">
               <div class="game-icon" aria-hidden="true">🔢</div>
-              <span class="age">2–6 gadi</span>
+              <span class="age">Skaitļiem</span>
             </div>
             <h3>Ciparu dārzs</h3>
             <p>Piecas draudzīgas atmiņas un agrīnās matemātikas spēles mazajiem pētniekiem.</p>

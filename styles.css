@@ -286,10 +286,156 @@ h2 {
   line-height: 1.55;
 }
 
+/* ---------- who is playing ---------- */
+
+.who-panel {
+  margin-bottom: var(--kmp-s-6);
+  padding: var(--kmp-s-5);
+  background: var(--kmp-brand-tint);
+  border: 1px solid var(--kmp-prata-line);
+  border-radius: var(--kmp-r-xl);
+}
+
+.who-panel h2 { font-size: var(--kmp-t-lg); }
+
+.who-row {
+  display: flex;
+  align-items: center;
+  gap: var(--kmp-s-4);
+}
+
+.who-avatar {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  flex: none;
+  background: var(--kmp-surface);
+  border: 1px solid var(--kmp-line);
+  border-radius: 50%;
+  font-size: 2rem;
+}
+
+.who-text { display: flex; flex-direction: column; }
+.who-text strong { font-family: var(--kmp-font-display); font-size: var(--kmp-t-lg); font-weight: 600; }
+.who-text span { color: var(--kmp-ink-soft); font-size: var(--kmp-t-sm); }
+
+.who-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-3);
+  margin-top: var(--kmp-s-4);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-2);
+  margin-top: var(--kmp-s-3);
+}
+
+.chip {
+  min-height: 48px;
+  padding: 0 var(--kmp-s-4);
+  color: var(--kmp-ink);
+  background: var(--kmp-surface);
+  border: 2px solid var(--kmp-line);
+  border-radius: var(--kmp-r-pill);
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.chip:hover { border-color: var(--kmp-brand); }
+
+/* aria-pressed is the selected state, so the styling follows the attribute
+   rather than a parallel class that could drift out of sync with it. */
+.chip[aria-pressed="true"] {
+  color: #fff;
+  background: var(--kmp-brand);
+  border-color: var(--kmp-brand-deep);
+}
+
+.chip--avatar { font-size: 1.5rem; padding: 0 var(--kmp-s-3); }
+.chip--add { border-style: dashed; color: var(--kmp-ink-soft); }
+
+.who-switch, .who-prefs { margin-top: var(--kmp-s-4); }
+
+/* ---------- first-run setup ---------- */
+
+.setup h2 { margin-bottom: var(--kmp-s-4); }
+
+.field-label {
+  display: block;
+  margin: var(--kmp-s-4) 0 var(--kmp-s-2);
+  color: var(--kmp-ink-soft);
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-xs);
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.setup-name {
+  width: min(360px, 100%);
+  height: 56px;
+  padding: 0 var(--kmp-s-4);
+  color: var(--kmp-ink);
+  background: var(--kmp-surface);
+  border: 2px solid var(--kmp-line);
+  border-radius: var(--kmp-r-md);
+  font-family: var(--kmp-font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.setup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-3);
+  margin-top: var(--kmp-s-5);
+}
+
+/* "Play without a name" is a real button the same size as the other one, not
+   a text link tucked underneath. Nobody should have to type a name to use
+   this site, so the two paths look equally available. */
+.kmp-btn--quiet {
+  --kmp-btn-bg: var(--kmp-surface);
+  --kmp-btn-edge: var(--kmp-line);
+  color: var(--kmp-brand);
+  border: 1px solid var(--kmp-line);
+}
+
+.setup-note {
+  margin: var(--kmp-s-4) 0 0;
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-sm);
+}
+
+/* ---------- games ---------- */
+
 .game-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 18px;
+}
+
+/* Once an age is known the cards are reordered, and the nth-child rules that
+   centre the bottom two stop making sense — they assume source order. Auto
+   placement takes over instead. */
+.game-grid.is-sorted { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.game-grid.is-sorted .game-card,
+.game-grid.is-sorted .game-card:nth-child(4),
+.game-grid.is-sorted .game-card:nth-child(5) { grid-column: auto; }
+
+.game-card.is-fit { order: 0; }
+.game-card.is-other { order: 1; opacity: .82; }
+
+.age-fit {
+  margin-top: var(--kmp-s-3);
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-xs);
 }
 
 /* Each card carries the accent of the app it opens, so the card previews
