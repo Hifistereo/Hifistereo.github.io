@@ -25,6 +25,10 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.kidmindpath.com/kolekcija.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://www.kidmindpath.com/privatums.html</loc>
     <priority>0.3</priority>
   </url>
