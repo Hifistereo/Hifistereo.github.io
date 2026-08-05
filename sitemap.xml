@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.kidmindpath.com/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.kidmindpath.com/PrataSala/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.kidmindpath.com/Paint/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.kidmindpath.com/KidlaTest/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.kidmindpath.com/ENG-learning/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.kidmindpath.com/Memory/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.kidmindpath.com/privatums.html</loc>
+    <priority>0.3</priority>
+  </url>
+</urlset>

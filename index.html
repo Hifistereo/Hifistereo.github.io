@@ -3,480 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="KidMindPath — drošas un pārdomātas izglītojošas spēles bērniem. Valoda, lasīšana, matemātika, radošums un domāšana vienuviet.">
+  <!-- The whole site is static and self-contained: no third-party scripts, no
+       fonts from a CDN, no analytics, nothing to connect to. The policy says
+       so explicitly rather than leaving the door open. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="KidMindPath — drošas un pārdomātas izglītojošas spēles bērniem. Valoda, lasīšana, matemātika, radošums un domāšana vienuviet. Bez reklāmām un bez izsekošanas.">
   <meta name="theme-color" content="#fffaf2">
   <meta property="og:title" content="KidMindPath — mācīšanās caur spēli">
-  <meta property="og:description" content="Izvēlies spēli un sāc piedzīvojumu: valoda, lasīšana, matemātika, radošums un domāšana.">
+  <meta property="og:description" content="Piecas izglītojošas spēles bērniem: valoda, lasīšana, matemātika, radošums un domāšana. Bez reklāmām un bez izsekošanas.">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="lv_LV">
   <meta property="og:url" content="https://www.kidmindpath.com/">
+  <meta property="og:image" content="https://www.kidmindpath.com/icon-512.png">
+  <meta name="twitter:card" content="summary">
   <link rel="canonical" href="https://www.kidmindpath.com/">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2225%22 fill=%22%235f4bb6%22/><path d=%22M27 23h14v22L60 23h18L55 49l25 28H61L41 53v24H27z%22 fill=%22white%22/></svg>">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
   <title>KidMindPath — mācīšanās caur spēli</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --ink: #24213b;
-      --muted: #68647a;
-      --paper: #fffaf2;
-      --surface: #ffffff;
-      --line: #e7e0d7;
-      --purple: #5f4bb6;
-      --purple-dark: #42317f;
-      --yellow: #ffc857;
-      --shadow: 0 14px 40px rgba(53, 41, 89, .10);
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      min-width: 320px;
-      color: var(--ink);
-      background: var(--paper);
-      font-family: Inter, ui-rounded, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a { color: inherit; }
-
-    .skip-link {
-      position: absolute;
-      top: -60px;
-      left: 16px;
-      z-index: 20;
-      padding: 12px 16px;
-      color: #fff;
-      background: var(--purple-dark);
-      border-radius: 8px;
-    }
-
-    .skip-link:focus { top: 12px; }
-
-    .wrap {
-      width: min(1160px, calc(100% - 40px));
-      margin-inline: auto;
-    }
-
-    header {
-      position: relative;
-      z-index: 5;
-      border-bottom: 1px solid rgba(95, 75, 182, .10);
-      background: rgba(255, 250, 242, .94);
-    }
-
-    nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 11px;
-      text-decoration: none;
-      font-size: 1.15rem;
-      font-weight: 850;
-      letter-spacing: -.03em;
-    }
-
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: var(--purple);
-      border-radius: 13px 13px 13px 5px;
-      font-size: 1.25rem;
-      box-shadow: 0 6px 0 rgba(66, 49, 127, .18);
-    }
-
-    .nav-link {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: .95rem;
-      font-weight: 750;
-    }
-
-    .nav-link:hover { color: var(--purple); }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      padding: 78px 0 70px;
-    }
-
-    .hero::before,
-    .hero::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .hero::before {
-      width: 240px;
-      height: 240px;
-      top: -100px;
-      right: 4%;
-      background: #f9d97d;
-      opacity: .36;
-    }
-
-    .hero::after {
-      width: 170px;
-      height: 170px;
-      bottom: -96px;
-      left: 3%;
-      background: #9bd7c5;
-      opacity: .30;
-    }
-
-    .hero-grid {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1.25fr .75fr;
-      align-items: center;
-      gap: 72px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 0 0 18px;
-      color: var(--purple-dark);
-      font-size: .84rem;
-      font-weight: 850;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 28px;
-      height: 4px;
-      background: var(--yellow);
-      border-radius: 4px;
-    }
-
-    h1 {
-      max-width: 760px;
-      margin: 0;
-      font-size: clamp(2.7rem, 6vw, 5.4rem);
-      line-height: .98;
-      letter-spacing: -.065em;
-    }
-
-    h1 span { color: var(--purple); }
-
-    .hero-copy {
-      max-width: 650px;
-      margin: 26px 0 0;
-      color: var(--muted);
-      font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-      line-height: 1.62;
-    }
-
-    .hero-action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 52px;
-      margin-top: 30px;
-      padding: 0 22px;
-      color: #fff;
-      background: var(--purple);
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 850;
-      box-shadow: 0 8px 0 var(--purple-dark);
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-
-    .hero-action:hover {
-      transform: translateY(2px);
-      box-shadow: 0 6px 0 var(--purple-dark);
-    }
-
-    .hero-action:active {
-      transform: translateY(6px);
-      box-shadow: 0 2px 0 var(--purple-dark);
-    }
-
-    .hero-visual {
-      min-height: 340px;
-      position: relative;
-      display: grid;
-      place-items: center;
-    }
-
-    .orbit {
-      width: min(320px, 78vw);
-      aspect-ratio: 1;
-      position: relative;
-      display: grid;
-      place-items: center;
-      border: 2px dashed rgba(95, 75, 182, .20);
-      border-radius: 50%;
-    }
-
-    .orbit-center {
-      width: 150px;
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 42px;
-      box-shadow: var(--shadow);
-      font-size: 4.6rem;
-      transform: rotate(-3deg);
-    }
-
-    .orbit-item {
-      width: 74px;
-      aspect-ratio: 1;
-      position: absolute;
-      display: grid;
-      place-items: center;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      box-shadow: 0 10px 26px rgba(53, 41, 89, .10);
-      font-size: 2.25rem;
-    }
-
-    .orbit-item:nth-child(2) { top: -14px; left: 44px; transform: rotate(-8deg); }
-    .orbit-item:nth-child(3) { top: 64px; right: -10px; transform: rotate(7deg); }
-    .orbit-item:nth-child(4) { right: 23px; bottom: 4px; transform: rotate(-4deg); }
-    .orbit-item:nth-child(5) { left: -9px; bottom: 62px; transform: rotate(7deg); }
-
-    main { display: block; }
-
-    .games-section {
-      padding: 74px 0 88px;
-      background: var(--surface);
-      border-block: 1px solid var(--line);
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 28px;
-      margin-bottom: 34px;
-    }
-
-    .section-kicker {
-      margin: 0 0 8px;
-      color: var(--purple);
-      font-size: .85rem;
-      font-weight: 850;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: clamp(2rem, 4vw, 3.1rem);
-      line-height: 1.08;
-      letter-spacing: -.045em;
-    }
-
-    .section-note {
-      max-width: 380px;
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    .game-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 18px;
-    }
-
-    .game-card {
-      grid-column: span 2;
-      min-height: 330px;
-      display: flex;
-      flex-direction: column;
-      padding: 24px;
-      color: var(--ink);
-      background: var(--card-bg);
-      border: 1px solid var(--card-line);
-      border-radius: 22px;
-      box-shadow: 0 8px 0 var(--card-shadow);
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-
-    .game-card:nth-child(4) { grid-column: 2 / span 2; }
-    .game-card:nth-child(5) { grid-column: 4 / span 2; }
-
-    .game-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 0 var(--card-shadow);
-    }
-
-    .card-purple { --card-bg: #f0ecff; --card-line: #d9d0ff; --card-shadow: #d9d0ff; --accent: #5842af; }
-    .card-yellow { --card-bg: #fff6d8; --card-line: #f0dfa1; --card-shadow: #f0dfa1; --accent: #8b6200; }
-    .card-blue { --card-bg: #e9f5ff; --card-line: #c9e3f5; --card-shadow: #c9e3f5; --accent: #23618a; }
-    .card-green { --card-bg: #e8f8ef; --card-line: #c7e9d5; --card-shadow: #c7e9d5; --accent: #276c48; }
-    .card-coral { --card-bg: #fff0ea; --card-line: #f3d2c5; --card-shadow: #f3d2c5; --accent: #9c4d32; }
-
-    .card-top {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .game-icon {
-      width: 66px;
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      background: rgba(255, 255, 255, .76);
-      border: 1px solid rgba(255, 255, 255, .95);
-      border-radius: 18px;
-      font-size: 2.2rem;
-    }
-
-    .age {
-      padding: 7px 10px;
-      color: var(--accent);
-      background: rgba(255, 255, 255, .64);
-      border-radius: 8px;
-      font-size: .76rem;
-      font-weight: 850;
-      white-space: nowrap;
-    }
-
-    .game-card h3 {
-      margin: 22px 0 8px;
-      font-size: 1.35rem;
-      line-height: 1.18;
-      letter-spacing: -.025em;
-    }
-
-    .game-card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    .play-link {
-      min-height: 46px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: auto;
-      padding: 0 15px;
-      color: #fff;
-      background: var(--accent);
-      border-radius: 11px;
-      text-decoration: none;
-      font-weight: 850;
-    }
-
-    .play-link span:last-child { font-size: 1.25rem; }
-
-    .play-link:focus-visible,
-    .hero-action:focus-visible,
-    .nav-link:focus-visible,
-    .brand:focus-visible {
-      outline: 4px solid var(--yellow);
-      outline-offset: 3px;
-    }
-
-    .principles {
-      padding: 80px 0;
-    }
-
-    .principle-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 42px;
-      margin-top: 38px;
-    }
-
-    .principle {
-      padding-top: 22px;
-      border-top: 4px solid var(--yellow);
-    }
-
-    .principle:nth-child(2) { border-color: #8ac9b5; }
-    .principle:nth-child(3) { border-color: #9c8fe2; }
-
-    .principle strong {
-      display: block;
-      margin-bottom: 9px;
-      font-size: 1.08rem;
-    }
-
-    .principle p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.58;
-    }
-
-    footer {
-      padding: 30px 0;
-      color: var(--muted);
-      background: #f4eee6;
-      border-top: 1px solid var(--line);
-      font-size: .9rem;
-    }
-
-    .footer-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 46px; }
-      .hero-visual { min-height: 320px; }
-      .game-card { grid-column: span 3; }
-      .game-card:nth-child(4), .game-card:nth-child(5) { grid-column: span 3; }
-    }
-
-    @media (max-width: 640px) {
-      .wrap { width: min(100% - 28px, 1160px); }
-      nav { min-height: 68px; }
-      .nav-link { display: none; }
-      .hero { padding: 56px 0 48px; }
-      h1 { font-size: clamp(2.75rem, 14vw, 4rem); }
-      .hero-copy { margin-top: 20px; }
-      .hero-action { width: 100%; }
-      .hero-visual { min-height: 280px; }
-      .orbit { width: 250px; }
-      .orbit-center { width: 124px; border-radius: 34px; font-size: 3.8rem; }
-      .orbit-item { width: 60px; border-radius: 18px; font-size: 1.8rem; }
-      .orbit-item:nth-child(2) { left: 30px; }
-      .games-section { padding: 58px 0 68px; }
-      .section-head { display: block; }
-      .section-note { margin-top: 14px; }
-      .game-grid { display: grid; grid-template-columns: 1fr; }
-      .game-card, .game-card:nth-child(4), .game-card:nth-child(5) { grid-column: 1; min-height: 300px; }
-      .principles { padding: 62px 0; }
-      .principle-grid { grid-template-columns: 1fr; gap: 28px; }
-      .footer-row { display: block; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition-duration: .01ms !important; }
-    }
-  </style>
+  <link rel="preload" href="/shared/fonts/fredoka-600-normal-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/shared/fonts/nunito-400-normal-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/shared/kidmindpath-fonts.css">
+  <link rel="stylesheet" href="/shared/kidmindpath-tokens.css">
+  <link rel="stylesheet" href="/shared/kidmindpath-ui.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/js/site.js" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -493,10 +45,13 @@
   <header>
     <nav class="wrap" aria-label="Galvenā navigācija">
       <a class="brand" href="/" aria-label="KidMindPath sākumlapa">
-        <span class="brand-mark" aria-hidden="true">K</span>
+        <img class="brand-mark" src="/icon.svg" width="42" height="42" alt="">
         <span>KidMindPath</span>
       </a>
-      <a class="nav-link" href="#speles">Visas spēles</a>
+      <div class="nav-links">
+        <a class="nav-link" href="#speles">Visas spēles</a>
+        <a class="nav-link" href="#vecakiem">Vecākiem</a>
+      </div>
     </nav>
   </header>
 
@@ -507,7 +62,10 @@
           <p class="eyebrow">Mācīšanās caur spēli</p>
           <h1>Mazas spēles.<br><span>Lieli atklājumi.</span></h1>
           <p class="hero-copy">Vienuviet apkopotas pārdomātas spēles, kas palīdz bērnam pētīt valodu, skaitļus, radošumu un domāšanu savā tempā.</p>
-          <a class="hero-action" href="#speles">Izvēlēties spēli <span aria-hidden="true">↓</span></a>
+          <div class="hero-actions">
+            <a class="kmp-btn" href="#speles">Izvēlēties spēli <span aria-hidden="true">↓</span></a>
+            <span class="hero-note">Bez reklāmām · Bez konta · Bezmaksas</span>
+          </div>
         </div>
         <div class="hero-visual" aria-hidden="true">
           <div class="orbit">
@@ -528,11 +86,11 @@
             <p class="section-kicker">Izvēlies piedzīvojumu</p>
             <h2 id="games-title">Spēles bērniem</h2>
           </div>
-          <p class="section-note">Nospied “Spēlēt”, un izvēlētā spēle atvērsies jaunā lapā.</p>
+          <p class="section-note">Nospied “Spēlēt”, un spēle sāksies uzreiz — nekas nav jālejupielādē un nav jāreģistrējas.</p>
         </div>
 
         <div class="game-grid">
-          <article class="game-card card-purple">
+          <article class="kmp-card game-card card-prata">
             <div class="card-top">
               <div class="game-icon" aria-hidden="true">🏝️</div>
               <span class="age">Domāšanai</span>
@@ -544,7 +102,7 @@
             </a>
           </article>
 
-          <article class="game-card card-yellow">
+          <article class="kmp-card game-card card-paint">
             <div class="card-top">
               <div class="game-icon" aria-hidden="true">🎨</div>
               <span class="age">Radošumam</span>
@@ -556,7 +114,7 @@
             </a>
           </article>
 
-          <article class="game-card card-blue">
+          <article class="kmp-card game-card card-kidla">
             <div class="card-top">
               <div class="game-icon" aria-hidden="true">🧚</div>
               <span class="age">Lasīšanai</span>
@@ -568,7 +126,7 @@
             </a>
           </article>
 
-          <article class="game-card card-green">
+          <article class="kmp-card game-card card-eng">
             <div class="card-top">
               <div class="game-icon" aria-hidden="true">🐲</div>
               <span class="age">2–7 gadi</span>
@@ -580,7 +138,7 @@
             </a>
           </article>
 
-          <article class="game-card card-coral">
+          <article class="kmp-card game-card card-memory">
             <div class="card-top">
               <div class="game-icon" aria-hidden="true">🔢</div>
               <span class="age">2–6 gadi</span>
@@ -615,15 +173,39 @@
         </div>
       </div>
     </section>
+
+    <section class="parents" id="vecakiem" aria-labelledby="parents-title">
+      <div class="wrap">
+        <div class="parents-panel">
+          <div>
+            <h2 id="parents-title">Vecākiem: kas notiek ar datiem</h2>
+            <p>Nekas no tā, ko bērns spēlē, neaiziet no ierīces. Spēles saglabā progresu tikai pārlūkprogrammas atmiņā uz šīs pašas ierīces — nav servera, kas kaut ko saņemtu.</p>
+            <ul class="parents-list">
+              <li>Bez reklāmām</li>
+              <li>Bez izsekošanas un analītikas</li>
+              <li>Bez konta un bez e-pasta</li>
+              <li>Bez pirkumiem lietotnē</li>
+              <!-- Not "works offline": only Burtu Feja and Mācāmies angliski!
+                   have service workers. Claiming it for all five would be
+                   false on three of them. -->
+              <li>Nekas nav jālejupielādē</li>
+            </ul>
+          </div>
+          <a class="kmp-btn" href="/privatums.html">Lasīt vairāk</a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
     <div class="wrap footer-row">
       <span>© <span id="year">2026</span> KidMindPath</span>
+      <div class="footer-links">
+        <a href="#speles">Spēles</a>
+        <a href="/privatums.html">Privātums</a>
+      </div>
       <span>Mācīšanās, kas sākas ar ziņkāri.</span>
     </div>
   </footer>
-
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

@@ -1,0 +1,563 @@
+/* kidmindpath.com — hub page styles.
+   Everything structural comes from shared/kidmindpath-tokens.css; this file
+   only holds layout that exists nowhere else on the site.
+
+   Kept in a file rather than a <style> block so the page can run
+   `style-src 'self'` with no 'unsafe-inline'. Nothing here uses a style
+   attribute either — please keep it that way. */
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--kmp-ink);
+  background: var(--kmp-paper);
+  font-family: var(--kmp-font-body);
+  font-size: var(--kmp-t-md);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+h1, h2, h3 {
+  font-family: var(--kmp-font-display);
+  font-weight: 600;
+}
+
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: var(--kmp-s-4);
+  z-index: 20;
+  padding: var(--kmp-s-3) var(--kmp-s-4);
+  color: #fff;
+  background: var(--kmp-brand-deep);
+  border-radius: var(--kmp-r-sm);
+  font-family: var(--kmp-font-display);
+  text-decoration: none;
+}
+
+.skip-link:focus { top: var(--kmp-s-3); }
+
+.wrap {
+  width: min(1160px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+/* ---------- header ---------- */
+
+header {
+  position: relative;
+  z-index: 5;
+  border-bottom: 1px solid rgba(95, 75, 182, .10);
+  background: rgba(255, 250, 242, .94);
+}
+
+nav {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kmp-s-5);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--kmp-ink);
+  text-decoration: none;
+  font-family: var(--kmp-font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px 13px 13px 5px;
+  box-shadow: 0 6px 0 rgba(66, 49, 127, .18);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--kmp-s-5);
+}
+
+.nav-link {
+  color: var(--kmp-ink-soft);
+  text-decoration: none;
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-sm);
+  font-weight: 500;
+}
+
+.nav-link:hover { color: var(--kmp-brand); }
+
+/* ---------- hero ---------- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 78px 0 70px;
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero::before {
+  width: 240px;
+  height: 240px;
+  top: -100px;
+  right: 4%;
+  background: var(--kmp-sun);
+  opacity: .30;
+}
+
+.hero::after {
+  width: 170px;
+  height: 170px;
+  bottom: -96px;
+  left: 3%;
+  background: var(--kmp-memory-hue);
+  opacity: .18;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.25fr .75fr;
+  align-items: center;
+  gap: 72px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kmp-s-2);
+  margin: 0 0 18px;
+  color: var(--kmp-brand-deep);
+  font-family: var(--kmp-font-display);
+  font-size: .84rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 4px;
+  background: var(--kmp-sun);
+  border-radius: 4px;
+}
+
+h1 {
+  max-width: 760px;
+  margin: 0;
+  font-size: var(--kmp-t-3xl);
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+
+h1 span { color: var(--kmp-brand); }
+
+.hero-copy {
+  max-width: 650px;
+  margin: 26px 0 0;
+  color: var(--kmp-ink-soft);
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  line-height: 1.62;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kmp-s-4);
+  margin-top: 30px;
+}
+
+.hero-note {
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-sm);
+}
+
+/* ---------- hero illustration ---------- */
+
+.hero-visual {
+  min-height: 340px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.orbit {
+  width: min(320px, 78vw);
+  aspect-ratio: 1;
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 2px dashed rgba(95, 75, 182, .20);
+  border-radius: 50%;
+}
+
+.orbit-center {
+  width: 150px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: var(--kmp-surface);
+  border: 1px solid var(--kmp-line);
+  border-radius: 42px;
+  box-shadow: var(--kmp-shadow-3);
+  font-size: 4.6rem;
+  rotate: -3deg;
+}
+
+.orbit-item {
+  width: 74px;
+  aspect-ratio: 1;
+  position: absolute;
+  display: grid;
+  place-items: center;
+  background: var(--kmp-surface);
+  border: 1px solid var(--kmp-line);
+  border-radius: 22px;
+  box-shadow: var(--kmp-shadow-2);
+  font-size: 2.25rem;
+}
+
+.orbit-item:nth-child(2) { top: -14px; left: 44px; rotate: -8deg; }
+.orbit-item:nth-child(3) { top: 64px; right: -10px; rotate: 7deg; }
+.orbit-item:nth-child(4) { right: 23px; bottom: 4px; rotate: -4deg; }
+.orbit-item:nth-child(5) { left: -9px; bottom: 62px; rotate: 7deg; }
+
+/* ---------- games ---------- */
+
+.games-section {
+  padding: 74px 0 88px;
+  background: var(--kmp-surface);
+  border-block: 1px solid var(--kmp-line);
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 34px;
+}
+
+.section-kicker {
+  margin: 0 0 var(--kmp-s-2);
+  color: var(--kmp-brand);
+  font-family: var(--kmp-font-display);
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin: 0;
+  font-size: var(--kmp-t-xl);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+
+.section-note {
+  max-width: 380px;
+  margin: 0;
+  color: var(--kmp-ink-soft);
+  line-height: 1.55;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 18px;
+}
+
+/* Each card carries the accent of the app it opens, so the card previews
+   the game rather than colouring it arbitrarily. */
+.game-card {
+  grid-column: span 2;
+  min-height: 330px;
+  transition: transform var(--kmp-dur) var(--kmp-ease-out),
+              box-shadow var(--kmp-dur) var(--kmp-ease-out);
+}
+
+/* Five cards in a six-column grid: three across, then two centred. */
+.game-card:nth-child(4) { grid-column: 2 / span 2; }
+.game-card:nth-child(5) { grid-column: 4 / span 2; }
+
+.game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 0 var(--kmp-card-line);
+}
+
+.card-prata  { --kmp-card-tint: var(--kmp-prata-tint);  --kmp-card-line: var(--kmp-prata-line);  --accent: var(--kmp-prata-ink); }
+.card-paint  { --kmp-card-tint: var(--kmp-paint-tint);  --kmp-card-line: var(--kmp-paint-line);  --accent: var(--kmp-paint-ink); }
+.card-kidla  { --kmp-card-tint: var(--kmp-kidla-tint);  --kmp-card-line: var(--kmp-kidla-line);  --accent: var(--kmp-kidla-ink); }
+.card-eng    { --kmp-card-tint: var(--kmp-eng-tint);    --kmp-card-line: var(--kmp-eng-line);    --accent: var(--kmp-eng-ink); }
+.card-memory { --kmp-card-tint: var(--kmp-memory-tint); --kmp-card-line: var(--kmp-memory-line); --accent: var(--kmp-memory-ink); }
+
+.card-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--kmp-s-4);
+}
+
+.game-icon {
+  width: 66px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, .76);
+  border: 1px solid rgba(255, 255, 255, .95);
+  border-radius: 18px;
+  font-size: 2.2rem;
+}
+
+.age {
+  padding: 7px 10px;
+  color: var(--accent);
+  background: rgba(255, 255, 255, .64);
+  border-radius: var(--kmp-r-sm);
+  font-family: var(--kmp-font-display);
+  font-size: .76rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.game-card h3 {
+  margin: 22px 0 var(--kmp-s-2);
+  font-size: 1.35rem;
+  line-height: 1.18;
+}
+
+.game-card p {
+  margin: 0;
+  color: var(--kmp-ink-soft);
+  line-height: 1.55;
+}
+
+.play-link {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kmp-s-3);
+  margin-top: auto;
+  padding: 0 15px;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 11px;
+  text-decoration: none;
+  font-family: var(--kmp-font-display);
+  font-weight: 600;
+}
+
+.play-link span:last-child { font-size: 1.25rem; }
+
+/* ---------- principles ---------- */
+
+.principles { padding: 80px 0 40px; }
+
+.principle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 42px;
+  margin-top: 38px;
+}
+
+.principle {
+  padding-top: 22px;
+  border-top: 4px solid var(--kmp-sun);
+}
+
+.principle:nth-child(2) { border-color: var(--kmp-memory-hue); }
+.principle:nth-child(3) { border-color: var(--kmp-prata-hue); }
+
+.principle strong {
+  display: block;
+  margin-bottom: 9px;
+  font-family: var(--kmp-font-display);
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+
+.principle p {
+  margin: 0;
+  color: var(--kmp-ink-soft);
+  line-height: 1.58;
+}
+
+/* ---------- parents strip ---------- */
+
+.parents {
+  padding: 0 0 80px;
+}
+
+.parents-panel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--kmp-s-6);
+  padding: var(--kmp-s-6);
+  background: var(--kmp-brand-tint);
+  border: 1px solid var(--kmp-prata-line);
+  border-radius: var(--kmp-r-xl);
+}
+
+.parents-panel h2 { font-size: var(--kmp-t-lg); }
+
+.parents-panel p {
+  max-width: 62ch;
+  margin: var(--kmp-s-3) 0 0;
+  color: var(--kmp-ink-soft);
+  line-height: 1.6;
+}
+
+.parents-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-2) var(--kmp-s-5);
+  margin: var(--kmp-s-4) 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-sm);
+  font-weight: 500;
+}
+
+.parents-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--kmp-s-2);
+}
+
+.parents-list li::before {
+  content: "\2713";
+  color: var(--kmp-memory-ink);
+  font-weight: 700;
+}
+
+/* ---------- footer ---------- */
+
+footer {
+  padding: 30px 0;
+  color: var(--kmp-ink-soft);
+  background: var(--kmp-paper-sunk);
+  border-top: 1px solid var(--kmp-line);
+  font-size: var(--kmp-t-sm);
+}
+
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kmp-s-5);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-5);
+}
+
+.footer-links a { text-decoration: none; }
+.footer-links a:hover { color: var(--kmp-brand); text-decoration: underline; }
+
+/* ---------- simple content pages (404, privacy) ---------- */
+
+.page {
+  padding: 70px 0 90px;
+}
+
+.page h1 {
+  font-size: var(--kmp-t-xl);
+  letter-spacing: -.02em;
+}
+
+.page h2 {
+  margin-top: var(--kmp-s-7);
+  font-size: var(--kmp-t-lg);
+}
+
+.prose {
+  max-width: 68ch;
+}
+
+.prose p,
+.prose li {
+  color: var(--kmp-ink-soft);
+  line-height: 1.7;
+}
+
+.prose ul { padding-left: 1.2em; }
+.prose li { margin-bottom: var(--kmp-s-2); }
+.prose strong { color: var(--kmp-ink); }
+.prose a { color: var(--kmp-brand); }
+
+.updated {
+  margin-top: var(--kmp-s-7);
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-sm);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 46px; }
+  .hero-visual { min-height: 320px; }
+  .game-card { grid-column: span 3; }
+  .game-card:nth-child(4), .game-card:nth-child(5) { grid-column: span 3; }
+  .parents-panel { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .wrap { width: min(100% - 28px, 1160px); }
+  nav { min-height: 68px; }
+  .nav-links { gap: var(--kmp-s-4); }
+  .hero { padding: 56px 0 48px; }
+  h1 { font-size: clamp(2.75rem, 14vw, 4rem); }
+  .hero-copy { margin-top: 20px; }
+  .hero-actions .kmp-btn { width: 100%; }
+  .hero-visual { min-height: 280px; }
+  .orbit { width: 250px; }
+  .orbit-center { width: 124px; border-radius: 34px; font-size: 3.8rem; }
+  .orbit-item { width: 60px; border-radius: 18px; font-size: 1.8rem; }
+  .orbit-item:nth-child(2) { left: 30px; }
+  .games-section { padding: 58px 0 68px; }
+  .section-head { display: block; }
+  .section-note { margin-top: 14px; }
+  .game-grid { grid-template-columns: 1fr; }
+  .game-card, .game-card:nth-child(4), .game-card:nth-child(5) { grid-column: 1; min-height: 300px; }
+  .principles { padding: 62px 0 30px; }
+  .principle-grid { grid-template-columns: 1fr; gap: 28px; }
+  .parents { padding-bottom: 62px; }
+  .parents-panel { padding: var(--kmp-s-5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; }
+  .game-card:hover { transform: none; }
+}
