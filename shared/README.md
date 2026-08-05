@@ -27,7 +27,8 @@ line 1 so drift is visible at a glance.
 | `kidmindpath-fonts.css` | `@font-face` for Fredoka + Nunito | everyone |
 | `fonts/*.woff2` | 18 files, 508 KB, latin + latin-ext | everyone |
 | `kidmindpath-tokens.css` | custom properties only — inert until referenced | everyone |
-| `kidmindpath-ui.css` | `.kmp-home`, `.kmp-btn`, `.kmp-card`, shared focus ring | apps using the components |
+| `kidmindpath-ui.css` | `.kmp-bar`, `.kmp-home`, `.kmp-btn`, `.kmp-card`, focus ring | everyone |
+| `kmp.js` | the shared child profile store — `window.KMP` | everyone |
 | `VERSION` | the version stamped into each file's header | — |
 
 **`latin-ext` is not optional.** It is the subset that carries ā ē ī ū ķ ļ ņ ģ š ž č.
@@ -59,7 +60,7 @@ file, then copy into each app and commit there:
 HUB=path/to/Hifistereo.github.io
 APP=path/to/SomeApp                 # use APP/public/shared for Paint and Memory
 mkdir -p "$APP/shared"
-cp "$HUB"/shared/kidmindpath-*.css "$APP/shared/"
+cp "$HUB"/shared/kidmindpath-*.css "$HUB"/shared/kmp.js "$HUB"/shared/VERSION "$APP/shared/"
 cp -r "$HUB"/shared/fonts "$APP/shared/"
 ```
 
@@ -75,6 +76,60 @@ To find copies that have fallen behind:
 ```sh
 head -1 */shared/kidmindpath-tokens.css
 ```
+
+## `kmp.js` — the shared profile
+
+All six sites are on one origin, so they already share one `localStorage`.
+`kmp.js` is the agreed vocabulary on top of it: who is playing, how old they
+are, and the global sound/motion settings — so a child is named once on the hub
+instead of once per game.
+
+**One rule: the hub writes `kmp:*`, games only read it.** The single exception
+is `KMP.noteVisit()`, which writes `kmp:lastApp` for the hub's "continue where
+you left off". Because the two directions never touch the same keys, there are
+no write conflicts, and a game cannot corrupt the profile.
+
+Games keep their own storage exactly as it was. The hub reads those keys
+directly to build the collection page and the parent rollup (`js/adapters/`),
+which is why adding either required no changes to game logic.
+
+It is a **classic script, not an ES module**, on purpose: KidlaTest transpiles
+its JSX with in-browser Babel and PrataSala runs a design-board runtime, and
+neither can `import`. One `<script src="./shared/kmp.js"></script>` before the
+app's own scripts works in all six.
+
+```js
+KMP.activeChild()          // {id, name, ageYears, avatar, guest} — never null
+KMP.prefs()                // {sound, reducedMotion}
+KMP.key('my-storage-key')  // 'my-storage-key:<childId>' — namespace per child
+KMP.migrateKey('my-key')   // one-time move of pre-existing data onto the child
+KMP.ageBand('eng')         // one stored age -> this app's own bands, or null
+KMP.homeBar({ appId, title, onLeave })
+```
+
+### It must degrade to nothing
+
+Every app is *also* reachable at `hifistereo.github.io/<repo>/`, which is a
+**different origin with no `kmp:*` at all**, and it has to keep working exactly
+as it did before any of this existed. So every read is wrapped, every failure
+returns a default, and nothing throws — storage disabled, private mode, quota
+full, and hand-mangled JSON are all covered by `tests/kmp.test.js`. If you add
+a method, add its hostile case there too.
+
+### The back bar
+
+`KMP.homeBar()` injects `.kmp-bar`, fixed to the top of every screen, one tap
+back to the hub. Two obligations on the app:
+
+- **Make room for it.** It publishes its measured height as `--kmp-bar-h` on
+  `<html>`; put `padding-top: var(--kmp-bar-h)` (or equivalent) on your root.
+  All five games are full-screen layouts that would otherwise run underneath.
+  The height is measured rather than hard-coded because the safe-area inset
+  changes it on a notched phone.
+- **Save the round in `onLeave`.** The bar leaves on a plain tap, so a child
+  mid-activity can end a round by hitting it. `onLeave` is the last moment
+  before the page goes away — write state there. Do not rely on `pagehide`;
+  Safari does not fire it reliably for a link navigation.
 
 ## Using the tokens in an app
 
