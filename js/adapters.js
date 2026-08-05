@@ -127,9 +127,13 @@ export function engLearning(childId) {
     if (!progress) {
       let list = [];
       try { list = JSON.parse(localStorage.getItem('engl.v1.profiles') || '[]'); } catch { list = []; }
-      if (Array.isArray(list) && list.length === 1 && list[0] && list[0].id) {
+      // Same rule as Memory below: a lone profile is only fair to attribute
+      // while it has not been claimed by a named child. Once linkedToHub is
+      // set and the id does not match, it belongs to a sibling.
+      const lone = Array.isArray(list) && list.length === 1 ? list[0] : null;
+      if (lone && lone.id && !lone.linkedToHub) {
         try {
-          progress = JSON.parse(localStorage.getItem(`engl.v1.progress.${list[0].id}`) || 'null');
+          progress = JSON.parse(localStorage.getItem(`engl.v1.progress.${lone.id}`) || 'null');
         } catch { progress = null; }
       }
     }
@@ -160,11 +164,16 @@ export function memory(childId) {
   try {
     const data = readFor('ciparu-darzs-data', childId);
     const list = data && Array.isArray(data.profiles) ? data.profiles : [];
-    const profile =
-      list.find((p) => p && p.id === childId) ||
-      (list.length === 1 ? list[0] : null) ||
-      list.find((p) => p && p.id === (data && data.selectedProfileId)) ||
-      null;
+    // Exact match first. Then, only if nothing has been claimed by the hub
+    // yet, a lone unlinked profile — that is a device that played before the
+    // hub existed and has not been linked, so the data is fair to attribute.
+    //
+    // A profile carrying linkedToHub belongs to a NAMED child. If its id does
+    // not match, it is someone else's, and showing it here would put one
+    // sibling's stars in the other's collection.
+    const exact = list.find((p) => p && p.id === childId);
+    const unclaimed = list.length === 1 && list[0] && !list[0].linkedToHub ? list[0] : null;
+    const profile = exact || unclaimed || null;
 
     const progress = (profile && profile.progress) || {};
     const stars = (id) => Number((progress[id] || {}).stars) || 0;

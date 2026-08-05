@@ -183,11 +183,29 @@ test('migrateKey never clobbers a child who already has data', () => {
   assert.equal(storage.getItem(`burtu-feja-progress:${ANNA.id}`), '{"stars":99}');
 });
 
-test('migrating with no profile set up parks the data under guest, not nowhere', () => {
+test('with nobody set up, keys are NOT namespaced and nothing migrates', () => {
+  // This file is vendored into every app, so window.KMP also exists at
+  // hifistereo.github.io/<repo>/ — a different origin where kmp:* can never
+  // appear. Suffixing there would rename every returning player's storage and
+  // force a migration on people who are not using the hub at all.
   const storage = fakeStorage({ 'ciparu-darzs-data': '{"v":1}' });
   const { KMP } = load({ storage });
-  assert.equal(KMP.migrateKey('ciparu-darzs-data'), true);
-  assert.equal(storage.getItem('ciparu-darzs-data:guest'), '{"v":1}');
+  assert.equal(KMP.key('ciparu-darzs-data'), 'ciparu-darzs-data');
+  assert.equal(KMP.migrateKey('ciparu-darzs-data'), false, 'nothing to migrate');
+  assert.equal(storage.getItem('ciparu-darzs-data'), '{"v":1}', 'left exactly where it was');
+});
+
+test('an explicitly created guest IS namespaced, so naming them later keeps it', () => {
+  const guest = { id: 'draugs-1a2b', name: '', ageYears: null, guest: true };
+  const storage = fakeStorage({
+    'kmp:profiles': JSON.stringify([guest]),
+    'kmp:active': guest.id,
+    'prata-sala-v1': '{"cardIds":[1,2]}',
+  });
+  const { KMP } = load({ storage });
+  assert.equal(KMP.key('prata-sala-v1'), `prata-sala-v1:${guest.id}`);
+  assert.equal(KMP.migrateKey('prata-sala-v1'), true);
+  assert.equal(storage.getItem(`prata-sala-v1:${guest.id}`), '{"cardIds":[1,2]}');
 });
 
 // --- age bands --------------------------------------------------------------

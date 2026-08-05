@@ -152,6 +152,41 @@ test('Memory: a game counts as collected once it has a star', async () => {
   assert.equal(r.stats.correct, 18);
 });
 
+test('Memory: a linked profile belonging to a sibling is never attributed', async () => {
+  // The bug this pins: with one profile already claimed by a named child, a
+  // DIFFERENT child was shown that child's stars, because a "lone profile"
+  // fallback fired before checking who it belonged to.
+  const { memory } = await withStorage({
+    'ciparu-darzs-data': JSON.stringify({
+      version: 1,
+      selectedProfileId: 'anna-1a2b',
+      profiles: [{ id: 'anna-1a2b', nickname: 'Anna', linkedToHub: true, progress: { dots: { stars: 3 } } }],
+    }),
+  });
+  const r = memory('janis-9z8y');
+  assert.equal(r.owned, 0, "showed a sibling's stars");
+  assert.equal(r.stats.stars, 0);
+});
+
+test('Memory: a lone UNLINKED profile is still attributed (played before the hub)', async () => {
+  const { memory } = await withStorage({
+    'ciparu-darzs-data': JSON.stringify({
+      version: 1,
+      selectedProfileId: 'legacy-uuid',
+      profiles: [{ id: 'legacy-uuid', nickname: 'Anna', progress: { dots: { stars: 3 } } }],
+    }),
+  });
+  assert.equal(memory(CHILD).stats.stars, 3);
+});
+
+test('ENG-learning: a linked profile belonging to a sibling is never attributed', async () => {
+  const { engLearning } = await withStorage({
+    'engl.v1.profiles': JSON.stringify([{ id: 'anna-1a2b', name: 'Anna', linkedToHub: true }]),
+    'engl.v1.progress.anna-1a2b': JSON.stringify({ achievements: { first_session: 1 } }),
+  });
+  assert.equal(engLearning('janis-9z8y').owned, 0, "showed a sibling's cards");
+});
+
 test('Memory: picks the matching child out of several profiles', async () => {
   const { memory } = await withStorage({
     'ciparu-darzs-data': JSON.stringify({
