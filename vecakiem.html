@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="KidMindPath vecāku sadaļa: progress visās spēlēs, iestatījumi un datu dzēšana.">
+  <meta name="theme-color" content="#fffaf2">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <title>Vecākiem — KidMindPath</title>
+  <link rel="stylesheet" href="/shared/kidmindpath-fonts.css">
+  <link rel="stylesheet" href="/shared/kidmindpath-tokens.css">
+  <link rel="stylesheet" href="/shared/kidmindpath-ui.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/shared/kmp.js"></script>
+  <script src="/js/site.js" defer></script>
+  <script type="module" src="/js/vecakiem.js"></script>
+</head>
+<body>
+  <header>
+    <nav class="wrap" aria-label="Galvenā navigācija">
+      <a class="brand" href="/" aria-label="KidMindPath sākumlapa">
+        <img class="brand-mark" src="/icon.svg" width="42" height="42" alt="">
+        <span>KidMindPath</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="/#speles">Visas spēles</a>
+        <a class="nav-link" href="/kolekcija.html">Mani krājumi</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="wrap prose">
+      <!-- Filled in by js/vecakiem.js: the arithmetic gate first, the
+           cross-game dashboard once it is solved. -->
+      <div id="parent">
+        <noscript>
+          <p>Lai redzētu progresu, pārlūkā jābūt ieslēgtam JavaScript — visi dati tiek glabāti tikai šajā ierīcē.</p>
+        </noscript>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>© <span id="year">2026</span> KidMindPath</span>
+      <div class="footer-links">
+        <a href="/#speles">Spēles</a>
+        <a href="/kolekcija.html">Mani krājumi</a>
+        <a href="/privatums.html">Privātums</a>
+      </div>
+      <span>Mācīšanās, kas sākas ar ziņkāri.</span>
+    </div>
+  </footer>
+</body>
+</html>
