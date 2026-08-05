@@ -604,6 +604,95 @@ h2 {
   font-weight: 700;
 }
 
+/* ---------- collection ---------- */
+
+.collection-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kmp-s-5);
+  margin-top: var(--kmp-s-6);
+}
+
+.collection {
+  background: var(--kmp-card-tint, var(--kmp-surface));
+  border: 1px solid var(--kmp-card-line, var(--kmp-line));
+  border-radius: var(--kmp-r-xl);
+}
+
+.collection-inner { padding: var(--kmp-s-5); }
+
+.collection-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kmp-s-4);
+  margin-bottom: var(--kmp-s-4);
+}
+
+.collection-head h2 { font-size: var(--kmp-t-lg); }
+.collection-count { margin: var(--kmp-s-1) 0 0; color: var(--kmp-ink-soft); font-size: var(--kmp-t-sm); }
+.collection-empty { color: var(--kmp-ink-soft); }
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--kmp-s-3);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--kmp-s-1);
+  padding: var(--kmp-s-3);
+  text-align: center;
+  background: var(--kmp-surface);
+  border: 1px solid var(--kmp-card-line, var(--kmp-line));
+  border-radius: var(--kmp-r-lg);
+}
+
+.item-face {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  border-radius: var(--kmp-r-md);
+  font-size: 2.4rem;
+}
+
+.item-art { max-width: 100%; height: auto; object-fit: contain; }
+
+.item-name {
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-xs);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.item-hint { color: var(--kmp-ink-soft); font-size: .72rem; line-height: 1.3; }
+
+.item-tier {
+  padding: 2px 8px;
+  border-radius: var(--kmp-r-pill);
+  font-size: .66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.item-tier[data-tier="bronze"]  { color: #7a4a1e; background: #f3e2d1; }
+.item-tier[data-tier="silver"]  { color: #4b545e; background: #e5e9ee; }
+.item-tier[data-tier="gold"]    { color: #7a5a00; background: #f7ecc6; }
+.item-tier[data-tier="rainbow"] { color: #5a3aa8; background: #ece4fb; }
+
+/* Locked items stay visible and readable — dimmed, not hidden, because the
+   whole point of showing them is to give a child something to aim for. The
+   name and hint keep full contrast; only the art is drained. */
+.item.is-locked { background: transparent; border-style: dashed; }
+.item.is-locked .item-face { filter: grayscale(1); opacity: .35; }
+
 /* ---------- footer ---------- */
 
 footer {
