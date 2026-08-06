@@ -82,7 +82,7 @@ nav {
 .brand-mark {
   width: 42px;
   height: 42px;
-  border-radius: 13px 13px 13px 5px;
+  border-radius: 0;
   box-shadow: 0 6px 0 rgba(66, 49, 127, .18);
 }
 
@@ -114,7 +114,6 @@ nav {
 .hero::after {
   content: "";
   position: absolute;
-  border-radius: 50%;
   pointer-events: none;
 }
 
@@ -162,7 +161,6 @@ nav {
   width: 28px;
   height: 4px;
   background: var(--kmp-sun);
-  border-radius: 4px;
 }
 
 h1 {
@@ -212,7 +210,6 @@ h1 span { color: var(--kmp-brand); }
   display: grid;
   place-items: center;
   border: 2px dashed rgba(95, 75, 182, .20);
-  border-radius: 50%;
 }
 
 .orbit-center {
@@ -222,7 +219,6 @@ h1 span { color: var(--kmp-brand); }
   place-items: center;
   background: var(--kmp-surface);
   border: 1px solid var(--kmp-line);
-  border-radius: 42px;
   box-shadow: var(--kmp-shadow-3);
   font-size: 4.6rem;
   rotate: -3deg;
@@ -236,7 +232,6 @@ h1 span { color: var(--kmp-brand); }
   place-items: center;
   background: var(--kmp-surface);
   border: 1px solid var(--kmp-line);
-  border-radius: 22px;
   box-shadow: var(--kmp-shadow-2);
   font-size: 2.25rem;
 }
@@ -312,7 +307,6 @@ h2 {
   flex: none;
   background: var(--kmp-surface);
   border: 1px solid var(--kmp-line);
-  border-radius: 50%;
   font-size: 2rem;
 }
 
@@ -476,7 +470,6 @@ h2 {
   place-items: center;
   background: rgba(255, 255, 255, .76);
   border: 1px solid rgba(255, 255, 255, .95);
-  border-radius: 18px;
   font-size: 2.2rem;
 }
 
@@ -513,7 +506,6 @@ h2 {
   padding: 0 15px;
   color: #fff;
   background: var(--accent);
-  border-radius: 11px;
   text-decoration: none;
   font-family: var(--kmp-font-display);
   font-weight: 600;
@@ -909,8 +901,8 @@ footer {
   .hero-actions .kmp-btn { width: 100%; }
   .hero-visual { min-height: 280px; }
   .orbit { width: 250px; }
-  .orbit-center { width: 124px; border-radius: 34px; font-size: 3.8rem; }
-  .orbit-item { width: 60px; border-radius: 18px; font-size: 1.8rem; }
+  .orbit-center { width: 124px; font-size: 3.8rem; }
+  .orbit-item { width: 60px; font-size: 1.8rem; }
   .orbit-item:nth-child(2) { left: 30px; }
   .games-section { padding: 58px 0 68px; }
   .section-head { display: block; }
