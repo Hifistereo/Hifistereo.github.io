@@ -12,6 +12,10 @@ html {
   scroll-behavior: smooth;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -62,6 +66,8 @@ header {
 nav {
   min-height: 76px;
   display: flex;
+  flex-wrap: wrap;
+  row-gap: var(--kmp-s-2);
   align-items: center;
   justify-content: space-between;
   gap: var(--kmp-s-5);
@@ -88,6 +94,7 @@ nav {
 
 .nav-links {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--kmp-s-5);
 }
@@ -979,8 +986,8 @@ footer {
 
 @media (max-width: 640px) {
   .wrap { width: min(100% - 28px, 1160px); }
-  nav { min-height: 68px; }
-  .nav-links { gap: var(--kmp-s-4); }
+  nav { min-height: 68px; justify-content: center; }
+  .nav-links { justify-content: center; gap: var(--kmp-s-3) var(--kmp-s-4); width: 100%; }
   .hero { padding: 56px 0 48px; }
   h1 { font-size: clamp(2.75rem, 14vw, 4rem); }
   .hero-copy { margin-top: 20px; }
