@@ -24,7 +24,7 @@ The path is the repository name and it is **case-sensitive**.
 
 ## `shared/` — the design system
 
-`shared/` is the source of truth for how all six sites look: the Fredoka +
+`shared/` is the source of truth for how all six sites look: the Quicksand +
 Nunito webfonts, the design tokens, and a small set of UI primitives. It is
 **copied into** each app rather than linked across sites — see
 [`shared/README.md`](shared/README.md) for why, where each app keeps its copy,
@@ -69,5 +69,5 @@ python3 -m http.server 8000
   clickjacking protection is simply not available here. On pages with no forms,
   no login and no stored session, that costs nothing. The same goes for
   `report-uri` and `sandbox`.
-- **Only real font weights.** Fredoka 400/500/600/700, Nunito 400/600/700/800.
+- **Only real font weights.** Quicksand 400/500/600/700, Nunito 400/600/700/800.
   Anything else gets a synthesised face that looks wrong.

@@ -24,7 +24,7 @@ line 1 so drift is visible at a glance.
 
 | File | What it is | Who needs it |
 |---|---|---|
-| `kidmindpath-fonts.css` | `@font-face` for Fredoka + Nunito | everyone |
+| `kidmindpath-fonts.css` | `@font-face` for Quicksand + Nunito | everyone |
 | `fonts/*.woff2` | 18 files, 508 KB, latin + latin-ext | everyone |
 | `kidmindpath-tokens.css` | custom properties only — inert until referenced | everyone |
 | `kidmindpath-ui.css` | `.kmp-bar`, `.kmp-home`, `.kmp-btn`, `.kmp-card`, focus ring | everyone |
@@ -171,6 +171,17 @@ before committing — a hue that looks fine can fail badly as a text colour.
 
 ## Font weights that actually exist
 
-Fredoka 400 / 500 / 600 / 700 and Nunito 400 / 600 / 700 / 700-italic / 800.
-Asking for anything else (`font-weight: 850`, a Fredoka italic) gets a browser-
-synthesised face that looks subtly wrong and differs between browsers.
+Quicksand 400 / 500 / 600 / 700 and Nunito 400 / 600 / 700 / 700-italic / 800.
+Asking for anything else (`font-weight: 850`, a Quicksand italic) gets a
+browser-synthesised face that looks subtly wrong and differs between
+browsers.
+
+Quicksand replaced Fredoka as the display font: Fredoka's own latin-ext
+subset is missing 9 of the 11 Latvian diacritic letters (only š/ž are
+present), so Latvian headings/nav/buttons silently fell back to a different
+font mid-word for the other 9. Baloo 2 was tried first as a same-mood
+rounded/playful replacement — it has full Latvian cmap coverage, but its
+combining-macron positioning is broken (ā/ē/ī/ū render with the accent
+floating off the base letter; caron/cedilla letters are unaffected).
+Quicksand has full Latvian coverage with every mark correctly positioned,
+verified letter-by-letter before the swap.
