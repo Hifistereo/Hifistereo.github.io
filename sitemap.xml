@@ -36,4 +36,8 @@
     <loc>https://www.kidmindpath.com/palidziba.html</loc>
     <priority>0.4</priority>
   </url>
+  <url>
+    <loc>https://www.kidmindpath.com/kluda.html</loc>
+    <priority>0.3</priority>
+  </url>
 </urlset>

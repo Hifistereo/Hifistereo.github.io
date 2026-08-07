@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Paziņot par kļūdu KidMindPath spēlēs vai vietnē: aprakstiet, kas notika, un nosūtiet e-pastu.">
+  <meta name="theme-color" content="#fffaf2">
+  <link rel="canonical" href="https://www.kidmindpath.com/kluda.html">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <title>Paziņot par kļūdu — KidMindPath</title>
+  <link rel="stylesheet" href="/shared/kidmindpath-fonts.css">
+  <link rel="stylesheet" href="/shared/kidmindpath-tokens.css">
+  <link rel="stylesheet" href="/shared/kidmindpath-ui.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/js/site.js" defer></script>
+  <script type="module" src="/js/kluda.js"></script>
+</head>
+<body>
+  <header>
+    <nav class="wrap" aria-label="Galvenā navigācija">
+      <a class="brand" href="/" aria-label="KidMindPath sākumlapa">
+        <img class="brand-mark" src="/icon.svg" width="42" height="42" alt="">
+        <span>KidMindPath</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="/#speles">Visas spēles</a>
+        <a class="nav-link" href="/kolekcija.html">Mani krājumi</a>
+        <a class="nav-link" href="/vecakiem.html">Vecākiem</a>
+        <a class="nav-link" href="/palidziba.html">Palīdzība</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="wrap prose">
+      <p class="section-kicker">Ziņot</p>
+      <h1>Paziņot par kļūdu</h1>
+
+      <p>Aprakstiet, kas notika. Kad nospiedīsiet pogu apakšā, atvērsies jūsu e-pasta lietotne ar jau sagatavotu vēstuli uz elmars.builis@gmail.com — atliks vien to nosūtīt. Vietne pati neko nesaglabā un nekur nenosūta.</p>
+
+      <p>Ja problēma ir saistīta ar latviešu valodas izrunu kādā no spēlēm, vispirms pārbaudiet <a href="/palidziba.html">Palīdzības lapu</a> — iespējams, risinājums jau tur ir aprakstīts.</p>
+
+      <div class="field">
+        <label for="kluda-what">Kas notika?</label>
+        <textarea id="kluda-what" rows="4" placeholder="Piemēram: spēle iesalst pēc trešā uzdevuma."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="kluda-steps">Kā to atkārtot?</label>
+        <textarea id="kluda-steps" rows="4" placeholder="Piemēram: atveru Burtu Feju, izvēlos otro līmeni, nospiežu..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="kluda-where">Kurā spēlē vai lapā?</label>
+        <input type="text" id="kluda-where" placeholder="Piemēram: Burtu Feja, vai šī vietne">
+      </div>
+
+      <div class="field">
+        <label for="kluda-device">Ierīce un pārlūkprogramma</label>
+        <input type="text" id="kluda-device" placeholder="Piemēram: Samsung planšete, Chrome">
+        <span class="field-hint">Nav obligāti, bet palīdz ātrāk atrast cēloni.</span>
+      </div>
+
+      <div class="field">
+        <label for="kluda-email">Jūsu e-pasts (ja vēlaties atbildi)</label>
+        <input type="email" id="kluda-email" placeholder="jusu@epasts.lv">
+      </div>
+
+      <p><a id="kluda-submit" class="kmp-btn" href="mailto:elmars.builis@gmail.com?subject=Kļūdas ziņojums: KidMindPath">Sagatavot e-pastu</a></p>
+
+      <p class="updated">Pēdējoreiz atjaunināts: 2026. gada augustā.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>© <span id="year">2026</span> KidMindPath</span>
+      <div class="footer-links">
+        <a href="/#speles">Spēles</a>
+        <a href="/palidziba.html">Palīdzība</a>
+        <a href="/kluda.html">Ziņot par kļūdu</a>
+        <a href="/privatums.html">Privātums</a>
+      </div>
+      <span>Mācīšanās, kas sākas ar ziņkāri.</span>
+      <!-- Bump this by hand whenever site content changes. -->
+      <span class="footer-version">v1.2</span>
+    </div>
+  </footer>
+</body>
+</html>
