@@ -844,7 +844,13 @@ footer {
 .footer-links a { text-decoration: none; }
 .footer-links a:hover { color: var(--kmp-brand); text-decoration: underline; }
 
-/* ---------- simple content pages (404, privacy) ---------- */
+.footer-version {
+  font-size: var(--kmp-t-xs);
+  color: var(--kmp-ink-soft);
+  opacity: .7;
+}
+
+/* ---------- simple content pages (404, privacy, help) ---------- */
 
 .page {
   padding: 70px 0 90px;
@@ -879,6 +885,86 @@ footer {
   margin-top: var(--kmp-s-7);
   color: var(--kmp-ink-soft);
   font-size: var(--kmp-t-sm);
+}
+
+/* ---------- FAQ accordion (native <details>, no JS) ---------- */
+
+.faq-list {
+  margin: var(--kmp-s-5) 0 var(--kmp-s-7);
+}
+
+.faq-item {
+  margin-bottom: var(--kmp-s-3);
+  border: 1px solid var(--kmp-line);
+  border-radius: var(--kmp-r-md);
+  background: var(--kmp-surface);
+  box-shadow: var(--kmp-shadow-1);
+}
+
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kmp-s-4);
+  padding: var(--kmp-s-4);
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-md);
+  font-weight: 600;
+  color: var(--kmp-ink);
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-item summary::after {
+  content: '+';
+  flex: none;
+  font-size: 1.25em;
+  color: var(--kmp-brand);
+  transition: transform var(--kmp-dur-fast) var(--kmp-ease-out);
+}
+
+.faq-item[open] summary::after { transform: rotate(45deg); }
+
+.faq-item summary:focus-visible {
+  outline: 3px solid var(--kmp-sun);
+  outline-offset: 2px;
+}
+
+.faq-answer {
+  padding: 0 var(--kmp-s-4) var(--kmp-s-4);
+  color: var(--kmp-ink-soft);
+  line-height: 1.7;
+}
+
+.faq-answer p { margin: 0 0 var(--kmp-s-3); }
+.faq-answer p:last-child { margin-bottom: 0; }
+.faq-answer ul { padding-left: 1.2em; margin: 0 0 var(--kmp-s-3); }
+.faq-answer li { margin-bottom: var(--kmp-s-2); }
+.faq-answer strong { color: var(--kmp-ink); }
+
+.callout {
+  margin-bottom: var(--kmp-s-5);
+  padding: var(--kmp-s-5);
+  border: 1px solid var(--kmp-brand-tint);
+  border-left: 4px solid var(--kmp-brand);
+  border-radius: var(--kmp-r-md);
+  background: var(--kmp-brand-tint);
+}
+
+.callout h2,
+.callout h3 {
+  margin-top: 0;
+  color: var(--kmp-ink);
+}
+
+.callout p:last-child { margin-bottom: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-item summary::after {
+    transition-duration: .01ms;
+  }
 }
 
 /* ---------- responsive ---------- */
