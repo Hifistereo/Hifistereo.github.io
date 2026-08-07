@@ -888,6 +888,11 @@ footer {
 .prose strong { color: var(--kmp-ink); }
 .prose a { color: var(--kmp-brand); }
 
+/* .prose a beats .kmp-btn's own white text by specificity, which left
+   button labels invisible (brand-purple text on a brand-purple button)
+   anywhere a .kmp-btn sits inside .prose — e.g. 404.html's "Uz spēlēm". */
+.prose a.kmp-btn { color: #fff; }
+
 .updated {
   margin-top: var(--kmp-s-7);
   color: var(--kmp-ink-soft);
@@ -972,6 +977,53 @@ footer {
   .faq-item summary::after {
     transition-duration: .01ms;
   }
+}
+
+/* ---------- report-a-bug fields (kluda.html; not a <form> — CSP's
+   form-action 'none' rules out a real submission target, and there's no
+   backend anyway, so "submit" is a mailto: link built from these values) --- */
+
+.field {
+  margin-bottom: var(--kmp-s-5);
+}
+
+.field label {
+  display: block;
+  margin-bottom: var(--kmp-s-2);
+  font-family: var(--kmp-font-display);
+  font-weight: 600;
+  color: var(--kmp-ink);
+}
+
+.field .field-hint {
+  display: block;
+  margin-top: var(--kmp-s-1);
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-xs);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: var(--kmp-s-3);
+  border: 1px solid var(--kmp-line);
+  border-radius: var(--kmp-r-md);
+  background: var(--kmp-surface);
+  color: var(--kmp-ink);
+  font-family: var(--kmp-font-body);
+  font-size: var(--kmp-t-md);
+  line-height: 1.5;
+}
+
+.field textarea {
+  min-height: 7em;
+  resize: vertical;
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 3px solid var(--kmp-sun);
+  outline-offset: 1px;
 }
 
 /* ---------- responsive ---------- */
