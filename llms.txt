@@ -1,0 +1,29 @@
+# KidMindPath
+
+> KidMindPath (www.kidmindpath.com) is a free, ad-free, privacy-first hub of five
+> browser-based educational games for young children (roughly ages 2-7), in the
+> Latvian language. No ads, no accounts, no third-party analytics or tracking —
+> enforced by a strict Content-Security-Policy. All game progress stays on the
+> child's own device (localStorage/IndexedDB); nothing is sent to any server.
+>
+> Note: this file is provided for experimental compatibility with tools that
+> read it. As of mid-2026, Google has stated it does not use llms.txt for
+> Search or AI Overviews — it neither helps nor hurts visibility there.
+
+## Games
+
+- [Prāta piedzīvojumu sala](https://www.kidmindpath.com/PrataSala/): Mini-game adventure for attention, memory, and problem-solving. Ages ~4-7.
+- [Little Fingers Paint](https://www.kidmindpath.com/Paint/): Simple finger painting with brushes, stickers, and coloring pages. Ages ~2-7.
+- [Burtu Feja](https://www.kidmindpath.com/KidlaTest/): Latvian alphabet and reading game for children. Ages 5-6.
+- [Mācāmies angliski!](https://www.kidmindpath.com/ENG-learning/): English-learning game for Latvian-speaking children, two difficulty levels. Ages ~2-7.
+- [Ciparu dārzs](https://www.kidmindpath.com/Memory/): Five friendly memory and early-math games. Ages ~2-6.
+
+## About
+
+- [Vecākiem](https://www.kidmindpath.com/vecakiem.html): Full explanation for parents — what the site is, safety and privacy details, age guidance, and an FAQ.
+- [Privātuma politika](https://www.kidmindpath.com/privatums.html): Full privacy policy, including a dedicated children's-privacy section.
+- [Palīdzība](https://www.kidmindpath.com/palidziba.html): FAQ for Latvian text-to-speech pronunciation issues.
+
+## Optional
+
+- [Sākumlapa](https://www.kidmindpath.com/): Hub page listing all five games.
