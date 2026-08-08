@@ -8,15 +8,18 @@
        so explicitly rather than leaving the door open. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
   <meta name="referrer" content="no-referrer">
-  <meta name="description" content="KidMindPath — drošas un pārdomātas izglītojošas spēles bērniem. Valoda, lasīšana, matemātika, radošums un domāšana vienuviet. Bez reklāmām un bez izsekošanas.">
+  <meta name="description" content="KidMindPath — bezmaksas un drošas izglītojošas spēles bērniem: valoda, lasīšana, matemātika, radošums un domāšana. Bez reklāmām, kontiem un izsekošanas.">
   <meta name="theme-color" content="#fffaf2">
   <meta property="og:title" content="KidMindPath — mācīšanās caur spēli">
-  <meta property="og:description" content="Piecas izglītojošas spēles bērniem: valoda, lasīšana, matemātika, radošums un domāšana. Bez reklāmām un bez izsekošanas.">
+  <meta property="og:description" content="Piecas bezmaksas izglītojošas spēles bērniem: valoda, lasīšana, matemātika, radošums un domāšana. Bez reklāmām un bez izsekošanas.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="lv_LV">
   <meta property="og:url" content="https://www.kidmindpath.com/">
   <meta property="og:image" content="https://www.kidmindpath.com/icon-512.png">
   <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="KidMindPath — mācīšanās caur spēli">
+  <meta name="twitter:description" content="Piecas bezmaksas izglītojošas spēles bērniem: valoda, lasīšana, matemātika, radošums un domāšana. Bez reklāmām un bez izsekošanas.">
+  <meta name="twitter:image" content="https://www.kidmindpath.com/icon-512.png">
   <link rel="canonical" href="https://www.kidmindpath.com/">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -35,11 +38,104 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "KidMindPath",
-    "url": "https://www.kidmindpath.com/",
-    "description": "Izglītojošu bērnu spēļu portāls valodai, lasīšanai, matemātikai, radošumam un domāšanai.",
-    "inLanguage": "lv"
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.kidmindpath.com/#organization",
+        "name": "KidMindPath",
+        "url": "https://www.kidmindpath.com/",
+        "logo": "https://www.kidmindpath.com/icon-512.png",
+        "description": "Bezmaksas izglītojošu bērnu spēļu portāls bez reklāmām, kontiem un izsekošanas.",
+        "email": "mailto:elmars.builis@gmail.com"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.kidmindpath.com/#website",
+        "url": "https://www.kidmindpath.com/",
+        "name": "KidMindPath",
+        "description": "Izglītojošu bērnu spēļu portāls valodai, lasīšanai, matemātikai, radošumam un domāšanai.",
+        "publisher": { "@id": "https://www.kidmindpath.com/#organization" },
+        "inLanguage": "lv"
+      },
+      {
+        "@type": "ItemList",
+        "name": "KidMindPath spēles",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "WebApplication",
+              "name": "Prāta piedzīvojumu sala",
+              "url": "https://www.kidmindpath.com/PrataSala/",
+              "description": "Mini spēļu piedzīvojums uzmanībai, atmiņai un problēmu risināšanai.",
+              "applicationCategory": "EducationalApplication",
+              "operatingSystem": "Any",
+              "isAccessibleForFree": true,
+              "inLanguage": "lv-LV",
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "WebApplication",
+              "name": "Little Fingers Paint",
+              "url": "https://www.kidmindpath.com/Paint/",
+              "description": "Vienkārša zīmēšana ar pirkstu, krāsām, otām, uzlīmēm un krāsojamiem attēliem.",
+              "applicationCategory": "EducationalApplication",
+              "operatingSystem": "Any",
+              "isAccessibleForFree": true,
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "WebApplication",
+              "name": "Burtu Feja",
+              "url": "https://www.kidmindpath.com/KidlaTest/",
+              "description": "Latviešu burtu un lasīšanas piedzīvojums ar bērnam draudzīgiem uzdevumiem.",
+              "applicationCategory": "EducationalApplication",
+              "operatingSystem": "Any",
+              "isAccessibleForFree": true,
+              "inLanguage": "lv-LV",
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "WebApplication",
+              "name": "Mācāmies angliski!",
+              "url": "https://www.kidmindpath.com/ENG-learning/",
+              "description": "Angļu valodas spēle latviešu bērniem ar diviem vecuma līmeņiem un mācīšanos savā tempā.",
+              "applicationCategory": "EducationalApplication",
+              "operatingSystem": "Any",
+              "isAccessibleForFree": true,
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@type": "WebApplication",
+              "name": "Ciparu dārzs",
+              "url": "https://www.kidmindpath.com/Memory/",
+              "description": "Piecas draudzīgas atmiņas un agrīnās matemātikas spēles mazajiem pētniekiem.",
+              "applicationCategory": "EducationalApplication",
+              "operatingSystem": "Any",
+              "isAccessibleForFree": true,
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+            }
+          }
+        ]
+      }
+    ]
   }
   </script>
 </head>
@@ -202,7 +298,7 @@
               <li>Nekas nav jālejupielādē</li>
             </ul>
           </div>
-          <a class="kmp-btn" href="/privatums.html">Lasīt vairāk</a>
+          <a class="kmp-btn" href="/vecakiem.html">Vairāk vecākiem</a>
         </div>
       </div>
     </section>
@@ -219,7 +315,7 @@
       </div>
       <span>Mācīšanās, kas sākas ar ziņkāri.</span>
       <!-- Bump this by hand whenever site content changes. -->
-      <span class="footer-version">v1.2</span>
+      <span class="footer-version">v1.3</span>
     </div>
   </footer>
 </body>
