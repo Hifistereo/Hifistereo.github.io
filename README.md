@@ -48,6 +48,12 @@ and how to sync a change.
 
 There is no build step. Edit, commit, push to `main`; GitHub Pages redeploys.
 
+A push to `main` that touches an `.html` file or `sitemap.xml` also runs
+`.github/workflows/indexnow.yml`, which notifies IndexNow (Bing, Yandex,
+and other participating search engines) about the changed page URLs. The
+key file at the repo root (`1342b2628f07868a2645d226e9c8aec2.txt`) proves
+domain ownership to IndexNow — it's meant to be public, not a secret.
+
 To preview locally, serve the directory over HTTP rather than opening
 `index.html` from disk — the root-relative paths (`/shared/…`) only resolve
 when there is a server root:

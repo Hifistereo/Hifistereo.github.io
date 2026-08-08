@@ -1,0 +1,146 @@
+name: IndexNow Notify
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.html'
+      - 'sitemap.xml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history for diffing)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine changed, indexable URLs
+        id: detect
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: |
+          set -eu
+          BASE="https://www.kidmindpath.com"
+
+          path_for() {
+            if [ "$1" = "index.html" ]; then echo "/"; else echo "/$1"; fi
+          }
+
+          MODE="diff"
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            MODE="full"
+          elif [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            MODE="full"
+          fi
+
+          SITEMAP_URLS=$(grep -oP '(?<=<loc>)[^<]+(?=</loc>)' sitemap.xml)
+
+          if [ "$MODE" = "full" ]; then
+            URLS="$SITEMAP_URLS"
+          else
+            CHANGED_OR_ADDED=$(git diff --name-only --diff-filter=ACMR "$BEFORE_SHA" "$AFTER_SHA" -- '*.html' | grep -v '^sitemap\.xml$' || true)
+            DELETED=$(git diff --name-only --diff-filter=D "$BEFORE_SHA" "$AFTER_SHA" -- '*.html' || true)
+
+            KEPT=""
+            for f in $CHANGED_OR_ADDED; do
+              p=$(path_for "$f")
+              u="${BASE}${p}"
+              if printf '%s\n' "$SITEMAP_URLS" | grep -qxF "$u"; then
+                KEPT=$(printf '%s\n%s' "$KEPT" "$u")
+              fi
+            done
+            # Deletions are notified regardless of current sitemap membership —
+            # that is the entire point of an IndexNow removal notification.
+            for f in $DELETED; do
+              p=$(path_for "$f")
+              KEPT=$(printf '%s\n%s' "$KEPT" "${BASE}${p}")
+            done
+
+            URLS=$(printf '%s\n' "$KEPT" | sed '/^$/d' | sort -u)
+          fi
+
+          if [ -z "$URLS" ]; then
+            echo "has_urls=false" >> "$GITHUB_OUTPUT"
+            echo "No indexable URL changes detected."
+            exit 0
+          fi
+
+          echo "has_urls=true" >> "$GITHUB_OUTPUT"
+          {
+            echo "urls<<EOF_URLS"
+            printf '%s\n' "$URLS"
+            echo "EOF_URLS"
+          } >> "$GITHUB_OUTPUT"
+          echo "URLs to notify:"
+          printf '%s\n' "$URLS"
+
+      - name: Wait for GitHub Pages to serve this commit
+        if: steps.detect.outputs.has_urls == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          TARGET_SHA: ${{ github.sha }}
+        run: |
+          set -eu
+          for i in $(seq 1 20); do
+            RESP=$(curl -sS -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${REPO}/pages/builds/latest" || echo '{}')
+            STATUS=$(echo "$RESP" | jq -r '.status // empty')
+            SHA=$(echo "$RESP" | jq -r '.commit // empty')
+            if [ "$STATUS" = "built" ] && [ "$SHA" = "$TARGET_SHA" ]; then
+              echo "Pages build for $TARGET_SHA is live (status: built)."
+              exit 0
+            fi
+            echo "Waiting for Pages build to reach $TARGET_SHA (currently: $STATUS @ $SHA) [$i/20]..."
+            sleep 15
+          done
+          echo "::warning::Timed out waiting for the Pages build to catch up with $TARGET_SHA; submitting to IndexNow anyway (best-effort)."
+
+      - name: Submit to IndexNow
+        if: steps.detect.outputs.has_urls == 'true'
+        continue-on-error: true
+        env:
+          CHANGED_URLS: ${{ steps.detect.outputs.urls }}
+        run: |
+          set -eu
+          HOST="www.kidmindpath.com"
+          KEY="1342b2628f07868a2645d226e9c8aec2"
+          KEY_LOCATION="https://${HOST}/${KEY}.txt"
+
+          KEY_CHECK=$(curl -sS -o /dev/null -w '%{http_code}' "$KEY_LOCATION" || echo "000")
+          if [ "$KEY_CHECK" != "200" ]; then
+            echo "::warning::IndexNow key file not reachable at $KEY_LOCATION (HTTP $KEY_CHECK) — submission will likely be rejected."
+          fi
+
+          URL_LIST_JSON=$(printf '%s\n' "$CHANGED_URLS" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+
+          BODY=$(jq -n \
+            --arg host "$HOST" \
+            --arg key "$KEY" \
+            --arg keyLocation "$KEY_LOCATION" \
+            --argjson urlList "$URL_LIST_JSON" \
+            '{host: $host, key: $key, keyLocation: $keyLocation, urlList: $urlList}')
+
+          HTTP_STATUS=$(curl -sS -o /tmp/indexnow-response.txt -w '%{http_code}' -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            --data "$BODY" || echo "000")
+          RESPONSE_BODY=$(cat /tmp/indexnow-response.txt 2>/dev/null || true)
+
+          case "$HTTP_STATUS" in
+            200|202)
+              echo "IndexNow: HTTP $HTTP_STATUS — accepted."
+              ;;
+            *)
+              echo "::warning::IndexNow returned HTTP $HTTP_STATUS — $RESPONSE_BODY"
+              ;;
+          esac
