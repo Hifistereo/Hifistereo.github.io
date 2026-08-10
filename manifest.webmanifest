@@ -1,6 +1,7 @@
 {
   "name": "KidMindPath",
   "short_name": "KidMindPath",
+  "id": "/",
   "description": "Izglītojošas spēles bērniem: valoda, lasīšana, matemātika, radošums un domāšana.",
   "lang": "lv",
   "dir": "ltr",
