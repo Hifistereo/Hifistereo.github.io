@@ -12,10 +12,17 @@ scope breaks offline boot, blocks first paint on a network round-trip, and
 widens every app's Content-Security-Policy for no benefit. Copying costs 540 KB
 per app and removes the whole class of problem.
 
-(Paint and Memory ship a web app manifest but **no service worker**, so they
-are installable without being offline-capable. That is a pre-existing gap, not
-something the design system introduced — but it does mean an installed Paint
-opens to nothing with no connection. Worth fixing separately.)
+Paint and Memory now ship both a manifest and a service worker
+(`public/manifest.webmanifest` and a build-generated `sw.js` in each — Memory
+had no manifest at all until this was fixed, despite this doc previously
+claiming otherwise). Unlike KidlaTest/ENG-learning, their precache list and
+cache version are not hand-maintained: Vite hashes their `src/` build output,
+so `scripts/generate-sw.ts` runs as a build plugin that scans the real
+`dist/` output after every build and writes the file list and a content hash
+straight into `sw.js` itself. That is deliberate — a browser detects a new
+service worker version by diffing the script's own bytes, so baking the list
+into `sw.js` (rather than having a static `sw.js` fetch a separate manifest
+at runtime) is what guarantees every build is actually picked up.
 
 So each app carries its own copy, and every file is stamped with a version on
 line 1 so drift is visible at a glance.
@@ -68,7 +75,10 @@ Then, in that app:
 
 - if it has a service worker, **add any new file to the precache list and bump
   the cache version** — otherwise returning tablets keep serving the old copy
-  forever;
+  forever. **Exception: Paint and Memory.** Their precache list and cache
+  version are generated at build time from the real `dist/` output (see
+  `scripts/generate-sw.ts` in each repo) — there is no list to hand-edit in
+  either;
 - if it is a Vite app, nothing else to do, `public/` is copied verbatim.
 
 To find copies that have fallen behind:
