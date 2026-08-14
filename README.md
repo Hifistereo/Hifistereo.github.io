@@ -30,37 +30,101 @@ Nunito webfonts, the design tokens, and a small set of UI primitives. It is
 [`shared/README.md`](shared/README.md) for why, where each app keeps its copy,
 and how to sync a change.
 
-## Files
+## Pages
 
 | Path | What it is |
 |---|---|
-| `index.html` | the hub page |
-| `styles.css` | hub-only layout; everything else comes from `shared/` |
-| `js/site.js` | one line of JavaScript (the footer year) |
+| `index.html` | the hub — hero, the five game cards, "who is playing" |
+| `kolekcija.html` | everything a child has collected across all five games |
+| `vecakiem.html` | the parent page: article, then a gated cross-game dashboard |
+| `palidziba.html` | FAQ for Latvian text-to-speech pronunciation |
+| `kluda.html` | bug report form (builds a `mailto:`; there is no backend) |
 | `privatums.html` | privacy statement |
 | `404.html` | branded not-found page |
+
+## Scripts
+
+Every page loads `js/site.js`. Pages that read the shared profile also load
+`shared/kmp.js` first, then their own module.
+
+| Path | What it is |
+|---|---|
+| `js/site.js` | footer year, and mirrors the reduced-motion pref onto `<html>` |
+| `js/dom.js` | `el()` and `clear()` — the only two DOM helpers, shared |
+| `js/games.js` | the five games: paths, titles, accents, age ranges |
+| `js/catalogues.js` | **generated** — what each game's collectibles are |
+| `js/adapters.js` | reads each game's own storage into one shape |
+| `js/hub.js` | index.html: who is playing, and age-fitting the cards |
+| `js/kolekcija.js` | kolekcija.html |
+| `js/vecakiem.js` | vecakiem.html: the arithmetic gate and the dashboard |
+| `js/kluda.js` | kluda.html |
+| `js/game-launcher.js` | opens a game in a same-page fullscreen overlay |
+
+## Everything else
+
+| Path | What it is |
+|---|---|
+| `styles.css` | hub-only layout; everything else comes from `shared/` |
 | `shared/` | the design system, copied into every app |
+| `tests/` | `node --test`, no dependencies |
+| `scripts/extract-catalogues.mjs` | regenerates `js/catalogues.js` |
+| `.github/workflows/indexnow.yml` | pings IndexNow when a page changes |
 | `icon.svg`, `icon-*.png`, `apple-touch-icon.png` | app icons |
-| `manifest.webmanifest`, `robots.txt`, `sitemap.xml` | site metadata |
+| `manifest.webmanifest`, `robots.txt`, `sitemap.xml`, `llms.txt` | site metadata |
 | `.nojekyll` | serve files as-is, no Jekyll processing |
 
 ## Editing
 
-There is no build step. Edit, commit, push to `main`; GitHub Pages redeploys.
+There is no build step and no dependency. Edit, commit, push to `main`;
+GitHub Pages redeploys.
 
-A push to `main` that touches an `.html` file or `sitemap.xml` also runs
-`.github/workflows/indexnow.yml`, which notifies IndexNow (Bing, Yandex,
-and other participating search engines) about the changed page URLs. The
-key file at the repo root (`1342b2628f07868a2645d226e9c8aec2.txt`) proves
-domain ownership to IndexNow — it's meant to be public, not a secret.
+## Testing
 
-To preview locally, serve the directory over HTTP rather than opening
-`index.html` from disk — the root-relative paths (`/shared/…`) only resolve
-when there is a server root:
+```sh
+npm test          # node --test, no install needed
+```
+
+The suite covers the two files where a mistake is invisible until it reaches a
+child: `shared/kmp.js` (the profile store, which must never throw — storage
+disabled, private mode, quota full, hand-mangled JSON) and `js/adapters.js`
+(which knows five other repositories' storage shapes, pinned against fixtures
+captured from the real apps). If you add a method to either, add its hostile
+case too.
+
+The page behaviour on top of those — rendering, focus, the game overlay — has
+no automated coverage; testing it would mean adding jsdom, the first dependency
+this repo would carry. Check those by hand:
 
 ```sh
 python3 -m http.server 8000
 ```
+
+Serve over HTTP rather than opening `index.html` from disk — the root-relative
+paths (`/shared/…`) only resolve when there is a server root.
+
+## Regenerating the catalogues
+
+`js/catalogues.js` is generated, not hand-written. It is what a child *could*
+collect, which is what lets the collection page show locked items rather than
+just a receipt for what you already have. Re-run it whenever a game adds or
+changes collectibles — it needs the game repos checked out as siblings:
+
+```sh
+node scripts/extract-catalogues.mjs --repos /path/to/checkouts
+```
+
+## Deploying
+
+Pushing to `main` is the deploy — GitHub Pages serves the repository as-is.
+
+A push that touches an `.html` file or `sitemap.xml` also runs
+`.github/workflows/indexnow.yml`, which notifies IndexNow (Bing, Yandex, and
+other participating search engines) about the changed page URLs. The key file
+at the repo root (`1342b2628f07868a2645d226e9c8aec2.txt`) proves domain
+ownership to IndexNow — it's meant to be public, not a secret.
+
+A new page needs three edits to be found: `sitemap.xml`, the nav in the other
+pages' headers, and `llms.txt`.
 
 ## Conventions worth keeping
 
@@ -77,3 +141,10 @@ python3 -m http.server 8000
   `report-uri` and `sandbox`.
 - **Only real font weights.** Quicksand 400/500/600/700, Nunito 400/600/700/800.
   Anything else gets a synthesised face that looks wrong.
+- **`shared/kmp.js` is a contract, not just a file.** It is vendored into all
+  five game repos, so a change here means bumping `shared/VERSION` and
+  re-syncing every one of them. Hub-only behaviour belongs in `js/`, not in it.
+- **Reduced motion has two triggers.** The OS setting, and the site's own
+  "Mazāk kustību" toggle, which `js/site.js` mirrors onto `<html>` as
+  `data-kmp-motion="reduced"`. Both halves live together at the foot of
+  `styles.css`; a new animation needs to answer to both.
