@@ -1,0 +1,20 @@
+# This repo ships exactly what it serves: there is no build step and no
+# dependency, so anything below is a local artefact that must never be
+# published to kidmindpath.com.
+
+# npm — package.json declares no dependencies, but `npm install` still writes
+# these and a stray lockfile would suggest the repo has some.
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# OS and editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Local previews and scratch output
+*.local
+.cache/

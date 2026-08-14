@@ -12,6 +12,7 @@
    markup. */
 
 import { GAMES } from './games.js';
+import { el } from './dom.js';
 
 const byPath = new Map(GAMES.map((g) => [g.path, g]));
 const EXIT_LINK_SELECTOR = '.kmp-bar__back, .kmp-bar__who, .kmp-home';
@@ -26,24 +27,6 @@ let lastFocused = null;
 let barCheckTimer = null;
 let hiddenSiblings = [];
 let pendingNavigation = null;
-
-/** Build an element without touching innerHTML — copied from js/hub.js's el() helper. */
-function el(tag, attrs = {}, kids = []) {
-  const [name, ...classes] = tag.split('.');
-  const node = document.createElement(name || 'div');
-  if (classes.length) node.classList.add(...classes);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (v === null || v === undefined || v === false) continue;
-    if (k === 'text') node.textContent = String(v);
-    else if (k === 'on') for (const [ev, fn] of Object.entries(v)) node.addEventListener(ev, fn);
-    else node.setAttribute(k, v === true ? '' : String(v));
-  }
-  for (const kid of [].concat(kids)) {
-    if (kid === null || kid === undefined || kid === false) continue;
-    node.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
-  }
-  return node;
-}
 
 function buildOverlay() {
   fallbackExit = el('button.kmp-launcher__fallback-exit', {
@@ -148,11 +131,25 @@ function onFrameLoaded() {
     requestClose(link.classList.contains('kmp-bar__who') ? `${HUB_ORIGIN}/kolekcija.html` : null);
   });
 
+  // Focus lives inside the iframe while a game is open, so the host document
+  // never sees the keystroke. Same-origin, so we can listen in there too.
+  doc.addEventListener('keydown', onEscape);
+
   clearTimeout(barCheckTimer);
   if (doc.querySelector('.kmp-bar')) return;
   barCheckTimer = setTimeout(() => {
     if (overlay && !overlay.hidden && !doc.querySelector('.kmp-bar')) fallbackExit.hidden = false;
   }, BAR_CHECK_DELAY_MS);
+}
+
+/* The overlay is a modal dialog, so Escape has to leave it. Browsers spend the
+   first Escape on exiting fullscreen without firing keydown here, which is why
+   this closes on the press it does see rather than trying to count them: the
+   overlay is dismissible either way, and closeOverlay() exits fullscreen itself
+   if we are still in it. */
+function onEscape(e) {
+  if (e.key !== 'Escape' || !overlay || overlay.hidden) return;
+  requestClose();
 }
 
 /** Every "leave the game" path funnels through here, so native back/forward
@@ -224,3 +221,4 @@ function setSiblingsInert(on) {
 if (history.state && history.state.kmpGame) history.replaceState(null, '', location.href);
 
 document.addEventListener('click', onDocumentClick);
+document.addEventListener('keydown', onEscape);

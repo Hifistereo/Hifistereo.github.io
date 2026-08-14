@@ -13,27 +13,11 @@
 
 import { GAMES, byId } from './games.js';
 import { collectAll } from './adapters.js';
+import { applyMotionPref } from './site.js';
+import { el, clear } from './dom.js';
 
 let unlockedThisVisit = false;
 
-function el(tag, attrs = {}, kids = []) {
-  const [name, ...classes] = tag.split('.');
-  const node = document.createElement(name || 'div');
-  if (classes.length) node.classList.add(...classes);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (v === null || v === undefined || v === false) continue;
-    if (k === 'text') node.textContent = String(v);
-    else if (k === 'on') for (const [ev, fn] of Object.entries(v)) node.addEventListener(ev, fn);
-    else node.setAttribute(k, v === true ? '' : String(v));
-  }
-  for (const kid of [].concat(kids)) {
-    if (kid === null || kid === undefined || kid === false) continue;
-    node.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
-  }
-  return node;
-}
-
-const clear = (n) => { while (n.firstChild) n.removeChild(n.firstChild); return n; };
 const mountEl = () => document.getElementById('parent');
 
 // --- gate -------------------------------------------------------------------
@@ -66,8 +50,10 @@ function renderGate() {
       },
     },
   }, [
+    // h2, not h1: this renders into a page that already has its own <h1>, and
+    // a second one leaves a screen reader with two competing page titles.
     el('p.section-kicker', { text: 'Vecāku sadaļa' }),
-    el('h1', { text: 'Atrisini, lai turpinātu' }),
+    el('h2', { text: 'Atrisini, lai turpinātu' }),
     el('p.gate-sum', { text: `${a} × ${b} = ?` }),
     input,
     error,
@@ -76,7 +62,11 @@ function renderGate() {
   ]);
 
   clear(mount).append(form);
-  setTimeout(() => input.focus(), 50);
+  // Deliberately NOT focused on load. The gate sits at the foot of a long
+  // parent-facing article, and focusing it scrolled the page 3278px down on
+  // arrival — straight past the content this page exists to show, and past the
+  // skip link and nav for anyone on a keyboard. Focus is still moved back to
+  // the input after a wrong answer, which is where it actually helps.
 }
 
 // --- dashboard --------------------------------------------------------------
@@ -139,6 +129,7 @@ function prefsPanel() {
       on: {
         click: () => {
           window.KMP.savePrefs({ ...window.KMP.prefs(), [key]: !window.KMP.prefs()[key] });
+          applyMotionPref();
           render();
         },
       },
@@ -149,7 +140,7 @@ function prefsPanel() {
     return b;
   };
   return el('section.parent-panel', {}, [
-    el('h2', { text: 'Iestatījumi visām spēlēm' }),
+    el('h3', { text: 'Iestatījumi visām spēlēm' }),
     el('p.muted', { text: 'Šie iestatījumi attiecas uz visām piecām spēlēm.' }),
     toggle('Skaņa', 'Runa, mūzika un efekti', p.sound, 'sound'),
     toggle('Mazāk kustību', 'Samazina animācijas un lēcienus', p.reducedMotion, 'reducedMotion'),
@@ -169,7 +160,7 @@ function dangerPanel() {
   });
 
   return el('section.parent-panel.parent-panel--danger', {}, [
-    el('h2', { text: 'Dzēst datus' }),
+    el('h3', { text: 'Dzēst datus' }),
     el('p.muted', {
       text: 'Viss, ko bērns ir savācis, glabājas tikai šajā pārlūkprogrammā. '
         + 'Šī poga izdzēš to visu uzreiz — līdz šim tas bija iespējams tikai, '
@@ -195,8 +186,9 @@ async function renderDashboard() {
   }), { owned: 0, total: 0, sessions: 0, attempts: 0, correct: 0, stars: 0 });
 
   clear(mount).append(
+    // h2 for the same reason as the gate above; the panels below it are h3.
     el('p.section-kicker', { text: 'Vecāku sadaļa' }),
-    el('h1', { text: child.name ? `${child.name} progress` : 'Progress' }),
+    el('h2', { text: child.name ? `${child.name} progress` : 'Progress' }),
     childSwitcher(children, child.id),
 
     el('div.stat-row', {}, [
@@ -212,7 +204,7 @@ async function renderDashboard() {
     }),
 
     el('section.parent-panel', {}, [
-      el('h2', { text: 'Pa spēlēm' }),
+      el('h3', { text: 'Pa spēlēm' }),
       el('p.muted', { text: 'Sīkāka statistika par katru spēli ir pašā spēlē.' }),
       // Catalogue order, matching the home page and the collection, rather
       // than the order the adapters happen to resolve in.

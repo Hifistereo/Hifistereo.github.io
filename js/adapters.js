@@ -216,29 +216,43 @@ export function paint(childId) {
   return new Promise((resolve) => {
     const none = { app: 'Paint', items: [], owned: 0, total: 0, stats: { artworks: 0 } };
     let settled = false;
-    const done = (v) => { if (!settled) { settled = true; resolve(v); } };
+    let opened = null;
+
+    // Whichever path finishes first wins, and it takes the timer and the
+    // connection down with it: an open IndexedDB handle blocks Paint's own
+    // upgrades in another tab, and the timer would otherwise keep the page
+    // alive for a result nobody is waiting for any more.
+    const done = (v) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      try { opened?.close(); } catch { /* already closing */ }
+      resolve(v);
+    };
+
     // IndexedDB can hang indefinitely when a blocked upgrade is pending; the
     // collection page must render regardless.
-    setTimeout(() => done(none), 1500);
+    const timer = setTimeout(() => done(none), 1500);
 
     try {
       const req = indexedDB.open('little-fingers-paint');
       req.onerror = () => done(none);
       req.onsuccess = () => {
         const db = req.result;
+        opened = db;
+        // The open succeeded after we gave up; nothing wants the result now.
+        if (settled) { try { db.close(); } catch { /* already closing */ } return; }
         try {
           if (!db.objectStoreNames.contains('artwork')) return done(none);
-          const tx = db.transaction('artwork').objectStore('artwork');
-          const keys = tx.getAllKeys();
+          const keys = db.transaction('artwork').objectStore('artwork').getAllKeys();
           keys.onsuccess = () => {
             const all = keys.result || [];
             // Post-namespacing the record is `current:<childId>`; before it,
             // a single `current`.
             const mine = all.filter((k) => k === `current:${childId}` || k === 'current');
             done({ ...none, stats: { artworks: mine.length } });
-            db.close();
           };
-          keys.onerror = () => { done(none); db.close(); };
+          keys.onerror = () => done(none);
         } catch {
           done(none);
         }

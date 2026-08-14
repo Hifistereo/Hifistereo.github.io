@@ -6,6 +6,8 @@
    links. This file only reorders them and annotates them. */
 
 import { GAMES, byId, suitsAge, ageLabel } from './games.js';
+import { el, clear } from './dom.js';
+import { applyMotionPref } from './site.js';
 
 const AVATARS = [
   { id: 'lapsa', label: 'Lapsa', face: '🦊' },
@@ -17,26 +19,6 @@ const AVATARS = [
 const AGES = [2, 3, 4, 5, 6, 7];
 
 const avatarFace = (id) => (AVATARS.find((a) => a.id === id) || AVATARS[0]).face;
-
-/** Build an element without touching innerHTML — a child's name never becomes markup. */
-function el(tag, attrs = {}, kids = []) {
-  const [name, ...classes] = tag.split('.');
-  const node = document.createElement(name || 'div');
-  if (classes.length) node.classList.add(...classes);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (v === null || v === undefined || v === false) continue;
-    if (k === 'text') node.textContent = String(v);
-    else if (k === 'on') for (const [ev, fn] of Object.entries(v)) node.addEventListener(ev, fn);
-    else node.setAttribute(k, v === true ? '' : String(v));
-  }
-  for (const kid of [].concat(kids)) {
-    if (kid === null || kid === undefined || kid === false) continue;
-    node.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
-  }
-  return node;
-}
-
-const clear = (node) => { while (node.firstChild) node.removeChild(node.firstChild); return node; };
 
 // --- who is playing ---------------------------------------------------------
 
@@ -167,28 +149,28 @@ function renderReturning(mount) {
     el('a.kmp-btn.kmp-btn--quiet', { href: '/kolekcija.html', text: '🏆 Mani krājumi' }),
   ]);
 
-  // Switcher, only when there is something to switch between.
+  // One chip per child, plus "add" while there is room. There is always at
+  // least one of the two to show: this only renders when a profile exists, and
+  // one profile is below MAX_PROFILES.
   const switcher = el('div.chip-row.who-switch', { role: 'group', 'aria-label': 'Kurš spēlē' });
-  if (all.length > 1 || all.length < window.KMP.MAX_PROFILES) {
-    for (const p of all) {
-      const b = el('button.chip', {
-        type: 'button',
-        'aria-pressed': String(p.id === child.id),
-        text: `${avatarFace(p.avatar)} ${p.name || 'Bez vārda'}`,
-      });
-      b.addEventListener('click', () => { window.KMP.setActive(p.id); render(); });
-      switcher.append(b);
-    }
-    if (all.length < window.KMP.MAX_PROFILES) {
-      // For a guest this is "add your name", not "add another child" — naming
-      // a guest upgrades them in place and keeps everything they collected.
-      const add = el('button.chip.chip--add', {
-        type: 'button',
-        text: child.guest && all.length === 1 ? '✏️ Pievienot vārdu' : '+ Pievienot',
-      });
-      add.addEventListener('click', () => { mount.dataset.mode = 'setup'; render(); });
-      switcher.append(add);
-    }
+  for (const p of all) {
+    const b = el('button.chip', {
+      type: 'button',
+      'aria-pressed': String(p.id === child.id),
+      text: `${avatarFace(p.avatar)} ${p.name || 'Bez vārda'}`,
+    });
+    b.addEventListener('click', () => { window.KMP.setActive(p.id); render(); });
+    switcher.append(b);
+  }
+  if (all.length < window.KMP.MAX_PROFILES) {
+    // For a guest this is "add your name", not "add another child" — naming
+    // a guest upgrades them in place and keeps everything they collected.
+    const add = el('button.chip.chip--add', {
+      type: 'button',
+      text: child.guest && all.length === 1 ? '✏️ Pievienot vārdu' : '+ Pievienot',
+    });
+    add.addEventListener('click', () => { mount.dataset.mode = 'setup'; render(); });
+    switcher.append(add);
   }
 
   mount.append(el('div.who', {}, [row, actions, switcher, renderPrefs()]));
@@ -203,13 +185,14 @@ function renderPrefs() {
      when it was the name of the setting. A switch should say what it controls,
      not what it is about to become. */
   const toggle = (label, on, key) => {
-    const b = el('button.chip.chip--pref', {
+    const b = el('button.chip', {
       type: 'button',
       'aria-pressed': String(on),
       text: label,
     });
     b.addEventListener('click', () => {
       window.KMP.savePrefs({ ...window.KMP.prefs(), [key]: !window.KMP.prefs()[key] });
+      applyMotionPref();
       render();
     });
     return b;

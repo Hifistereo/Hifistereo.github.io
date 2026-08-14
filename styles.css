@@ -767,7 +767,7 @@ h2 {
   box-shadow: var(--kmp-shadow-2);
 }
 
-.gate h1 { font-size: var(--kmp-t-lg); }
+.gate h2 { font-size: var(--kmp-t-lg); }
 
 .gate-sum {
   margin: var(--kmp-s-5) 0 var(--kmp-s-4);
@@ -834,7 +834,7 @@ h2 {
   border-radius: var(--kmp-r-xl);
 }
 
-.parent-panel h2 { margin-top: 0; font-size: var(--kmp-t-lg); }
+.parent-panel h3 { margin-top: 0; font-size: var(--kmp-t-lg); }
 .muted { color: var(--kmp-ink-soft); font-size: var(--kmp-t-sm); }
 
 .parent-game {
@@ -1035,12 +1035,6 @@ footer {
 
 .callout p:last-child { margin-bottom: 0; }
 
-@media (prefers-reduced-motion: reduce) {
-  .faq-item summary::after {
-    transition-duration: .01ms;
-  }
-}
-
 /* ---------- report-a-bug fields (kluda.html; not a <form> — CSP's
    form-action 'none' rules out a real submission target, and there's no
    backend anyway, so "submit" is a mailto: link built from these values) --- */
@@ -1122,8 +1116,25 @@ footer {
   .parents-panel { padding: var(--kmp-s-5); }
 }
 
+/* ---------- motion ----------
+   Two independent triggers, one set of declarations: the operating system's
+   own setting, and the site's "Mazāk kustību" toggle, which js/site.js mirrors
+   onto <html> as data-kmp-motion="reduced". Either one alone must be enough —
+   a parent who turns the toggle on has said what they want regardless of what
+   the OS thinks.
+
+   A media query and an attribute selector cannot be OR-ed into a single rule,
+   so the declarations are written twice. This is the only place in the file
+   where they appear; keep the two halves identical. */
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
   .game-card:hover { transform: none; }
 }
+
+html[data-kmp-motion="reduced"] { scroll-behavior: auto; }
+html[data-kmp-motion="reduced"] *,
+html[data-kmp-motion="reduced"] *::before,
+html[data-kmp-motion="reduced"] *::after { transition-duration: .01ms !important; }
+html[data-kmp-motion="reduced"] .game-card:hover { transform: none; }

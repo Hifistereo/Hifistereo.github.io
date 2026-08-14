@@ -3,28 +3,43 @@
    just opens the visitor's own email app with the message already written —
    nothing here is stored or sent by the site itself. */
 
-const fields = {
-  what: document.getElementById('kluda-what'),
-  steps: document.getElementById('kluda-steps'),
-  where: document.getElementById('kluda-where'),
-  device: document.getElementById('kluda-device'),
-  email: document.getElementById('kluda-email'),
-};
+const ADDRESS = 'elmars.builis@gmail.com';
+const SUBJECT = 'Kļūdas ziņojums: KidMindPath';
+
+/* Label => field id. The label is what the recipient reads in the email body,
+   so it lives next to the id rather than in a parallel list that could drift
+   out of step with it. */
+const FIELDS = [
+  ['Kas notika?', 'kluda-what', 'block'],
+  ['Kā to atkārtot?', 'kluda-steps', 'block'],
+  ['Spēle vai lapa', 'kluda-where', 'inline'],
+  ['Ierīce un pārlūkprogramma', 'kluda-device', 'inline'],
+  ['Atbildes e-pasts', 'kluda-email', 'inline'],
+];
+
 const submitLink = document.getElementById('kluda-submit');
+const fields = FIELDS
+  .map(([label, id, shape]) => ({ label, shape, input: document.getElementById(id) }))
+  .filter((f) => f.input);
 
 function buildMailto() {
   const lines = [];
-  if (fields.what.value.trim()) lines.push('Kas notika?\n' + fields.what.value.trim());
-  if (fields.steps.value.trim()) lines.push('Kā to atkārtot?\n' + fields.steps.value.trim());
-  if (fields.where.value.trim()) lines.push('Spēle vai lapa: ' + fields.where.value.trim());
-  if (fields.device.value.trim()) lines.push('Ierīce un pārlūkprogramma: ' + fields.device.value.trim());
-  if (fields.email.value.trim()) lines.push('Atbildes e-pasts: ' + fields.email.value.trim());
+  for (const { label, shape, input } of fields) {
+    const value = input.value.trim();
+    if (!value) continue;
+    lines.push(shape === 'block' ? `${label}\n${value}` : `${label}: ${value}`);
+  }
 
-  const subject = encodeURIComponent('Kļūdas ziņojums: KidMindPath');
-  const body = encodeURIComponent(lines.join('\n\n'));
-  submitLink.href = `mailto:elmars.builis@gmail.com?subject=${subject}` + (lines.length ? `&body=${body}` : '');
+  const query = `subject=${encodeURIComponent(SUBJECT)}`
+    + (lines.length ? `&body=${encodeURIComponent(lines.join('\n\n'))}` : '');
+  submitLink.href = `mailto:${ADDRESS}?${query}`;
 }
 
-for (const field of Object.values(fields)) {
-  field.addEventListener('input', buildMailto);
+// A missing element means the markup and this file have drifted apart. The
+// page still reads fine and the link still opens an empty email, so say so in
+// the console and leave it alone rather than throwing on load.
+if (!submitLink || fields.length !== FIELDS.length) {
+  console.warn('kluda: report form markup is incomplete; leaving the mailto link as-is');
+} else {
+  for (const { input } of fields) input.addEventListener('input', buildMailto);
 }
