@@ -8,25 +8,7 @@
 
 import { GAMES, byId } from './games.js';
 import { collectAll } from './adapters.js';
-
-function el(tag, attrs = {}, kids = []) {
-  const [name, ...classes] = tag.split('.');
-  const node = document.createElement(name || 'div');
-  if (classes.length) node.classList.add(...classes);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (v === null || v === undefined || v === false) continue;
-    if (k === 'text') node.textContent = String(v);
-    else if (k === 'on') for (const [ev, fn] of Object.entries(v)) node.addEventListener(ev, fn);
-    else node.setAttribute(k, v === true ? '' : String(v));
-  }
-  for (const kid of [].concat(kids)) {
-    if (kid === null || kid === undefined || kid === false) continue;
-    node.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
-  }
-  return node;
-}
-
-const clear = (n) => { while (n.firstChild) n.removeChild(n.firstChild); return n; };
+import { el, clear } from './dom.js';
 
 /** The face of one collectible: emoji, milestone image, or a row of stars. */
 function artNode(item) {

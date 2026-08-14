@@ -12,6 +12,7 @@
    markup. */
 
 import { GAMES } from './games.js';
+import { el } from './dom.js';
 
 const byPath = new Map(GAMES.map((g) => [g.path, g]));
 const EXIT_LINK_SELECTOR = '.kmp-bar__back, .kmp-bar__who, .kmp-home';
@@ -26,24 +27,6 @@ let lastFocused = null;
 let barCheckTimer = null;
 let hiddenSiblings = [];
 let pendingNavigation = null;
-
-/** Build an element without touching innerHTML — copied from js/hub.js's el() helper. */
-function el(tag, attrs = {}, kids = []) {
-  const [name, ...classes] = tag.split('.');
-  const node = document.createElement(name || 'div');
-  if (classes.length) node.classList.add(...classes);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (v === null || v === undefined || v === false) continue;
-    if (k === 'text') node.textContent = String(v);
-    else if (k === 'on') for (const [ev, fn] of Object.entries(v)) node.addEventListener(ev, fn);
-    else node.setAttribute(k, v === true ? '' : String(v));
-  }
-  for (const kid of [].concat(kids)) {
-    if (kid === null || kid === undefined || kid === false) continue;
-    node.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
-  }
-  return node;
-}
 
 function buildOverlay() {
   fallbackExit = el('button.kmp-launcher__fallback-exit', {

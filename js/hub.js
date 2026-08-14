@@ -6,6 +6,7 @@
    links. This file only reorders them and annotates them. */
 
 import { GAMES, byId, suitsAge, ageLabel } from './games.js';
+import { el, clear } from './dom.js';
 import { applyMotionPref } from './site.js';
 
 const AVATARS = [
@@ -18,26 +19,6 @@ const AVATARS = [
 const AGES = [2, 3, 4, 5, 6, 7];
 
 const avatarFace = (id) => (AVATARS.find((a) => a.id === id) || AVATARS[0]).face;
-
-/** Build an element without touching innerHTML — a child's name never becomes markup. */
-function el(tag, attrs = {}, kids = []) {
-  const [name, ...classes] = tag.split('.');
-  const node = document.createElement(name || 'div');
-  if (classes.length) node.classList.add(...classes);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (v === null || v === undefined || v === false) continue;
-    if (k === 'text') node.textContent = String(v);
-    else if (k === 'on') for (const [ev, fn] of Object.entries(v)) node.addEventListener(ev, fn);
-    else node.setAttribute(k, v === true ? '' : String(v));
-  }
-  for (const kid of [].concat(kids)) {
-    if (kid === null || kid === undefined || kid === false) continue;
-    node.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
-  }
-  return node;
-}
-
-const clear = (node) => { while (node.firstChild) node.removeChild(node.firstChild); return node; };
 
 // --- who is playing ---------------------------------------------------------
 
