@@ -149,28 +149,28 @@ function renderReturning(mount) {
     el('a.kmp-btn.kmp-btn--quiet', { href: '/kolekcija.html', text: '🏆 Mani krājumi' }),
   ]);
 
-  // Switcher, only when there is something to switch between.
+  // One chip per child, plus "add" while there is room. There is always at
+  // least one of the two to show: this only renders when a profile exists, and
+  // one profile is below MAX_PROFILES.
   const switcher = el('div.chip-row.who-switch', { role: 'group', 'aria-label': 'Kurš spēlē' });
-  if (all.length > 1 || all.length < window.KMP.MAX_PROFILES) {
-    for (const p of all) {
-      const b = el('button.chip', {
-        type: 'button',
-        'aria-pressed': String(p.id === child.id),
-        text: `${avatarFace(p.avatar)} ${p.name || 'Bez vārda'}`,
-      });
-      b.addEventListener('click', () => { window.KMP.setActive(p.id); render(); });
-      switcher.append(b);
-    }
-    if (all.length < window.KMP.MAX_PROFILES) {
-      // For a guest this is "add your name", not "add another child" — naming
-      // a guest upgrades them in place and keeps everything they collected.
-      const add = el('button.chip.chip--add', {
-        type: 'button',
-        text: child.guest && all.length === 1 ? '✏️ Pievienot vārdu' : '+ Pievienot',
-      });
-      add.addEventListener('click', () => { mount.dataset.mode = 'setup'; render(); });
-      switcher.append(add);
-    }
+  for (const p of all) {
+    const b = el('button.chip', {
+      type: 'button',
+      'aria-pressed': String(p.id === child.id),
+      text: `${avatarFace(p.avatar)} ${p.name || 'Bez vārda'}`,
+    });
+    b.addEventListener('click', () => { window.KMP.setActive(p.id); render(); });
+    switcher.append(b);
+  }
+  if (all.length < window.KMP.MAX_PROFILES) {
+    // For a guest this is "add your name", not "add another child" — naming
+    // a guest upgrades them in place and keeps everything they collected.
+    const add = el('button.chip.chip--add', {
+      type: 'button',
+      text: child.guest && all.length === 1 ? '✏️ Pievienot vārdu' : '+ Pievienot',
+    });
+    add.addEventListener('click', () => { mount.dataset.mode = 'setup'; render(); });
+    switcher.append(add);
   }
 
   mount.append(el('div.who', {}, [row, actions, switcher, renderPrefs()]));
@@ -185,7 +185,7 @@ function renderPrefs() {
      when it was the name of the setting. A switch should say what it controls,
      not what it is about to become. */
   const toggle = (label, on, key) => {
-    const b = el('button.chip.chip--pref', {
+    const b = el('button.chip', {
       type: 'button',
       'aria-pressed': String(on),
       text: label,

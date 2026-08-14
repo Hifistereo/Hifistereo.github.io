@@ -34,8 +34,11 @@
   <link rel="stylesheet" href="/shared/kidmindpath-tokens.css">
   <link rel="stylesheet" href="/shared/kidmindpath-ui.css">
   <link rel="stylesheet" href="/styles.css">
-  <!-- Classic script, so window.KMP exists before the module below runs. -->
-  <script src="/shared/kmp.js"></script>
+  <!-- Classic script (kmp.js is vendored into five other repos and cannot be a
+       module). Deferred, not parser-blocking: deferred classic scripts and
+       module scripts run in document order, so window.KMP is still defined
+       before hub.js. -->
+  <script src="/shared/kmp.js" defer></script>
   <script type="module" src="/js/site.js"></script>
   <script type="module" src="/js/hub.js"></script>
   <script type="module" src="/js/game-launcher.js"></script>

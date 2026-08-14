@@ -62,7 +62,11 @@ function renderGate() {
   ]);
 
   clear(mount).append(form);
-  setTimeout(() => input.focus(), 50);
+  // Deliberately NOT focused on load. The gate sits at the foot of a long
+  // parent-facing article, and focusing it scrolled the page 3278px down on
+  // arrival — straight past the content this page exists to show, and past the
+  // skip link and nav for anyone on a keyboard. Focus is still moved back to
+  // the input after a wrong answer, which is where it actually helps.
 }
 
 // --- dashboard --------------------------------------------------------------
