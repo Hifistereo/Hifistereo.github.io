@@ -68,7 +68,9 @@ function gameSection(result) {
 
   const head = el('div.collection-head', {}, [
     el('div', {}, [
-      el('h2', { text: game.title }),
+      // The id is what the section's aria-labelledby points at; without it the
+      // reference dangles and the section announces with no name at all.
+      el('h2', { id: `c-${game.id}`, text: game.title }),
       el('p.collection-count', {
         text: result.total
           ? `${result.owned} no ${result.total}`

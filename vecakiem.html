@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="/shared/kidmindpath-ui.css">
   <link rel="stylesheet" href="/styles.css">
   <script src="/shared/kmp.js"></script>
-  <script src="/js/site.js" defer></script>
+  <script type="module" src="/js/site.js"></script>
   <script type="module" src="/js/vecakiem.js"></script>
   <script type="module" src="/js/game-launcher.js"></script>
 </head>
@@ -103,7 +103,7 @@
         <details class="faq-item">
           <summary>Vai spēles darbojas bez interneta?</summary>
           <div class="faq-answer">
-            <p>Daļēji. Tikai "Burtu Feja" un "Mācāmies angliski!" saglabā failus arī bezsaistes lietošanai (service worker). Pārējās trīs spēles jāatver ar interneta pieslēgumu, lai gan pati spēlēšana pēc ielādes neko nesūta uz serveri.</p>
+            <p>Lielākoties jā. Četras spēles — "Burtu Feja", "Mācāmies angliski!", "Little Fingers Paint" un "Ciparu dārzs" — saglabā savus failus arī bezsaistes lietošanai (service worker), tāpēc pēc pirmās atvēršanas tās startē arī bez interneta. Vienīgi "Prāta piedzīvojumu sala" katru reizi jāatver ar interneta pieslēgumu. Pati spēlēšana nevienā no tām pēc ielādes neko nesūta uz serveri.</p>
           </div>
         </details>
         <details class="faq-item">

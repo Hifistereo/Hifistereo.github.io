@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="/styles.css">
   <!-- Classic script, so window.KMP exists before the module below runs. -->
   <script src="/shared/kmp.js"></script>
-  <script src="/js/site.js" defer></script>
+  <script type="module" src="/js/site.js"></script>
   <script type="module" src="/js/hub.js"></script>
   <script type="module" src="/js/game-launcher.js"></script>
   <script type="application/ld+json">
@@ -296,9 +296,10 @@
               <li>Bez izsekošanas un analītikas</li>
               <li>Bez konta un bez e-pasta</li>
               <li>Bez pirkumiem lietotnē</li>
-              <!-- Not "works offline": only Burtu Feja and Mācāmies angliski!
-                   have service workers. Claiming it for all five would be
-                   false on three of them. -->
+              <!-- Not "works offline": Prāta piedzīvojumu sala still has no
+                   service worker, so the claim would be false on one of the
+                   five. The other four do — see vecakiem.html's FAQ, which
+                   states exactly which. -->
               <li>Nekas nav jālejupielādē</li>
             </ul>
           </div>

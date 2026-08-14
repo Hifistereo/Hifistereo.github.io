@@ -6,6 +6,7 @@
    links. This file only reorders them and annotates them. */
 
 import { GAMES, byId, suitsAge, ageLabel } from './games.js';
+import { applyMotionPref } from './site.js';
 
 const AVATARS = [
   { id: 'lapsa', label: 'Lapsa', face: '🦊' },
@@ -210,6 +211,7 @@ function renderPrefs() {
     });
     b.addEventListener('click', () => {
       window.KMP.savePrefs({ ...window.KMP.prefs(), [key]: !window.KMP.prefs()[key] });
+      applyMotionPref();
       render();
     });
     return b;

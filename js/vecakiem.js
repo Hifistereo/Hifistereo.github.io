@@ -13,6 +13,7 @@
 
 import { GAMES, byId } from './games.js';
 import { collectAll } from './adapters.js';
+import { applyMotionPref } from './site.js';
 
 let unlockedThisVisit = false;
 
@@ -66,8 +67,10 @@ function renderGate() {
       },
     },
   }, [
+    // h2, not h1: this renders into a page that already has its own <h1>, and
+    // a second one leaves a screen reader with two competing page titles.
     el('p.section-kicker', { text: 'Vecāku sadaļa' }),
-    el('h1', { text: 'Atrisini, lai turpinātu' }),
+    el('h2', { text: 'Atrisini, lai turpinātu' }),
     el('p.gate-sum', { text: `${a} × ${b} = ?` }),
     input,
     error,
@@ -139,6 +142,7 @@ function prefsPanel() {
       on: {
         click: () => {
           window.KMP.savePrefs({ ...window.KMP.prefs(), [key]: !window.KMP.prefs()[key] });
+          applyMotionPref();
           render();
         },
       },
@@ -149,7 +153,7 @@ function prefsPanel() {
     return b;
   };
   return el('section.parent-panel', {}, [
-    el('h2', { text: 'Iestatījumi visām spēlēm' }),
+    el('h3', { text: 'Iestatījumi visām spēlēm' }),
     el('p.muted', { text: 'Šie iestatījumi attiecas uz visām piecām spēlēm.' }),
     toggle('Skaņa', 'Runa, mūzika un efekti', p.sound, 'sound'),
     toggle('Mazāk kustību', 'Samazina animācijas un lēcienus', p.reducedMotion, 'reducedMotion'),
@@ -169,7 +173,7 @@ function dangerPanel() {
   });
 
   return el('section.parent-panel.parent-panel--danger', {}, [
-    el('h2', { text: 'Dzēst datus' }),
+    el('h3', { text: 'Dzēst datus' }),
     el('p.muted', {
       text: 'Viss, ko bērns ir savācis, glabājas tikai šajā pārlūkprogrammā. '
         + 'Šī poga izdzēš to visu uzreiz — līdz šim tas bija iespējams tikai, '
@@ -195,8 +199,9 @@ async function renderDashboard() {
   }), { owned: 0, total: 0, sessions: 0, attempts: 0, correct: 0, stars: 0 });
 
   clear(mount).append(
+    // h2 for the same reason as the gate above; the panels below it are h3.
     el('p.section-kicker', { text: 'Vecāku sadaļa' }),
-    el('h1', { text: child.name ? `${child.name} progress` : 'Progress' }),
+    el('h2', { text: child.name ? `${child.name} progress` : 'Progress' }),
     childSwitcher(children, child.id),
 
     el('div.stat-row', {}, [
@@ -212,7 +217,7 @@ async function renderDashboard() {
     }),
 
     el('section.parent-panel', {}, [
-      el('h2', { text: 'Pa spēlēm' }),
+      el('h3', { text: 'Pa spēlēm' }),
       el('p.muted', { text: 'Sīkāka statistika par katru spēli ir pašā spēlē.' }),
       // Catalogue order, matching the home page and the collection, rather
       // than the order the adapters happen to resolve in.

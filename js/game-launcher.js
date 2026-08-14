@@ -148,11 +148,25 @@ function onFrameLoaded() {
     requestClose(link.classList.contains('kmp-bar__who') ? `${HUB_ORIGIN}/kolekcija.html` : null);
   });
 
+  // Focus lives inside the iframe while a game is open, so the host document
+  // never sees the keystroke. Same-origin, so we can listen in there too.
+  doc.addEventListener('keydown', onEscape);
+
   clearTimeout(barCheckTimer);
   if (doc.querySelector('.kmp-bar')) return;
   barCheckTimer = setTimeout(() => {
     if (overlay && !overlay.hidden && !doc.querySelector('.kmp-bar')) fallbackExit.hidden = false;
   }, BAR_CHECK_DELAY_MS);
+}
+
+/* The overlay is a modal dialog, so Escape has to leave it. Browsers spend the
+   first Escape on exiting fullscreen without firing keydown here, which is why
+   this closes on the press it does see rather than trying to count them: the
+   overlay is dismissible either way, and closeOverlay() exits fullscreen itself
+   if we are still in it. */
+function onEscape(e) {
+  if (e.key !== 'Escape' || !overlay || overlay.hidden) return;
+  requestClose();
 }
 
 /** Every "leave the game" path funnels through here, so native back/forward
@@ -224,3 +238,4 @@ function setSiblingsInert(on) {
 if (history.state && history.state.kmpGame) history.replaceState(null, '', location.href);
 
 document.addEventListener('click', onDocumentClick);
+document.addEventListener('keydown', onEscape);
