@@ -230,11 +230,6 @@ function applyAgeFit() {
       card.append(el('p.age-fit', { text: `Piemērota vecumam ${ageLabel(game)}` }));
     }
   }
-
-  // Five cards in a six-column grid are centred by nth-child rules that assume
-  // source order. Once ordering changes, hand the whole thing to flex-like
-  // auto-placement instead, or the two bottom cards land in the wrong columns.
-  grid.classList.toggle('is-sorted', !!age);
 }
 
 // --- render -----------------------------------------------------------------

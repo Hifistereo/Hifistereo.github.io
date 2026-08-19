@@ -146,7 +146,7 @@
   }
   </script>
 </head>
-<body>
+<body class="home">
   <a class="skip-link" href="#speles">Pāriet uz spēlēm</a>
   <header>
     <nav class="wrap" aria-label="Galvenā navigācija">
@@ -159,7 +159,7 @@
         <a class="nav-link" href="/kolekcija.html">Mani krājumi</a>
         <a class="nav-link" href="/vecakiem.html">Vecākiem</a>
         <a class="nav-link" href="/palidziba.html">Palīdzība</a>
-        <a class="nav-link" href="/kluda.html">Ziņot par kļūdu</a>
+        <a class="nav-link nav-cta" href="/kluda.html">Ziņot par kļūdu</a>
       </div>
     </nav>
   </header>
@@ -176,13 +176,18 @@
             <span class="hero-note">Bez reklāmām · Bez konta · Bezmaksas</span>
           </div>
         </div>
+        <!-- Purely decorative: the characters carry no information the copy
+             does not already give, so the whole scene is hidden from assistive
+             technology rather than described five times over. -->
         <div class="hero-visual" aria-hidden="true">
-          <div class="orbit">
-            <div class="orbit-center">🚀</div>
-            <div class="orbit-item">🔤</div>
-            <div class="orbit-item">🎨</div>
-            <div class="orbit-item">🧠</div>
-            <div class="orbit-item">🔢</div>
+          <div class="hero-scene">
+            <!-- The one above-the-fold image, and the LCP element: eager and
+                 high priority. Everything below the hero is lazy. -->
+            <img class="hero-child" src="/img/hero-child.webp" width="329" height="560" alt="" decoding="async" fetchpriority="high">
+            <span class="hero-badge hero-badge--prata"><img src="/img/fox.webp" width="283" height="320" alt="" loading="lazy" decoding="async"></span>
+            <span class="hero-badge hero-badge--paint"><img src="/img/bird.webp" width="179" height="200" alt="" loading="lazy" decoding="async"></span>
+            <span class="hero-badge hero-badge--kidla"><img src="/img/cat.webp" width="274" height="320" alt="" loading="lazy" decoding="async"></span>
+            <span class="hero-badge hero-badge--memory"><img src="/img/turtle.webp" width="170" height="200" alt="" loading="lazy" decoding="async"></span>
           </div>
         </div>
       </div>
@@ -263,26 +268,60 @@
               <span>Spēlēt</span><span aria-hidden="true">→</span>
             </a>
           </article>
+
+          <!-- Sixth cell. Decorative, and deliberately not a link: it fills the
+               3x2 grid so the five real cards never leave a ragged last row.
+               js/hub.js reorders the cards by age with `order`; this tile sits
+               at order 2 so it always trails them. -->
+          <div class="games-accent" aria-hidden="true">
+            <img src="/img/dog.webp" width="266" height="320" alt="" loading="lazy" decoding="async">
+            <span class="games-accent__spark">✨</span>
+            <strong>Piecas spēles, viena vieta</strong>
+            <span>Katra spēle attīsta savu prasmi — izvēlies to, kas šodien šķiet interesantākā.</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="principles" aria-labelledby="principles-title">
+    <section class="approach" aria-labelledby="approach-title">
       <div class="wrap">
-        <p class="section-kicker">KidMindPath pieeja</p>
-        <h2 id="principles-title">Radīts mierīgai spēlēšanai</h2>
-        <div class="principle-grid">
-          <div class="principle">
-            <strong>Skaidrs mērķis</strong>
-            <p>Katra spēle attīsta konkrētas prasmes — no radošuma līdz valodai un agrīnajai matemātikai.</p>
+        <div class="approach-head">
+          <p class="section-kicker">KidMindPath pieeja</p>
+          <h2 id="approach-title">Radīts mierīgai spēlēšanai</h2>
+        </div>
+
+        <div class="approach-rows">
+          <div class="approach-row">
+            <div class="approach-text">
+              <span class="approach-num approach-num--paint" aria-hidden="true">01</span>
+              <h3>Skaidrs mērķis</h3>
+              <p>Katra spēle attīsta konkrētas prasmes — no radošuma līdz valodai un agrīnajai matemātikai.</p>
+            </div>
+            <div class="approach-art approach-art--paint">
+              <img src="/img/approach-1.webp" width="360" height="580" alt="" loading="lazy" decoding="async">
+            </div>
           </div>
-          <div class="principle">
-            <strong>Bērnam draudzīgs dizains</strong>
-            <p>Lieli pieskārienu laukumi, saprotama navigācija un uzdevumi bez lieka informācijas trokšņa.</p>
+
+          <div class="approach-row approach-row--flip">
+            <div class="approach-text">
+              <span class="approach-num approach-num--memory" aria-hidden="true">02</span>
+              <h3>Bērnam draudzīgs dizains</h3>
+              <p>Lieli pieskārienu laukumi, saprotama navigācija un uzdevumi bez lieka informācijas trokšņa.</p>
+            </div>
+            <div class="approach-art approach-art--memory">
+              <img src="/img/approach-2.webp" width="371" height="580" alt="" loading="lazy" decoding="async">
+            </div>
           </div>
-          <div class="principle">
-            <strong>Vienkārši sākt</strong>
-            <p>Nav jāmeklē īstā saite — izvēlies spēli šeit un atver to ar vienu pieskārienu.</p>
+
+          <div class="approach-row">
+            <div class="approach-text">
+              <span class="approach-num approach-num--prata" aria-hidden="true">03</span>
+              <h3>Vienkārši sākt</h3>
+              <p>Nav jāmeklē īstā saite — izvēlies spēli šeit un atver to ar vienu pieskārienu.</p>
+            </div>
+            <div class="approach-art approach-art--prata">
+              <img src="/img/approach-3.webp" width="506" height="580" alt="" loading="lazy" decoding="async">
+            </div>
           </div>
         </div>
       </div>
@@ -291,6 +330,7 @@
     <section class="parents" id="vecakiem" aria-labelledby="parents-title">
       <div class="wrap">
         <div class="parents-panel">
+          <img class="parents-art" src="/img/parents.webp" width="200" height="320" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <div>
             <h2 id="parents-title">Vecākiem: kas notiek ar datiem</h2>
             <p>Nekas no tā, ko bērns spēlē, neaiziet no ierīces. Spēles saglabā progresu tikai pārlūkprogrammas atmiņā uz šīs pašas ierīces — nav servera, kas kaut ko saņemtu.</p>
@@ -310,6 +350,22 @@
         </div>
       </div>
     </section>
+
+    <section class="cta-section" aria-labelledby="cta-title">
+      <div class="wrap">
+        <div class="cta">
+          <img class="cta-art cta-art--left" src="/img/fox.webp" width="283" height="320" alt="" aria-hidden="true" loading="lazy" decoding="async">
+          <img class="cta-art cta-art--right" src="/img/cat.webp" width="274" height="320" alt="" aria-hidden="true" loading="lazy" decoding="async">
+          <p class="cta-eyebrow">Bez reklāmām · Bez konta · Bezmaksas</p>
+          <h2 id="cta-title">Gatavs sākt spēlēt?</h2>
+          <p class="cta-copy">Piecas bezmaksas spēles jau gaida. Izvēlies vienu un sāc uzreiz — nekas nav jālejupielādē.</p>
+          <div class="cta-actions">
+            <a class="kmp-btn kmp-btn--on-brand" href="#speles">Skatīt visas spēles <span aria-hidden="true">→</span></a>
+            <a class="kmp-btn kmp-btn--ghost" href="/vecakiem.html">Vecākiem</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -323,7 +379,7 @@
       </div>
       <span>Mācīšanās, kas sākas ar ziņkāri.</span>
       <!-- Bump this by hand whenever site content changes. -->
-      <span class="footer-version">v1.3</span>
+      <span class="footer-version">v1.4</span>
     </div>
   </footer>
 </body>
