@@ -65,6 +65,7 @@ Every page loads `js/site.js`. Pages that read the shared profile also load
 | Path | What it is |
 |---|---|
 | `styles.css` | hub-only layout; everything else comes from `shared/` |
+| `img/` | the hub's character illustrations (see below) |
 | `shared/` | the design system, copied into every app |
 | `tests/` | `node --test`, no dependencies |
 | `scripts/extract-catalogues.mjs` | regenerates `js/catalogues.js` |
@@ -72,6 +73,20 @@ Every page loads `js/site.js`. Pages that read the shared profile also load
 | `icon.svg`, `icon-*.png`, `apple-touch-icon.png` | app icons |
 | `manifest.webmanifest`, `robots.txt`, `sitemap.xml`, `llms.txt` | site metadata |
 | `.nojekyll` | serve files as-is, no Jekyll processing |
+
+## `img/` — the hub illustrations
+
+The ten characters on the home page. They came out of a Claude Design canvas as
+1254x1254 PNGs totalling 13 MB; what is committed here is the same art trimmed
+to its bounding box, resized to roughly twice its display height, and encoded as
+WebP — 408 KB for all ten. The PNG originals are deliberately not in the repo.
+
+They are decorative in the strict sense: every one carries `alt=""`, and the
+blocks that hold them are hidden from assistive technology. Nothing on the page
+depends on a child being able to see them.
+
+`hero-child.webp` is the only one above the fold. It is the LCP element, so it
+is eager and `fetchpriority="high"`; every other image is `loading="lazy"`.
 
 ## Editing
 
@@ -147,4 +162,17 @@ pages' headers, and `llms.txt`.
 - **Reduced motion has two triggers.** The OS setting, and the site's own
   "Mazāk kustību" toggle, which `js/site.js` mirrors onto `<html>` as
   `data-kmp-motion="reduced"`. Both halves live together at the foot of
-  `styles.css`; a new animation needs to answer to both.
+  `styles.css`; a new animation needs to answer to both. Both switch animations
+  off with `animation: none !important` — the `!important` is load-bearing,
+  because `*` has zero specificity and would otherwise lose to any class that
+  names an animation.
+- **The home page is the only page with rounded corners.** It sets
+  `<body class="home">`, and `styles.css` redefines the `--kmp-r-*` tokens on
+  that selector. `shared/kidmindpath-tokens.css` stays at radius 0 for every
+  page here and for the five vendored copies, so rounding the hub costs no
+  re-sync. Anything that must look the same on every page — the header's
+  `.nav-cta` pill, for one — needs a literal radius rather than a token.
+- **`overflow-x` on `<body>` is `clip`, not `hidden`.** `hidden` turns `<body>`
+  into a scroll container, which silently stops the sticky header from
+  sticking. `clip` trims the illustrations that bleed past the edges without
+  that side effect.
