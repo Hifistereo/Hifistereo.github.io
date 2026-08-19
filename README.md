@@ -88,6 +88,27 @@ depends on a child being able to see them.
 `hero-child.webp` is the only one above the fold. It is the LCP element, so it
 is eager and `fetchpriority="high"`; every other image is `loading="lazy"`.
 
+### `img/avatars/`
+
+Ten head-and-shoulders portraits — five animals, four girls, one boy — for the
+child profile picker in `js/hub.js`. A separately prepared portrait set, not a
+crop of the full-body characters above: cropping a full-body pose to a square
+gives a different subject distance and eye line than a drawn bust, and mixing
+the two would show. Each is trimmed and fit onto a transparent 192x192 canvas
+(2x the picker's 88px tile) rather than cropped to a square, so nothing —
+ears, goggles, the turtle's shell — gets cut off. None is lazy-loaded: all ten
+are the interactive choice a child is looking at, and popping them in one by
+one would be worse than the ~186 KB they cost together.
+
+**The filenames are storage ids, not just filenames.** `js/hub.js`'s `AVATARS`
+array holds one of these per entry, and a saved child profile's `avatar` field
+is one of these strings in `localStorage`. Renaming a file breaks every
+profile already using it — the id has to change in lockstep with a
+`LEGACY_AVATARS` redirect entry, the same way the picker's previous four emoji
+ids (`varde`, `puce`, `lacis`) are redirected to their nearest replacement
+today. `lapsa` (the fox) is the one id that can never move: it is also
+`shared/kmp.js`'s hardcoded fallback avatar, independent of this picker.
+
 ## Editing
 
 There is no build step and no dependency. Edit, commit, push to `main`;

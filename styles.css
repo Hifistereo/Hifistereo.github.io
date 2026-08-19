@@ -405,9 +405,18 @@ h2 {
   width: 64px;
   height: 64px;
   flex: none;
+  overflow: hidden;
   background: var(--kmp-surface);
   border: 1px solid var(--kmp-line);
-  font-size: 2rem;
+}
+
+/* Shared by .who-avatar (64px) and the picker's 88px .chip--avatar — each
+   sizes its own box and this just fills it without distorting the portrait. */
+.avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .who-text { display: flex; flex-direction: column; }
@@ -451,7 +460,33 @@ h2 {
   border-color: var(--kmp-brand-deep);
 }
 
-.chip--avatar { font-size: 1.5rem; padding: 0 var(--kmp-s-3); }
+/* The picker tile only. --kmp-tap-min is the design system's stated floor for
+   anything a child taps, and this is the most tap-heavy control on the page.
+   Not shared with .profile-chip below — that one is a name-and-portrait row,
+   not a big square target, and reusing this class would make every switcher
+   chip 88px tall. */
+.chip--avatar {
+  width: 88px;
+  height: 88px;
+  min-height: 88px;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* The profile switcher: a small portrait beside the child's name. */
+.profile-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kmp-s-2);
+  padding-left: var(--kmp-s-2);
+}
+
+.profile-chip-avatar {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  object-fit: contain;
+}
 .chip--add { border-style: dashed; color: var(--kmp-ink-soft); }
 
 .who-switch, .who-prefs { margin-top: var(--kmp-s-4); }

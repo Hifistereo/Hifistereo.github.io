@@ -9,16 +9,49 @@ import { GAMES, byId, suitsAge, ageLabel } from './games.js';
 import { el, clear } from './dom.js';
 import { applyMotionPref } from './site.js';
 
+// Illustrated portraits, img/avatars/<id>.webp. `lapsa` is load-bearing: it is
+// the hardcoded fallback in shared/kmp.js (GUEST and normaliseProfile), so
+// this id must never change or be reused for a different character.
 const AVATARS = [
-  { id: 'lapsa', label: 'Lapsa', face: '🦊' },
-  { id: 'varde', label: 'Varde', face: '🐸' },
-  { id: 'puce', label: 'Pūce', face: '🦉' },
-  { id: 'lacis', label: 'Lācis', face: '🐻' },
+  { id: 'lapsa', label: 'Lapsa' },
+  { id: 'kakis', label: 'Kaķis' },
+  { id: 'papagailis', label: 'Papagailis' },
+  { id: 'sunitis', label: 'Sunītis' },
+  { id: 'brunurupucis', label: 'Bruņurupucis' },
+  { id: 'meitene-1', label: 'Piedzīvotāja' },
+  { id: 'meitene-2', label: 'Pētniece' },
+  { id: 'meitene-3', label: 'Māksliniece' },
+  { id: 'meitene-4', label: 'Ceļotāja' },
+  { id: 'zens-1', label: 'Pilots' },
 ];
 
-const AGES = [2, 3, 4, 5, 6, 7];
+// The emoji friends this picker used to offer. Kept as a redirect, applied
+// only at render time, so a child who chose one before the illustrated set
+// existed lands on the closest new character instead of silently becoming
+// the fox (kmp.js's own fallback). Nothing in localStorage is rewritten.
+const LEGACY_AVATARS = { varde: 'brunurupucis', puce: 'papagailis', lacis: 'sunitis' };
 
-const avatarFace = (id) => (AVATARS.find((a) => a.id === id) || AVATARS[0]).face;
+const resolveAvatar = (id) => {
+  const resolved = LEGACY_AVATARS[id] || id;
+  return AVATARS.find((a) => a.id === resolved) || AVATARS[0];
+};
+
+/**
+ * One avatar portrait. `draggable` must be the string 'false', not the
+ * boolean: el() drops any attribute whose value is boolean false, so passing
+ * the boolean would silently leave the image draggable, and on a touch
+ * device a long press would lift a drag ghost instead of picking a friend.
+ */
+const avatarImg = (id, cls) => el(`img.${cls}`, {
+  src: `/img/avatars/${resolveAvatar(id).id}.webp`,
+  width: '192',
+  height: '192',
+  alt: '',
+  draggable: 'false',
+  decoding: 'async',
+});
+
+const AGES = [2, 3, 4, 5, 6, 7];
 
 // --- who is playing ---------------------------------------------------------
 
@@ -50,8 +83,7 @@ function renderSetup(mount) {
         type: 'button',
         'aria-pressed': String(a.id === draft.avatar),
         'aria-label': a.label,
-        text: a.face,
-      });
+      }, [avatarImg(a.id, 'avatar-img')]);
       b.addEventListener('click', () => {
         draft.avatar = a.id;
         avatarRow.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', String(c === b)));
@@ -135,7 +167,7 @@ function renderReturning(mount) {
     : 'Sveiks!';
 
   const row = el('div.who-row', {}, [
-    el('span.who-avatar', { 'aria-hidden': 'true', text: avatarFace(child.avatar) }),
+    el('span.who-avatar', { 'aria-hidden': 'true' }, [avatarImg(child.avatar, 'avatar-img')]),
     el('div.who-text', {}, [
       el('strong', { text: heading }),
       el('span', { text: child.ageYears ? `${child.ageYears} gadi` : 'Vecums nav norādīts' }),
@@ -154,11 +186,13 @@ function renderReturning(mount) {
   // one profile is below MAX_PROFILES.
   const switcher = el('div.chip-row.who-switch', { role: 'group', 'aria-label': 'Kurš spēlē' });
   for (const p of all) {
-    const b = el('button.chip', {
+    const b = el('button.chip.profile-chip', {
       type: 'button',
       'aria-pressed': String(p.id === child.id),
-      text: `${avatarFace(p.avatar)} ${p.name || 'Bez vārda'}`,
-    });
+    }, [
+      avatarImg(p.avatar, 'profile-chip-avatar'),
+      p.name || 'Bez vārda',
+    ]);
     b.addEventListener('click', () => { window.KMP.setActive(p.id); render(); });
     switcher.append(b);
   }
