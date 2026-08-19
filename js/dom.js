@@ -13,7 +13,7 @@
  * Build an element without touching innerHTML — a child's name never becomes
  * markup, which is the whole reason this exists rather than a template string.
  *
- *   el('button.chip.chip--avatar', { type: 'button', text: '🦊' })
+ *   el('button.chip', { type: 'button', text: 'Sākt spēlēt' })
  *
  * The tag is `name.class.class`. Attributes are set as attributes, except:
  * `text` sets textContent, and `on` takes a { event: handler } map. A value of
