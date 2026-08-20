@@ -423,6 +423,14 @@ h2 {
 .who-text strong { font-family: var(--kmp-font-display); font-size: var(--kmp-t-lg); font-weight: 600; }
 .who-text span { color: var(--kmp-ink-soft); font-size: var(--kmp-t-sm); }
 
+/* Filled in asynchronously by hub.js once getAdventureProgress() resolves;
+   starts hidden so there is no empty-then-filled flash while it loads. */
+.who-adventure-teaser {
+  margin-top: var(--kmp-s-3);
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-sm);
+}
+
 .who-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1093,6 +1101,147 @@ h2 {
    name and hint keep full contrast; only the art is drained. */
 .item.is-locked { background: transparent; border-style: dashed; }
 .item.is-locked .item-face { filter: grayscale(1); opacity: .35; }
+
+.item-featured {
+  padding: 2px 8px;
+  color: #fff;
+  background: var(--kmp-brand);
+  border-radius: var(--kmp-r-pill);
+  font-size: .66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.item-pick {
+  min-height: var(--kmp-tap-min, 44px);
+  padding: 0 var(--kmp-s-3);
+  color: var(--kmp-ink);
+  background: var(--kmp-surface);
+  border: 2px solid var(--kmp-line);
+  border-radius: var(--kmp-r-pill);
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-xs);
+  font-weight: 600;
+  cursor: pointer;
+}
+.item-pick:hover { border-color: var(--kmp-brand); }
+.item-pick[aria-pressed="true"] { color: #fff; background: var(--kmp-brand); border-color: var(--kmp-brand-deep); }
+
+/* ---------- adventure ---------- */
+
+.adventure-character {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--kmp-s-2);
+  margin: var(--kmp-s-5) 0;
+  text-align: center;
+}
+
+.adventure-avatar-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 140px;
+  height: 140px;
+  overflow: visible;
+  background: var(--kmp-surface);
+  border: 1px solid var(--kmp-line);
+  border-radius: 50%;
+}
+.adventure-avatar-wrap .avatar-img { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; }
+
+.featured-badge {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  background: var(--kmp-surface);
+  border: 2px solid var(--kmp-brand);
+  border-radius: 50%;
+}
+.featured-badge .item-art { width: 1.4rem; }
+
+.adventure-character-name { font-family: var(--kmp-font-display); font-size: var(--kmp-t-lg); font-weight: 600; }
+.adventure-preview-note { color: var(--kmp-ink-soft); font-size: var(--kmp-t-sm); }
+
+/* Mobile-first vertical zig-zag: each stage alternates which side of the
+   implicit centre line it sits on, so the map reads top-to-bottom like a
+   trail rather than as a wide row that would need horizontal scrolling on
+   a phone. */
+.adventure-map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kmp-s-4);
+  margin: var(--kmp-s-5) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage-node {
+  display: flex;
+  align-items: center;
+  gap: var(--kmp-s-3);
+  max-width: 300px;
+}
+.stage-node.is-right { align-self: flex-end; flex-direction: row-reverse; text-align: right; }
+
+.stage-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  flex: none;
+  font-size: 1.6rem;
+  background: var(--kmp-surface);
+  border: 2px solid var(--kmp-line);
+  border-radius: 50%;
+}
+
+.stage-node.is-current .stage-icon { border-color: var(--kmp-brand); background: var(--kmp-brand-tint); }
+.stage-node.is-locked .stage-icon { color: var(--kmp-ink-soft); }
+
+.stage-name {
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-sm);
+  font-weight: 600;
+}
+.stage-node.is-locked .stage-name { color: var(--kmp-ink-soft); font-weight: 500; }
+
+.adventure-current { margin-top: var(--kmp-s-4); font-weight: 600; }
+.adventure-next { color: var(--kmp-ink-soft); font-size: var(--kmp-t-sm); }
+
+.adventure-toast-region {
+  position: fixed;
+  left: 50%;
+  bottom: var(--kmp-s-5);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--kmp-s-2);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.adventure-toast {
+  padding: var(--kmp-s-3) var(--kmp-s-5);
+  color: #fff;
+  background: var(--kmp-brand);
+  border-radius: var(--kmp-r-pill);
+  font-family: var(--kmp-font-display);
+  font-weight: 600;
+  box-shadow: var(--kmp-shadow-2);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.adventure-toast.is-visible { opacity: 1; transform: translateY(0); }
 
 /* ---------- parent area ---------- */
 

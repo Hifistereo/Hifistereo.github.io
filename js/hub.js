@@ -8,48 +8,8 @@
 import { GAMES, byId, suitsAge, ageLabel } from './games.js';
 import { el, clear } from './dom.js';
 import { applyMotionPref } from './site.js';
-
-// Illustrated portraits, img/avatars/<id>.webp. `lapsa` is load-bearing: it is
-// the hardcoded fallback in shared/kmp.js (GUEST and normaliseProfile), so
-// this id must never change or be reused for a different character.
-const AVATARS = [
-  { id: 'lapsa', label: 'Lapsa' },
-  { id: 'kakis', label: 'Kaķis' },
-  { id: 'papagailis', label: 'Papagailis' },
-  { id: 'sunitis', label: 'Sunītis' },
-  { id: 'brunurupucis', label: 'Bruņurupucis' },
-  { id: 'meitene-1', label: 'Piedzīvotāja' },
-  { id: 'meitene-2', label: 'Pētniece' },
-  { id: 'meitene-3', label: 'Māksliniece' },
-  { id: 'meitene-4', label: 'Ceļotāja' },
-  { id: 'zens-1', label: 'Pilots' },
-];
-
-// The emoji friends this picker used to offer. Kept as a redirect, applied
-// only at render time, so a child who chose one before the illustrated set
-// existed lands on the closest new character instead of silently becoming
-// the fox (kmp.js's own fallback). Nothing in localStorage is rewritten.
-const LEGACY_AVATARS = { varde: 'brunurupucis', puce: 'papagailis', lacis: 'sunitis' };
-
-const resolveAvatar = (id) => {
-  const resolved = LEGACY_AVATARS[id] || id;
-  return AVATARS.find((a) => a.id === resolved) || AVATARS[0];
-};
-
-/**
- * One avatar portrait. `draggable` must be the string 'false', not the
- * boolean: el() drops any attribute whose value is boolean false, so passing
- * the boolean would silently leave the image draggable, and on a touch
- * device a long press would lift a drag ghost instead of picking a friend.
- */
-const avatarImg = (id, cls) => el(`img.${cls}`, {
-  src: `/img/avatars/${resolveAvatar(id).id}.webp`,
-  width: '192',
-  height: '192',
-  alt: '',
-  draggable: 'false',
-  decoding: 'async',
-});
+import { AVATARS, avatarImg } from './avatars.js';
+import { getAdventureProgress } from './progression.js';
 
 const AGES = [2, 3, 4, 5, 6, 7];
 
@@ -176,10 +136,18 @@ function renderReturning(mount) {
 
   // No "choose a game" button here: the grid is directly below this panel, so
   // it would point at itself and duplicate the hero button.
+  // "Mans piedzīvojums" is the primary CTA; continuing the last game and the
+  // collection album are both secondary now that Adventure ties them together.
   const actions = el('div.who-actions', {}, [
-    lastGame && el('a.kmp-btn', { href: lastGame.path, text: `Turpināt: ${lastGame.short} →` }),
+    lastGame && el('a.kmp-btn.kmp-btn--quiet', { href: lastGame.path, text: `Turpināt: ${lastGame.short} →` }),
+    el('a.kmp-btn', { href: '/piedzivojums.html', text: '🗺 Mans piedzīvojums' }),
     el('a.kmp-btn.kmp-btn--quiet', { href: '/kolekcija.html', text: '🏆 Mani krājumi' }),
   ]);
+
+  // Filled in asynchronously below — getAdventureProgress() awaits Paint's
+  // IndexedDB read, and render()/renderReturning() must stay synchronous
+  // (profile-switch clicks and prefs toggles call render() directly).
+  const adventureTeaser = el('p.who-adventure-teaser', { hidden: true });
 
   // One chip per child, plus "add" while there is room. There is always at
   // least one of the two to show: this only renders when a profile exists, and
@@ -207,7 +175,21 @@ function renderReturning(mount) {
     switcher.append(add);
   }
 
-  mount.append(el('div.who', {}, [row, actions, switcher, renderPrefs()]));
+  mount.append(el('div.who', {}, [row, adventureTeaser, actions, switcher, renderPrefs()]));
+
+  // A profile switch or navigation can outrace this promise; without both
+  // guards, one child's teaser text could flash after switching to another.
+  const requestedChildId = child.id;
+  getAdventureProgress(requestedChildId).then((progress) => {
+    if (!adventureTeaser.isConnected) return;
+    if (window.KMP.activeChild().id !== requestedChildId) return;
+    const stage = progress.stages.find((s) => s.id === progress.maxReachedStageId);
+    if (!stage) return;
+    adventureTeaser.textContent = progress.nextStage
+      ? `Tu esi: ${stage.icon} ${stage.name}. Nākamais atklājums tuvojas!`
+      : `Tu esi: ${stage.icon} ${stage.name}. Viss piedzīvojums atklāts!`;
+    adventureTeaser.hidden = false;
+  }).catch(() => { /* stays hidden — same fail-quiet convention as the KMP-missing branch below */ });
 }
 
 function renderPrefs() {

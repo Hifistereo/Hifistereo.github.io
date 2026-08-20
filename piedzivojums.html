@@ -6,34 +6,33 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex, follow">
-  <meta name="description" content="Visas KidMindPath spēļu kartītes un balvas vienuviet.">
+  <meta name="description" content="Seko līdzi, kā mācīšanās katrā KidMindPath spēlē virza tavu varoni pa piedzīvojuma karti.">
   <meta name="theme-color" content="#fffaf2">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="KidMindPath">
-  <meta property="og:title" content="Mani krājumi — KidMindPath">
-  <meta property="og:description" content="Visas KidMindPath spēļu kartītes un balvas vienuviet.">
+  <meta property="og:title" content="Mans piedzīvojums — KidMindPath">
+  <meta property="og:description" content="Seko līdzi, kā mācīšanās katrā KidMindPath spēlē virza tavu varoni pa piedzīvojuma karti.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="lv_LV">
-  <meta property="og:url" content="https://www.kidmindpath.com/kolekcija.html">
+  <meta property="og:url" content="https://www.kidmindpath.com/piedzivojums.html">
   <meta property="og:image" content="https://www.kidmindpath.com/icon-512.png">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Mani krājumi — KidMindPath">
-  <meta name="twitter:description" content="Visas KidMindPath spēļu kartītes un balvas vienuviet.">
+  <meta name="twitter:title" content="Mans piedzīvojums — KidMindPath">
+  <meta name="twitter:description" content="Seko līdzi, kā mācīšanās katrā KidMindPath spēlē virza tavu varoni pa piedzīvojuma karti.">
   <meta name="twitter:image" content="https://www.kidmindpath.com/icon-512.png">
-  <link rel="canonical" href="https://www.kidmindpath.com/kolekcija.html">
+  <link rel="canonical" href="https://www.kidmindpath.com/piedzivojums.html">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.webmanifest">
-  <title>Mani krājumi — KidMindPath</title>
+  <title>Mans piedzīvojums — KidMindPath</title>
   <link rel="stylesheet" href="/shared/kidmindpath-fonts.css">
   <link rel="stylesheet" href="/shared/kidmindpath-tokens.css">
   <link rel="stylesheet" href="/shared/kidmindpath-ui.css">
   <link rel="stylesheet" href="/styles.css">
   <script src="/shared/kmp.js" defer></script>
   <script type="module" src="/js/site.js"></script>
-  <script type="module" src="/js/kolekcija.js"></script>
-  <script type="module" src="/js/game-launcher.js"></script>
+  <script type="module" src="/js/adventure.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#saturs">Pāriet uz saturu</a>
@@ -46,6 +45,7 @@
       <div class="nav-links">
         <a class="nav-link" href="/piedzivojums.html">🗺 Piedzīvojums</a>
         <a class="nav-link" href="/#speles">Visas spēles</a>
+        <a class="nav-link" href="/kolekcija.html">Mani krājumi</a>
         <a class="nav-link" href="/vecakiem.html">Vecākiem</a>
         <a class="nav-link" href="/palidziba.html">Palīdzība</a>
         <a class="nav-link nav-cta" href="/kluda.html">Ziņot par kļūdu</a>
@@ -55,22 +55,51 @@
 
   <main class="page" id="saturs">
     <div class="wrap">
-      <!-- Filled in by js/kolekcija.js. The static fallback below it is what a
-           visitor with JavaScript off sees, since a collection read out of
-           localStorage cannot be rendered any other way. -->
-      <div id="collection-summary">
-        <p class="section-kicker">Mans krājums</p>
-        <h1>Kartītes un balvas</h1>
-        <p class="hero-copy">Katra spēle dod savas kartītes. Šeit tās visas ir vienuviet.</p>
-      </div>
+      <p class="section-kicker">Piedzīvojums</p>
+      <h1>Tavs ceļojums</h1>
+      <p class="hero-copy">Katrs jauns sasniegums kādā no spēlēm ved tavu varoni tālāk pa karti.</p>
 
-      <div id="collection" class="collection-list">
-        <noscript>
-          <p class="collection-empty">Lai redzētu krājumu, pārlūkā jābūt ieslēgtam JavaScript — kartītes tiek glabātas tikai šajā ierīcē.</p>
-        </noscript>
-      </div>
+      <div id="adventure-adoption-note"></div>
+
+      <section aria-labelledby="adventure-character-heading">
+        <h2 id="adventure-character-heading">Tavs varonis</h2>
+        <div id="adventure-character" class="adventure-character">
+          <noscript>
+            <p class="collection-empty">Lai redzētu savu varoni, pārlūkā jābūt ieslēgtam JavaScript.</p>
+          </noscript>
+        </div>
+      </section>
+
+      <section aria-labelledby="adventure-map-heading">
+        <h2 id="adventure-map-heading">Karte</h2>
+        <div id="adventure-map">
+          <noscript>
+            <p class="collection-empty">Lai redzētu karti, pārlūkā jābūt ieslēgtam JavaScript — progress tiek glabāts tikai šajā ierīcē.</p>
+          </noscript>
+        </div>
+      </section>
+
+      <section aria-labelledby="adventure-items-heading">
+        <h2 id="adventure-items-heading">Manas lietas</h2>
+        <div id="adventure-items">
+          <noscript>
+            <p class="collection-empty">Lai redzētu savas lietas, pārlūkā jābūt ieslēgtam JavaScript.</p>
+          </noscript>
+        </div>
+      </section>
+
+      <section aria-labelledby="adventure-friends-heading">
+        <h2 id="adventure-friends-heading">Mani draugi</h2>
+        <div id="adventure-friends">
+          <noscript>
+            <p class="collection-empty">Lai redzētu draugus, pārlūkā jābūt ieslēgtam JavaScript.</p>
+          </noscript>
+        </div>
+      </section>
     </div>
   </main>
+
+  <div id="adventure-toast-region" class="adventure-toast-region" aria-live="polite" aria-atomic="true"></div>
 
   <footer>
     <div class="wrap footer-row">
