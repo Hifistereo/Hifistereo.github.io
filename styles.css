@@ -567,14 +567,49 @@ h2 {
 /* Each card carries the accent of the app it opens, so the card previews
    the game rather than colouring it arbitrarily. */
 .game-card {
-  min-height: 340px;
+  position: relative;
+  min-height: 420px;
   transition: transform var(--kmp-dur) var(--kmp-ease-out),
               box-shadow var(--kmp-dur) var(--kmp-ease-out);
 }
 
-.game-card:hover {
+.game-card:hover,
+.game-card:focus-within {
   transform: translateY(-4px);
   box-shadow: 0 12px 0 var(--kmp-card-line);
+}
+
+/* The real screenshot bleeds to the card's own padded edges (negative margin
+   matching --kmp-s-5) since .kmp-card doesn't clip overflow itself. */
+.game-preview {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  margin: calc(-1 * var(--kmp-s-5));
+  margin-bottom: var(--kmp-s-5);
+  border-radius: var(--kmp-r-xl) var(--kmp-r-xl) 0 0;
+  background: #fff;
+  border-bottom: 1px solid var(--kmp-card-line);
+}
+
+.game-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform var(--kmp-dur) var(--kmp-ease-out),
+              filter var(--kmp-dur) var(--kmp-ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .game-card:hover .game-preview img,
+  .game-card:focus-within .game-preview img {
+    transform: scale(1.04);
+  }
+  .game-card:hover .game-preview img {
+    filter: saturate(1.04);
+  }
 }
 
 .card-prata  { --kmp-card-tint: var(--kmp-prata-tint);  --kmp-card-line: var(--kmp-prata-line);  --accent: var(--kmp-prata-ink); }
@@ -641,6 +676,17 @@ h2 {
 }
 
 .play-link span:last-child { font-size: 1.25rem; }
+
+/* Stretches the single real link over the whole card so a child can tap
+   anywhere (screenshot, title, description) to open the game, not just the
+   small button — .game-card's position:relative makes it the containing
+   block, so this covers the full card rather than just .play-link itself. */
+.play-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--kmp-r-xl);
+}
 
 /* ---------- the sixth tile ----------
    Not a link and not a game: it exists so five cards never leave a ragged
@@ -1483,7 +1529,7 @@ footer {
   .section-head { display: block; }
   .section-note { margin-top: 14px; }
   .game-grid { grid-template-columns: 1fr; }
-  .game-card { min-height: 300px; }
+  .game-card { min-height: 380px; }
   .games-accent { min-height: 260px; }
   .approach { padding: 62px 0 30px; }
   .approach-head { margin-bottom: 34px; }
@@ -1515,7 +1561,10 @@ footer {
     transition-duration: .01ms !important;
     animation: none !important;
   }
-  .game-card:hover { transform: none; }
+  .game-card:hover,
+  .game-card:focus-within { transform: none; }
+  .game-card:hover .game-preview img,
+  .game-card:focus-within .game-preview img { transform: none; }
 }
 
 html[data-kmp-motion="reduced"] { scroll-behavior: auto; }
@@ -1525,4 +1574,7 @@ html[data-kmp-motion="reduced"] *::after {
   transition-duration: .01ms !important;
   animation: none !important;
 }
-html[data-kmp-motion="reduced"] .game-card:hover { transform: none; }
+html[data-kmp-motion="reduced"] .game-card:hover,
+html[data-kmp-motion="reduced"] .game-card:focus-within { transform: none; }
+html[data-kmp-motion="reduced"] .game-card:hover .game-preview img,
+html[data-kmp-motion="reduced"] .game-card:focus-within .game-preview img { transform: none; }
