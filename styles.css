@@ -718,14 +718,6 @@ h2 {
   --card-overlay: var(--kmp-memory-ink);
 }
 
-/* Per-game framing: tuned so each screenshot's most identifiable interface
-   stays in frame rather than cropping all five identically. */
-.card-prata  .game-preview { object-position: center top; }
-.card-paint  .game-preview { object-position: center 25%; }
-.card-kidla  .game-preview { object-position: center top; }
-.card-eng    .game-preview { object-position: center top; }
-.card-memory .game-preview { object-position: center top; }
-
 .game-card-link:focus-visible {
   outline: 4px solid var(--kmp-sun);
   outline-offset: 4px;
