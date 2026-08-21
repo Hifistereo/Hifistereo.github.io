@@ -1,0 +1,1629 @@
+/* kidmindpath.com — hub page styles.
+   Everything structural comes from shared/kidmindpath-tokens.css; this file
+   only holds layout that exists nowhere else on the site.
+
+   Kept in a file rather than a <style> block so the page can run
+   `style-src 'self'` with no 'unsafe-inline'. Nothing here uses a style
+   attribute either — please keep it that way. */
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* clip, not hidden: `overflow-x: hidden` makes <body> a scroll container,
+   which silently stops the sticky header from sticking. `clip` trims the
+   decorative art that bleeds past the edges without that side effect. */
+html, body {
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--kmp-ink);
+  background: var(--kmp-paper);
+  font-family: var(--kmp-font-body);
+  font-size: var(--kmp-t-md);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+/* ---------- homepage-only rounding ----------
+   The redesign brings back rounded corners, but shared/kidmindpath-tokens.css
+   deliberately sets every radius to 0 and is vendored into all five game
+   repos. Overriding the tokens on <body class="home"> keeps the rounding on
+   this one page — .kmp-card, .kmp-btn, .chip and everything else that reads a
+   radius token picks it up through the cascade — and leaves the shared file,
+   and therefore the five apps, untouched. */
+
+body.home {
+  --kmp-r-sm:   14px;
+  --kmp-r-md:   14px;
+  --kmp-r-lg:   20px;
+  --kmp-r-xl:   24px;
+  --kmp-r-pill: 999px;
+  /* The largest radius, for the two full-width panels. Not a token: nothing
+     outside this page has anything that size. */
+  --home-r-panel: 32px;
+}
+
+h1, h2, h3 {
+  font-family: var(--kmp-font-display);
+  font-weight: 600;
+}
+
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: var(--kmp-s-4);
+  z-index: 60;   /* above the sticky header, which sits at 50 */
+  padding: var(--kmp-s-3) var(--kmp-s-4);
+  color: #fff;
+  background: var(--kmp-brand-deep);
+  border-radius: var(--kmp-r-sm);
+  font-family: var(--kmp-font-display);
+  text-decoration: none;
+}
+
+.skip-link:focus { top: var(--kmp-s-3); }
+
+.wrap {
+  width: min(1160px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+/* ---------- header ---------- */
+
+/* Sticky only where it is short. Below 640px the nav wraps onto a second row
+   and the header grows to roughly 170px — half the height of a phone viewport
+   — so it goes back to static there. See the responsive section. */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid rgba(95, 75, 182, .10);
+  background: rgba(255, 250, 242, .86);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+nav {
+  min-height: 76px;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: var(--kmp-s-2);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kmp-s-5);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--kmp-ink);
+  text-decoration: none;
+  font-family: var(--kmp-font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 0;
+  box-shadow: 0 6px 0 rgba(66, 49, 127, .18);
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kmp-s-5);
+}
+
+.nav-link {
+  color: var(--kmp-ink-soft);
+  text-decoration: none;
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-sm);
+  font-weight: 500;
+}
+
+.nav-link:hover { color: var(--kmp-brand); }
+
+/* The last nav item reads as a button. Its radius is a literal rather than
+   --kmp-r-pill because the header is shared chrome: the token is only
+   overridden on the homepage, and a pill that squared off on every other page
+   would be worse than no pill at all. */
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--kmp-s-4);
+  color: var(--kmp-brand-deep);
+  background: var(--kmp-brand-tint);
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.nav-cta:hover { color: var(--kmp-brand-deep); background: #e6dffb; }
+
+/* ---------- hero ---------- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 88px 0 84px;
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero::before {
+  width: 340px;
+  height: 340px;
+  top: -140px;
+  right: -80px;
+  background: radial-gradient(circle, var(--kmp-sun) 0%, rgba(255, 200, 87, 0) 70%);
+  opacity: .5;
+}
+
+.hero::after {
+  width: 360px;
+  height: 360px;
+  bottom: -160px;
+  left: -90px;
+  background: radial-gradient(circle, var(--kmp-prata-hue) 0%, rgba(122, 85, 214, 0) 70%);
+  opacity: .16;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  align-items: center;
+  gap: 64px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kmp-s-2);
+  margin: 0 0 20px;
+  padding: 8px 16px;
+  color: var(--kmp-brand-deep);
+  background: var(--kmp-surface);
+  border: 1px solid #efe7dc;
+  border-radius: var(--kmp-r-pill);
+  font-family: var(--kmp-font-display);
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--kmp-sun);
+}
+
+h1 {
+  max-width: 760px;
+  margin: 0;
+  font-size: var(--kmp-t-3xl);
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+
+h1 span { color: var(--kmp-brand); }
+
+.hero-copy {
+  max-width: 650px;
+  margin: 26px 0 0;
+  color: var(--kmp-ink-soft);
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  line-height: 1.62;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kmp-s-4);
+  margin-top: 30px;
+}
+
+.hero-note {
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-sm);
+}
+
+/* ---------- hero illustration ----------
+   A child inside a dashed ring, with four animal tiles orbiting it. Entirely
+   decorative — index.html hides the whole scene from assistive technology —
+   so nothing here carries meaning the copy does not already state. */
+
+.hero-visual {
+  min-height: 360px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.hero-scene {
+  width: min(320px, 78vw);
+  aspect-ratio: 1;
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 2px dashed rgba(95, 75, 182, .22);
+  border-radius: 50%;
+}
+
+.hero-child {
+  position: relative;
+  z-index: 2;
+  height: 280px;
+  width: auto;
+  filter: drop-shadow(0 20px 24px rgba(66, 49, 127, .28));
+  animation: kmp-floaty 5.5s ease-in-out infinite;
+}
+
+/* Each tile carries one game's accent, so the ring previews the palette the
+   cards use further down the page. */
+.hero-badge {
+  position: absolute;
+  z-index: 3;
+  width: 108px;
+  height: 108px;
+  display: grid;
+  place-items: center;
+  background: var(--badge-tint);
+  border: 1px solid var(--badge-line);
+  border-radius: var(--kmp-r-xl);
+  box-shadow: var(--kmp-shadow-2);
+  pointer-events: none;
+  animation: kmp-bob 5s ease-in-out infinite;
+}
+
+.hero-badge img {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+}
+
+.hero-badge--prata {
+  --badge-tint: var(--kmp-prata-tint);
+  --badge-line: var(--kmp-prata-line);
+  top: -8px;
+  left: 6px;
+  animation-duration: 4.8s;
+}
+
+.hero-badge--paint {
+  --badge-tint: var(--kmp-paint-tint);
+  --badge-line: var(--kmp-paint-line);
+  top: 34px;
+  right: -18px;
+  animation-duration: 5.6s;
+  animation-delay: .5s;
+}
+
+.hero-badge--kidla {
+  --badge-tint: var(--kmp-kidla-tint);
+  --badge-line: var(--kmp-kidla-line);
+  right: -10px;
+  bottom: 6px;
+  animation-duration: 6.2s;
+  animation-delay: .35s;
+}
+
+.hero-badge--memory {
+  --badge-tint: var(--kmp-memory-tint);
+  --badge-line: var(--kmp-memory-line);
+  left: -16px;
+  bottom: 58px;
+  animation-duration: 5.2s;
+  animation-delay: .8s;
+}
+
+/* ---------- games ---------- */
+
+.games-section {
+  padding: 74px 0 88px;
+  background: var(--kmp-surface);
+  border-block: 1px solid var(--kmp-line);
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 34px;
+}
+
+.section-kicker {
+  margin: 0 0 var(--kmp-s-2);
+  color: var(--kmp-brand);
+  font-family: var(--kmp-font-display);
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin: 0;
+  font-size: var(--kmp-t-xl);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+
+.section-note {
+  max-width: 380px;
+  margin: 0;
+  color: var(--kmp-ink-soft);
+  line-height: 1.55;
+}
+
+/* ---------- who is playing ---------- */
+
+.who-panel {
+  margin-bottom: var(--kmp-s-6);
+  padding: var(--kmp-s-5);
+  background: var(--kmp-brand-tint);
+  border: 1px solid var(--kmp-prata-line);
+  border-radius: var(--kmp-r-xl);
+}
+
+.who-panel h2 { font-size: var(--kmp-t-lg); }
+
+.who-row {
+  display: flex;
+  align-items: center;
+  gap: var(--kmp-s-4);
+}
+
+.who-avatar {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  flex: none;
+  overflow: hidden;
+  background: var(--kmp-surface);
+  border: 1px solid var(--kmp-line);
+}
+
+/* Shared by .who-avatar (64px) and the picker's 88px .chip--avatar — each
+   sizes its own box and this just fills it without distorting the portrait. */
+.avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.who-text { display: flex; flex-direction: column; }
+.who-text strong { font-family: var(--kmp-font-display); font-size: var(--kmp-t-lg); font-weight: 600; }
+.who-text span { color: var(--kmp-ink-soft); font-size: var(--kmp-t-sm); }
+
+.who-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-3);
+  margin-top: var(--kmp-s-4);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-2);
+  margin-top: var(--kmp-s-3);
+}
+
+.chip {
+  min-height: 48px;
+  padding: 0 var(--kmp-s-4);
+  color: var(--kmp-ink);
+  background: var(--kmp-surface);
+  border: 2px solid var(--kmp-line);
+  border-radius: var(--kmp-r-pill);
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.chip:hover { border-color: var(--kmp-brand); }
+
+/* aria-pressed is the selected state, so the styling follows the attribute
+   rather than a parallel class that could drift out of sync with it. */
+.chip[aria-pressed="true"] {
+  color: #fff;
+  background: var(--kmp-brand);
+  border-color: var(--kmp-brand-deep);
+}
+
+/* The picker tile only. --kmp-tap-min is the design system's stated floor for
+   anything a child taps, and this is the most tap-heavy control on the page.
+   Not shared with .profile-chip below — that one is a name-and-portrait row,
+   not a big square target, and reusing this class would make every switcher
+   chip 88px tall. */
+.chip--avatar {
+  width: 88px;
+  height: 88px;
+  min-height: 88px;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* The profile switcher: a small portrait beside the child's name. */
+.profile-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kmp-s-2);
+  padding-left: var(--kmp-s-2);
+}
+
+.profile-chip-avatar {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  object-fit: contain;
+}
+.chip--add { border-style: dashed; color: var(--kmp-ink-soft); }
+
+.who-switch, .who-prefs { margin-top: var(--kmp-s-4); }
+
+/* ---------- first-run setup ---------- */
+
+.setup h2 { margin-bottom: var(--kmp-s-4); }
+
+.field-label {
+  display: block;
+  margin: var(--kmp-s-4) 0 var(--kmp-s-2);
+  color: var(--kmp-ink-soft);
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-xs);
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.setup-name {
+  width: min(360px, 100%);
+  height: 56px;
+  padding: 0 var(--kmp-s-4);
+  color: var(--kmp-ink);
+  background: var(--kmp-surface);
+  border: 2px solid var(--kmp-line);
+  border-radius: var(--kmp-r-md);
+  font-family: var(--kmp-font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.setup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-3);
+  margin-top: var(--kmp-s-5);
+}
+
+/* "Play without a name" is a real button the same size as the other one, not
+   a text link tucked underneath. Nobody should have to type a name to use
+   this site, so the two paths look equally available. */
+.kmp-btn--quiet {
+  --kmp-btn-bg: var(--kmp-surface);
+  --kmp-btn-edge: var(--kmp-line);
+  color: var(--kmp-brand);
+  border: 1px solid var(--kmp-line);
+}
+
+.setup-note {
+  margin: var(--kmp-s-4) 0 0;
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-sm);
+}
+
+/* ---------- games ---------- */
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Five cards plus the decorative sixth tile fill a 3x2 grid exactly, so the
+   layout no longer depends on source order and there is nothing to switch
+   when js/hub.js reorders by age — only `order` changes. The tile always
+   trails the real cards. */
+.game-card.is-fit { order: 0; }
+.game-card.is-other { order: 1; opacity: .82; }
+.games-accent { order: 2; }
+
+.age-fit {
+  margin-top: var(--kmp-s-3);
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-xs);
+}
+
+/* The screenshot is the card's own visual surface, not an image dropped into
+   a white card, so .game-card overrides .kmp-card's padding to zero and lets
+   .game-card-link fill the full box edge to edge. js/hub.js still appends an
+   .age-fit note as a second child of .game-card when a game doesn't suit the
+   active child; the column layout below simply gives it room under the
+   image instead of assuming the card is exactly one child tall. */
+.game-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  aspect-ratio: .78 / 1;
+  min-height: 390px;
+  transition: transform var(--kmp-dur) var(--kmp-ease-out),
+              box-shadow var(--kmp-dur) var(--kmp-ease-out);
+}
+
+.game-card:hover,
+.game-card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 0 var(--kmp-card-line);
+}
+
+.game-card-link {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--kmp-r-xl);
+  color: inherit;
+  text-decoration: none;
+}
+
+.game-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .game-preview { transition: transform 320ms var(--kmp-ease-out); }
+  .game-card-arrow { transition: transform var(--kmp-dur-fast) var(--kmp-ease-out); }
+  .game-card:hover .game-preview,
+  .game-card:focus-within .game-preview {
+    transform: scale(1.045);
+  }
+  .game-card:hover .game-card-arrow,
+  .game-card:focus-within .game-card-arrow {
+    transform: translateX(3px);
+  }
+}
+
+/* Three-stage gradient: transparent over the top of the screenshot, tinted
+   with each game's own accent by the bottom so the text zone stays legible
+   and still reads as that game's colour, not a generic dark scrim. */
+.game-card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--kmp-s-3);
+  padding: 24px;
+  background: linear-gradient(
+    to bottom,
+    transparent 18%,
+    rgba(8, 10, 8, .78) 38%,
+    var(--card-overlay) 55%
+  );
+}
+
+.game-card-content {
+  position: relative;
+  z-index: 2;
+  max-width: calc(100% - 48px);
+  color: #fff;
+}
+
+.game-card h3 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.game-card-content p {
+  display: -webkit-box;
+  margin: 0 0 12px;
+  overflow: hidden;
+  color: rgba(255, 255, 255, .88);
+  font-size: .9rem;
+  line-height: 1.4;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.game-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.game-card-meta span {
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 255, 255, .20);
+  border-radius: var(--kmp-r-pill);
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+  font-family: var(--kmp-font-display);
+  font-size: .72rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.game-card-arrow {
+  position: relative;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: rgba(255, 255, 255, .94);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.card-prata  {
+  --kmp-card-tint: var(--kmp-prata-tint);  --kmp-card-line: var(--kmp-prata-line);  --accent: var(--kmp-prata-ink);
+  --card-overlay: var(--kmp-prata-ink);
+}
+.card-paint  {
+  --kmp-card-tint: var(--kmp-paint-tint);  --kmp-card-line: var(--kmp-paint-line);  --accent: var(--kmp-paint-ink);
+  --card-overlay: var(--kmp-paint-ink);
+}
+.card-kidla  {
+  --kmp-card-tint: var(--kmp-kidla-tint);  --kmp-card-line: var(--kmp-kidla-line);  --accent: var(--kmp-kidla-ink);
+  --card-overlay: var(--kmp-kidla-ink);
+}
+.card-eng    {
+  --kmp-card-tint: var(--kmp-eng-tint);    --kmp-card-line: var(--kmp-eng-line);    --accent: var(--kmp-eng-ink);
+  --card-overlay: var(--kmp-eng-ink);
+}
+.card-memory {
+  --kmp-card-tint: var(--kmp-memory-tint); --kmp-card-line: var(--kmp-memory-line); --accent: var(--kmp-memory-ink);
+  --card-overlay: var(--kmp-memory-ink);
+}
+
+/* Per-game framing: tuned so each screenshot's most identifiable interface
+   stays in frame rather than cropping all five identically. */
+.card-prata  .game-preview { object-position: center top; }
+.card-paint  .game-preview { object-position: center 25%; }
+.card-kidla  .game-preview { object-position: center top; }
+.card-eng    .game-preview { object-position: center top; }
+.card-memory .game-preview { object-position: center top; }
+
+.game-card-link:focus-visible {
+  outline: 4px solid var(--kmp-sun);
+  outline-offset: 4px;
+}
+
+/* ---------- the sixth tile ----------
+   Not a link and not a game: it exists so five cards never leave a ragged
+   last row. index.html hides it from assistive technology, since it repeats
+   what the section heading already says. */
+
+.games-accent {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--kmp-s-3);
+  min-height: 340px;
+  padding: var(--kmp-s-5);
+  background: linear-gradient(135deg, var(--kmp-brand-tint) 0%, #fff7e6 100%);
+  border: 1px dashed var(--kmp-prata-line);
+  border-radius: var(--kmp-r-xl);
+}
+
+.games-accent img {
+  position: absolute;
+  right: -20px;
+  bottom: -16px;
+  height: 158px;
+  width: auto;
+  pointer-events: none;
+  animation: kmp-bob 4.6s ease-in-out infinite;
+}
+
+/* The text sits above the dog, which bleeds out of the bottom-right corner. */
+.games-accent > * { position: relative; }
+.games-accent__spark { font-size: 2.2rem; }
+
+.games-accent strong {
+  max-width: 70%;
+  color: var(--kmp-brand-deep);
+  font-family: var(--kmp-font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.games-accent > span:last-child {
+  max-width: 70%;
+  color: var(--kmp-ink-soft);
+  line-height: 1.5;
+}
+
+/* ---------- game launcher overlay ---------- */
+
+/* Same-page fullscreen container for a selected game, built at runtime by
+   js/game-launcher.js. Absent from the DOM until first use — costs nothing
+   with JavaScript off, and the real <a href> still navigates normally.
+
+   No permanent Exit/Back bar is rendered here: every game already mounts its
+   own full-width .kmp-bar (shared/kmp.js's KMP.homeBar(), "← Spēles") inside
+   the iframe's own document, and js/game-launcher.js reuses that as the
+   primary way out. .kmp-launcher__fallback-exit only appears if that bar
+   can't be found — see js/game-launcher.js's onFrameLoaded(). */
+.kmp-launcher {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: var(--kmp-ink);
+}
+
+.kmp-launcher[hidden] { display: none; }
+
+.kmp-launcher__frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+}
+
+.kmp-launcher__iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--kmp-paper);
+}
+
+.kmp-launcher__fallback-exit {
+  position: absolute;
+  z-index: 10;
+  top: calc(env(safe-area-inset-top, 0px) + var(--kmp-s-3));
+  left: calc(env(safe-area-inset-left, 0px) + var(--kmp-s-3));
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kmp-s-2);
+  min-height: 44px;
+  padding: 0 var(--kmp-s-4);
+  color: var(--kmp-brand);
+  background: rgba(255, 255, 255, .92);
+  border: 1px solid var(--kmp-line);
+  border-radius: var(--kmp-r-pill);
+  box-shadow: var(--kmp-shadow-1);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.kmp-launcher__fallback-exit[hidden] { display: none; }
+
+.kmp-launcher__fallback-exit:active { transform: translateY(1px); }
+
+/* ---------- approach ----------
+   Three numbered rows, image side alternating. Each row borrows one game's
+   accent trio so the section stays inside the same palette as the cards. */
+
+.approach { padding: 88px 0 40px; }
+
+.approach-head {
+  max-width: 640px;
+  margin-bottom: 56px;
+}
+
+.approach-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.approach-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 52px;
+}
+
+.approach-row--flip .approach-art { order: -1; }
+
+.approach-num {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 18px;
+  color: var(--num-ink);
+  background: var(--num-tint);
+  border-radius: var(--kmp-r-md);
+  font-family: var(--kmp-font-display);
+  font-weight: 700;
+}
+
+.approach-num--paint  { --num-tint: #fff2cf; --num-ink: var(--kmp-paint-ink); }
+.approach-num--memory { --num-tint: #dff0e6; --num-ink: var(--kmp-memory-ink); }
+.approach-num--prata  { --num-tint: #efe7fc; --num-ink: var(--kmp-prata-ink); }
+
+.approach-text h3 {
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: -.01em;
+}
+
+.approach-text p {
+  margin: 12px 0 0;
+  color: var(--kmp-ink-soft);
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+.approach-art {
+  position: relative;
+  min-height: 300px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(120% 92% at 50% 0%, var(--art-from) 0%, var(--art-to) 100%);
+  border: 1px solid var(--art-line);
+  border-radius: var(--kmp-r-xl);
+}
+
+.approach-art img {
+  position: relative;
+  height: 290px;
+  width: auto;
+  pointer-events: none;
+  animation: kmp-floaty 5.4s ease-in-out infinite;
+}
+
+.approach-art--paint  { --art-from: #fff7e0; --art-to: var(--kmp-paint-tint); --art-line: #efe7dc; }
+.approach-art--memory { --art-from: #eaf6ef; --art-to: #dff0e6; --art-line: #cfe6db; }
+.approach-art--prata  { --art-from: #f6effe; --art-to: #efe4fc; --art-line: var(--kmp-prata-line); }
+
+.approach-art--paint img  { filter: drop-shadow(0 16px 20px rgba(139, 98, 0, .22)); }
+.approach-art--memory img { filter: drop-shadow(0 16px 20px rgba(46, 101, 68, .22)); animation-duration: 5.8s; animation-delay: .3s; }
+.approach-art--prata img  { filter: drop-shadow(0 16px 20px rgba(90, 58, 168, .22)); animation-duration: 5.2s; animation-delay: .5s; }
+
+/* ---------- parents strip ---------- */
+
+.parents {
+  padding: 60px 0 88px;
+}
+
+.parents-panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--kmp-s-6);
+  padding: 44px;
+  background: linear-gradient(140deg, var(--kmp-brand-tint) 0%, #f7f1ff 100%);
+  border: 1px solid var(--kmp-prata-line);
+  border-radius: var(--home-r-panel, var(--kmp-r-xl));
+}
+
+/* Deliberately breaks out above the panel, so the section keeps its top
+   padding rather than clipping her. */
+.parents-art {
+  position: absolute;
+  top: -70px;
+  right: 48px;
+  height: 158px;
+  width: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 14px 18px rgba(66, 49, 127, .22));
+  animation: kmp-floaty 5s ease-in-out infinite;
+}
+
+.parents-panel h2 { font-size: var(--kmp-t-lg); }
+
+.parents-panel p {
+  max-width: 62ch;
+  margin: var(--kmp-s-3) 0 0;
+  color: var(--kmp-ink-soft);
+  line-height: 1.6;
+}
+
+.parents-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-2) var(--kmp-s-5);
+  margin: var(--kmp-s-4) 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-sm);
+  font-weight: 500;
+}
+
+.parents-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--kmp-s-2);
+}
+
+.parents-list li::before {
+  content: "\2713";
+  color: var(--kmp-memory-ink);
+  font-weight: 700;
+}
+
+/* ---------- closing CTA ---------- */
+
+.cta-section { padding: 0 0 88px; }
+
+.cta {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 40px;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, #6a55c6 0%, var(--kmp-brand-deep) 100%);
+  border-radius: var(--home-r-panel, var(--kmp-r-xl));
+}
+
+.cta::before,
+.cta::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cta::before {
+  top: -90px;
+  right: -40px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(255, 200, 87, .55) 0%, rgba(255, 200, 87, 0) 70%);
+}
+
+.cta::after {
+  bottom: -110px;
+  left: -50px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(255, 255, 255, .28) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.cta-art {
+  position: absolute;
+  z-index: 1;
+  bottom: -8px;
+  height: 158px;
+  width: auto;
+  pointer-events: none;
+  animation: kmp-bob 4.7s ease-in-out infinite;
+}
+
+.cta-art--left { left: 10px; }
+.cta-art--right { right: 10px; animation-duration: 5.3s; animation-delay: .4s; }
+
+/* Everything readable sits above both the blobs and the two animals. */
+.cta-eyebrow,
+.cta h2,
+.cta-copy,
+.cta-actions { position: relative; z-index: 2; }
+
+.cta-eyebrow {
+  margin: 0 0 14px;
+  font-family: var(--kmp-font-display);
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  opacity: .85;
+}
+
+.cta h2 {
+  max-width: 16ch;
+  margin-inline: auto;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.06;
+}
+
+.cta-copy {
+  max-width: 44ch;
+  margin: 18px auto 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: .9;
+}
+
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-4);
+  justify-content: center;
+  margin-top: var(--kmp-s-6);
+}
+
+/* White button on the purple panel. Deep purple on white is 8.6:1, so the
+   label stays well clear of AA even at the button's weight. */
+.kmp-btn--on-brand {
+  --kmp-btn-bg: var(--kmp-surface);
+  --kmp-btn-edge: rgba(0, 0, 0, .18);
+  color: var(--kmp-brand-deep);
+}
+
+/* The secondary action. No chunky lip — it would read as a second primary. */
+.kmp-btn--ghost {
+  --kmp-btn-bg: rgba(255, 255, 255, .14);
+  --kmp-btn-edge: transparent;
+  border: 1px solid rgba(255, 255, 255, .4);
+}
+
+.kmp-btn--ghost:hover { --kmp-btn-bg: rgba(255, 255, 255, .24); }
+
+/* ---------- collection ---------- */
+
+.collection-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kmp-s-5);
+  margin-top: var(--kmp-s-6);
+}
+
+.collection {
+  background: var(--kmp-card-tint, var(--kmp-surface));
+  border: 1px solid var(--kmp-card-line, var(--kmp-line));
+  border-radius: var(--kmp-r-xl);
+}
+
+.collection-inner { padding: var(--kmp-s-5); }
+
+.collection-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kmp-s-4);
+  margin-bottom: var(--kmp-s-4);
+}
+
+.collection-head h2 { font-size: var(--kmp-t-lg); }
+.collection-count { margin: var(--kmp-s-1) 0 0; color: var(--kmp-ink-soft); font-size: var(--kmp-t-sm); }
+.collection-empty { color: var(--kmp-ink-soft); }
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--kmp-s-3);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--kmp-s-1);
+  padding: var(--kmp-s-3);
+  text-align: center;
+  background: var(--kmp-surface);
+  border: 1px solid var(--kmp-card-line, var(--kmp-line));
+  border-radius: var(--kmp-r-lg);
+}
+
+.item-face {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  border-radius: var(--kmp-r-md);
+  font-size: 2.4rem;
+}
+
+.item-art { max-width: 100%; height: auto; object-fit: contain; }
+
+.item-name {
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-xs);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.item-hint { color: var(--kmp-ink-soft); font-size: .72rem; line-height: 1.3; }
+
+.item-tier {
+  padding: 2px 8px;
+  border-radius: var(--kmp-r-pill);
+  font-size: .66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.item-tier[data-tier="bronze"]  { color: #7a4a1e; background: #f3e2d1; }
+.item-tier[data-tier="silver"]  { color: #4b545e; background: #e5e9ee; }
+.item-tier[data-tier="gold"]    { color: #7a5a00; background: #f7ecc6; }
+.item-tier[data-tier="rainbow"] { color: #5a3aa8; background: #ece4fb; }
+
+/* Locked items stay visible and readable — dimmed, not hidden, because the
+   whole point of showing them is to give a child something to aim for. The
+   name and hint keep full contrast; only the art is drained. */
+.item.is-locked { background: transparent; border-style: dashed; }
+.item.is-locked .item-face { filter: grayscale(1); opacity: .35; }
+
+/* ---------- parent area ---------- */
+
+.gate {
+  max-width: 420px;
+  margin: var(--kmp-s-7) auto;
+  padding: var(--kmp-s-6);
+  text-align: center;
+  background: var(--kmp-surface);
+  border: 1px solid var(--kmp-line);
+  border-radius: var(--kmp-r-xl);
+  box-shadow: var(--kmp-shadow-2);
+}
+
+.gate h2 { font-size: var(--kmp-t-lg); }
+
+.gate-sum {
+  margin: var(--kmp-s-5) 0 var(--kmp-s-4);
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-xl);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.gate-input {
+  width: 160px;
+  height: 60px;
+  margin-bottom: var(--kmp-s-3);
+  padding: 0 var(--kmp-s-4);
+  border: 2px solid var(--kmp-line);
+  border-radius: var(--kmp-r-md);
+  font-family: var(--kmp-font-body);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.gate-error { min-height: 1.4em; margin: 0 0 var(--kmp-s-3); color: #9c2f2f; font-size: var(--kmp-t-sm); }
+.gate .kmp-btn { display: flex; margin: var(--kmp-s-2) auto 0; width: min(260px, 100%); }
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--kmp-s-3);
+  margin: var(--kmp-s-5) 0;
+}
+
+.stat-tile {
+  padding: var(--kmp-s-4);
+  text-align: center;
+  background: var(--kmp-surface);
+  border: 1px solid var(--kmp-line);
+  border-radius: var(--kmp-r-lg);
+}
+
+.stat-tile strong {
+  display: block;
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-lg);
+  font-weight: 600;
+}
+
+.stat-tile span { color: var(--kmp-ink-soft); font-size: var(--kmp-t-xs); }
+
+.privacy-box {
+  padding: var(--kmp-s-4);
+  background: var(--kmp-memory-tint);
+  border: 1px solid var(--kmp-memory-line);
+  border-radius: var(--kmp-r-lg);
+  color: var(--kmp-ink);
+  font-size: var(--kmp-t-sm);
+}
+
+.parent-panel {
+  margin-top: var(--kmp-s-6);
+  padding: var(--kmp-s-5);
+  background: var(--kmp-surface);
+  border: 1px solid var(--kmp-line);
+  border-radius: var(--kmp-r-xl);
+}
+
+.parent-panel h3 { margin-top: 0; font-size: var(--kmp-t-lg); }
+.muted { color: var(--kmp-ink-soft); font-size: var(--kmp-t-sm); }
+
+.parent-game {
+  display: flex;
+  align-items: center;
+  gap: var(--kmp-s-4);
+  padding: var(--kmp-s-3) 0;
+  border-top: 1px solid var(--kmp-line);
+}
+
+.parent-game__icon { font-size: 1.8rem; }
+.parent-game__text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.parent-game__text strong { font-family: var(--kmp-font-display); font-weight: 600; }
+.parent-game__text span { color: var(--kmp-ink-soft); font-size: var(--kmp-t-sm); }
+
+.pref-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kmp-s-4);
+  margin-top: var(--kmp-s-3);
+  padding: var(--kmp-s-4);
+  text-align: left;
+  background: var(--kmp-paper);
+  border: 2px solid var(--kmp-line);
+  border-radius: var(--kmp-r-lg);
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.pref-row strong { display: block; font-family: var(--kmp-font-display); font-weight: 600; }
+.pref-row small { color: var(--kmp-ink-soft); }
+
+.pref-state {
+  flex: none;
+  padding: 6px 12px;
+  border-radius: var(--kmp-r-pill);
+  background: var(--kmp-line);
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-xs);
+  font-weight: 600;
+}
+
+.pref-row[aria-pressed="true"] { border-color: var(--kmp-memory-ink); }
+.pref-row[aria-pressed="true"] .pref-state { color: #fff; background: var(--kmp-memory-ink); }
+
+.parent-panel--danger { border-color: #e6c4c4; }
+.kmp-btn--danger { --kmp-btn-bg: #9c2f2f; --kmp-btn-edge: #6f2020; margin-top: var(--kmp-s-4); }
+
+/* ---------- footer ---------- */
+
+footer {
+  padding: 30px 0;
+  color: var(--kmp-ink-soft);
+  background: var(--kmp-paper-sunk);
+  border-top: 1px solid var(--kmp-line);
+  font-size: var(--kmp-t-sm);
+}
+
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kmp-s-5);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kmp-s-5);
+}
+
+.footer-links a { text-decoration: none; }
+.footer-links a:hover { color: var(--kmp-brand); text-decoration: underline; }
+
+.footer-version {
+  font-size: var(--kmp-t-xs);
+  color: var(--kmp-ink-soft);
+  opacity: .7;
+}
+
+/* ---------- simple content pages (404, privacy, help) ---------- */
+
+.page {
+  padding: 70px 0 90px;
+}
+
+.page h1 {
+  font-size: var(--kmp-t-xl);
+  letter-spacing: -.02em;
+}
+
+.page h2 {
+  margin-top: var(--kmp-s-7);
+  font-size: var(--kmp-t-lg);
+}
+
+.prose {
+  max-width: 68ch;
+}
+
+.prose p,
+.prose li {
+  color: var(--kmp-ink-soft);
+  line-height: 1.7;
+}
+
+.prose ul { padding-left: 1.2em; }
+.prose li { margin-bottom: var(--kmp-s-2); }
+.prose strong { color: var(--kmp-ink); }
+.prose a { color: var(--kmp-brand); }
+
+/* .prose a beats .kmp-btn's own white text by specificity, which left
+   button labels invisible (brand-purple text on a brand-purple button)
+   anywhere a .kmp-btn sits inside .prose — e.g. 404.html's "Uz spēlēm". */
+.prose a.kmp-btn { color: #fff; }
+
+.updated {
+  margin-top: var(--kmp-s-7);
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-sm);
+}
+
+/* ---------- FAQ accordion (native <details>, no JS) ---------- */
+
+.faq-list {
+  margin: var(--kmp-s-5) 0 var(--kmp-s-7);
+}
+
+.faq-item {
+  margin-bottom: var(--kmp-s-3);
+  border: 1px solid var(--kmp-line);
+  border-radius: var(--kmp-r-md);
+  background: var(--kmp-surface);
+  box-shadow: var(--kmp-shadow-1);
+}
+
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kmp-s-4);
+  padding: var(--kmp-s-4);
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--kmp-font-display);
+  font-size: var(--kmp-t-md);
+  font-weight: 600;
+  color: var(--kmp-ink);
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-item summary::after {
+  content: '+';
+  flex: none;
+  font-size: 1.25em;
+  color: var(--kmp-brand);
+  transition: transform var(--kmp-dur-fast) var(--kmp-ease-out);
+}
+
+.faq-item[open] summary::after { transform: rotate(45deg); }
+
+.faq-item summary:focus-visible {
+  outline: 3px solid var(--kmp-sun);
+  outline-offset: 2px;
+}
+
+.faq-answer {
+  padding: 0 var(--kmp-s-4) var(--kmp-s-4);
+  color: var(--kmp-ink-soft);
+  line-height: 1.7;
+}
+
+.faq-answer p { margin: 0 0 var(--kmp-s-3); }
+.faq-answer p:last-child { margin-bottom: 0; }
+.faq-answer ul { padding-left: 1.2em; margin: 0 0 var(--kmp-s-3); }
+.faq-answer li { margin-bottom: var(--kmp-s-2); }
+.faq-answer strong { color: var(--kmp-ink); }
+
+.callout {
+  margin-bottom: var(--kmp-s-5);
+  padding: var(--kmp-s-5);
+  border: 1px solid var(--kmp-brand-tint);
+  border-left: 4px solid var(--kmp-brand);
+  border-radius: var(--kmp-r-md);
+  background: var(--kmp-brand-tint);
+}
+
+.callout h2,
+.callout h3 {
+  margin-top: 0;
+  color: var(--kmp-ink);
+}
+
+.callout p:last-child { margin-bottom: 0; }
+
+/* ---------- report-a-bug fields (kluda.html; not a <form> — CSP's
+   form-action 'none' rules out a real submission target, and there's no
+   backend anyway, so "submit" is a mailto: link built from these values) --- */
+
+.field {
+  margin-bottom: var(--kmp-s-5);
+}
+
+.field label {
+  display: block;
+  margin-bottom: var(--kmp-s-2);
+  font-family: var(--kmp-font-display);
+  font-weight: 600;
+  color: var(--kmp-ink);
+}
+
+.field .field-hint {
+  display: block;
+  margin-top: var(--kmp-s-1);
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-xs);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: var(--kmp-s-3);
+  border: 1px solid var(--kmp-line);
+  border-radius: var(--kmp-r-md);
+  background: var(--kmp-surface);
+  color: var(--kmp-ink);
+  font-family: var(--kmp-font-body);
+  font-size: var(--kmp-t-md);
+  line-height: 1.5;
+}
+
+.field textarea {
+  min-height: 7em;
+  resize: vertical;
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 3px solid var(--kmp-sun);
+  outline-offset: 1px;
+}
+
+/* ---------- character motion ----------
+   The illustrations drift. Both halves of the reduced-motion block at the
+   foot of this file switch these off; a new animation has to answer to both.
+   See README.md. */
+
+@keyframes kmp-floaty {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-14px) rotate(2deg); }
+}
+
+@keyframes kmp-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+
+/* ---------- responsive ---------- */
+
+/* An anchor has to clear the sticky header — but only at the widths where the
+   header actually sticks. Below 640px it is static and this would just leave
+   a gap. */
+@media (min-width: 641px) {
+  html { scroll-padding-top: 96px; }
+}
+
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 46px; }
+  .hero-visual { min-height: 320px; }
+  .game-grid { grid-template-columns: repeat(2, 1fr); }
+  .game-card { min-height: 370px; }
+  .approach-row { grid-template-columns: 1fr; gap: 28px; }
+  /* Once the rows stack, every image goes first. An alternating layout that
+     can no longer alternate just looks like a mistake. */
+  .approach-row .approach-art { order: -1; }
+  .parents-panel { grid-template-columns: 1fr; }
+  .parents-art { right: 16px; height: 128px; }
+}
+
+@media (max-width: 640px) {
+  .wrap { width: min(100% - 28px, 1160px); }
+  /* The nav wraps onto a second row here, and with the pill CTA the header
+     runs to roughly 170px — half of a 375px-tall viewport. Sticky stops
+     earning its keep at that size, so it goes back to static. */
+  header { position: static; }
+  nav { min-height: 68px; justify-content: center; }
+  .nav-links { justify-content: center; gap: var(--kmp-s-3) var(--kmp-s-4); width: 100%; }
+  .hero { padding: 56px 0 48px; }
+  h1 { font-size: clamp(2.75rem, 14vw, 4rem); }
+  .hero-copy { margin-top: 20px; }
+  .hero-actions .kmp-btn { width: 100%; }
+  .hero-visual { min-height: 300px; }
+  .hero-scene { width: 250px; }
+  .hero-child { height: 220px; }
+  .hero-badge { width: 84px; height: 84px; }
+  .hero-badge img { width: 64px; height: 64px; }
+  .hero-badge--prata { left: 0; }
+  .hero-badge--paint { right: -8px; }
+  .hero-badge--kidla { right: -4px; }
+  .hero-badge--memory { left: -8px; bottom: 44px; }
+  .games-section { padding: 58px 0 68px; }
+  .section-head { display: block; }
+  .section-note { margin-top: 14px; }
+  .game-grid { grid-template-columns: 1fr; }
+  .game-card { min-height: 300px; aspect-ratio: 1.15 / 1; }
+  .game-card-overlay { padding: 20px; }
+  .games-accent { min-height: 260px; }
+  .approach { padding: 62px 0 30px; }
+  .approach-head { margin-bottom: 34px; }
+  .approach-art { min-height: 240px; }
+  .approach-art img { height: 220px; }
+  .parents { padding: 40px 0 62px; }
+  .parents-panel { padding: var(--kmp-s-5); }
+  .parents-art { top: -52px; right: 12px; height: 108px; }
+  .cta-section { padding-bottom: 62px; }
+  .cta { padding: 56px var(--kmp-s-5); }
+  .cta-art { height: 96px; }
+  .cta-actions .kmp-btn { width: 100%; }
+}
+
+/* ---------- motion ----------
+   Two independent triggers, one set of declarations: the operating system's
+   own setting, and the site's "Mazāk kustību" toggle, which js/site.js mirrors
+   onto <html> as data-kmp-motion="reduced". Either one alone must be enough —
+   a parent who turns the toggle on has said what they want regardless of what
+   the OS thinks.
+
+   A media query and an attribute selector cannot be OR-ed into a single rule,
+   so the declarations are written twice. This is the only place in the file
+   where they appear; keep the two halves identical. */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation: none !important;
+  }
+  .game-card:hover,
+  .game-card:focus-within { transform: none; }
+  .game-card:hover .game-preview,
+  .game-card:focus-within .game-preview,
+  .game-card:hover .game-card-arrow,
+  .game-card:focus-within .game-card-arrow { transform: none; }
+}
+
+html[data-kmp-motion="reduced"] { scroll-behavior: auto; }
+html[data-kmp-motion="reduced"] *,
+html[data-kmp-motion="reduced"] *::before,
+html[data-kmp-motion="reduced"] *::after {
+  transition-duration: .01ms !important;
+  animation: none !important;
+}
+html[data-kmp-motion="reduced"] .game-card:hover,
+html[data-kmp-motion="reduced"] .game-card:focus-within { transform: none; }
+html[data-kmp-motion="reduced"] .game-card:hover .game-preview,
+html[data-kmp-motion="reduced"] .game-card:focus-within .game-preview,
+html[data-kmp-motion="reduced"] .game-card:hover .game-card-arrow,
+html[data-kmp-motion="reduced"] .game-card:focus-within .game-card-arrow { transform: none; }
