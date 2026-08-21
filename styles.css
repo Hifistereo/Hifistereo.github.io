@@ -564,83 +564,172 @@ h2 {
   font-size: var(--kmp-t-xs);
 }
 
-/* Each card carries the accent of the app it opens, so the card previews
-   the game rather than colouring it arbitrarily. */
+/* The screenshot is the card's own visual surface, not an image dropped into
+   a white card, so .game-card overrides .kmp-card's padding to zero and lets
+   .game-card-link fill the full box edge to edge. js/hub.js still appends an
+   .age-fit note as a second child of .game-card when a game doesn't suit the
+   active child; the column layout below simply gives it room under the
+   image instead of assuming the card is exactly one child tall. */
 .game-card {
-  min-height: 340px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  aspect-ratio: .78 / 1;
+  min-height: 390px;
   transition: transform var(--kmp-dur) var(--kmp-ease-out),
               box-shadow var(--kmp-dur) var(--kmp-ease-out);
 }
 
-.game-card:hover {
+.game-card:hover,
+.game-card:focus-within {
   transform: translateY(-4px);
   box-shadow: 0 12px 0 var(--kmp-card-line);
 }
 
-.card-prata  { --kmp-card-tint: var(--kmp-prata-tint);  --kmp-card-line: var(--kmp-prata-line);  --accent: var(--kmp-prata-ink); }
-.card-paint  { --kmp-card-tint: var(--kmp-paint-tint);  --kmp-card-line: var(--kmp-paint-line);  --accent: var(--kmp-paint-ink); }
-.card-kidla  { --kmp-card-tint: var(--kmp-kidla-tint);  --kmp-card-line: var(--kmp-kidla-line);  --accent: var(--kmp-kidla-ink); }
-.card-eng    { --kmp-card-tint: var(--kmp-eng-tint);    --kmp-card-line: var(--kmp-eng-line);    --accent: var(--kmp-eng-ink); }
-.card-memory { --kmp-card-tint: var(--kmp-memory-tint); --kmp-card-line: var(--kmp-memory-line); --accent: var(--kmp-memory-ink); }
+.game-card-link {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--kmp-r-xl);
+  color: inherit;
+  text-decoration: none;
+}
 
-.card-top {
+.game-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .game-preview { transition: transform 320ms var(--kmp-ease-out); }
+  .game-card-arrow { transition: transform var(--kmp-dur-fast) var(--kmp-ease-out); }
+  .game-card:hover .game-preview,
+  .game-card:focus-within .game-preview {
+    transform: scale(1.045);
+  }
+  .game-card:hover .game-card-arrow,
+  .game-card:focus-within .game-card-arrow {
+    transform: translateX(3px);
+  }
+}
+
+/* Three-stage gradient: transparent over the top of the screenshot, tinted
+   with each game's own accent by the bottom so the text zone stays legible
+   and still reads as that game's colour, not a generic dark scrim. */
+.game-card-overlay {
+  position: absolute;
+  inset: 0;
   display: flex;
-  align-items: start;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: var(--kmp-s-4);
+  gap: var(--kmp-s-3);
+  padding: 24px;
+  background: linear-gradient(
+    to bottom,
+    transparent 18%,
+    rgba(8, 10, 8, .78) 38%,
+    var(--card-overlay) 55%
+  );
 }
 
-.game-icon {
-  width: 66px;
-  aspect-ratio: 1;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, .76);
-  border: 1px solid rgba(255, 255, 255, .95);
-  border-radius: var(--kmp-r-md);
-  font-size: 2.2rem;
-}
-
-.age {
-  padding: 7px 10px;
-  color: var(--accent);
-  background: rgba(255, 255, 255, .64);
-  border-radius: var(--kmp-r-pill);
-  font-family: var(--kmp-font-display);
-  font-size: .76rem;
-  font-weight: 600;
-  white-space: nowrap;
+.game-card-content {
+  position: relative;
+  z-index: 2;
+  max-width: calc(100% - 48px);
+  color: #fff;
 }
 
 .game-card h3 {
-  margin: 22px 0 var(--kmp-s-2);
-  font-size: 1.35rem;
-  line-height: 1.18;
-}
-
-.game-card p {
-  margin: 0;
-  color: var(--kmp-ink-soft);
-  line-height: 1.55;
-}
-
-.play-link {
-  min-height: 46px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--kmp-s-3);
-  margin-top: auto;
-  padding: 0 15px;
+  margin: 0 0 8px;
   color: #fff;
-  background: var(--accent);
-  border-radius: var(--kmp-r-md);
-  text-decoration: none;
-  font-family: var(--kmp-font-display);
-  font-weight: 600;
+  font-size: 1.35rem;
+  line-height: 1.1;
 }
 
-.play-link span:last-child { font-size: 1.25rem; }
+.game-card-content p {
+  display: -webkit-box;
+  margin: 0 0 12px;
+  overflow: hidden;
+  color: rgba(255, 255, 255, .88);
+  font-size: .9rem;
+  line-height: 1.4;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.game-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.game-card-meta span {
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 255, 255, .20);
+  border-radius: var(--kmp-r-pill);
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+  font-family: var(--kmp-font-display);
+  font-size: .72rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.game-card-arrow {
+  position: relative;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: rgba(255, 255, 255, .94);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.card-prata  {
+  --kmp-card-tint: var(--kmp-prata-tint);  --kmp-card-line: var(--kmp-prata-line);  --accent: var(--kmp-prata-ink);
+  --card-overlay: var(--kmp-prata-ink);
+}
+.card-paint  {
+  --kmp-card-tint: var(--kmp-paint-tint);  --kmp-card-line: var(--kmp-paint-line);  --accent: var(--kmp-paint-ink);
+  --card-overlay: var(--kmp-paint-ink);
+}
+.card-kidla  {
+  --kmp-card-tint: var(--kmp-kidla-tint);  --kmp-card-line: var(--kmp-kidla-line);  --accent: var(--kmp-kidla-ink);
+  --card-overlay: var(--kmp-kidla-ink);
+}
+.card-eng    {
+  --kmp-card-tint: var(--kmp-eng-tint);    --kmp-card-line: var(--kmp-eng-line);    --accent: var(--kmp-eng-ink);
+  --card-overlay: var(--kmp-eng-ink);
+}
+.card-memory {
+  --kmp-card-tint: var(--kmp-memory-tint); --kmp-card-line: var(--kmp-memory-line); --accent: var(--kmp-memory-ink);
+  --card-overlay: var(--kmp-memory-ink);
+}
+
+/* Per-game framing: tuned so each screenshot's most identifiable interface
+   stays in frame rather than cropping all five identically. */
+.card-prata  .game-preview { object-position: center top; }
+.card-paint  .game-preview { object-position: center 25%; }
+.card-kidla  .game-preview { object-position: center top; }
+.card-eng    .game-preview { object-position: center top; }
+.card-memory .game-preview { object-position: center top; }
+
+.game-card-link:focus-visible {
+  outline: 4px solid var(--kmp-sun);
+  outline-offset: 4px;
+}
 
 /* ---------- the sixth tile ----------
    Not a link and not a game: it exists so five cards never leave a ragged
@@ -1450,6 +1539,7 @@ footer {
   .hero-grid { grid-template-columns: 1fr; gap: 46px; }
   .hero-visual { min-height: 320px; }
   .game-grid { grid-template-columns: repeat(2, 1fr); }
+  .game-card { min-height: 370px; }
   .approach-row { grid-template-columns: 1fr; gap: 28px; }
   /* Once the rows stack, every image goes first. An alternating layout that
      can no longer alternate just looks like a mistake. */
@@ -1483,7 +1573,8 @@ footer {
   .section-head { display: block; }
   .section-note { margin-top: 14px; }
   .game-grid { grid-template-columns: 1fr; }
-  .game-card { min-height: 300px; }
+  .game-card { min-height: 300px; aspect-ratio: 1.15 / 1; }
+  .game-card-overlay { padding: 20px; }
   .games-accent { min-height: 260px; }
   .approach { padding: 62px 0 30px; }
   .approach-head { margin-bottom: 34px; }
@@ -1515,7 +1606,12 @@ footer {
     transition-duration: .01ms !important;
     animation: none !important;
   }
-  .game-card:hover { transform: none; }
+  .game-card:hover,
+  .game-card:focus-within { transform: none; }
+  .game-card:hover .game-preview,
+  .game-card:focus-within .game-preview,
+  .game-card:hover .game-card-arrow,
+  .game-card:focus-within .game-card-arrow { transform: none; }
 }
 
 html[data-kmp-motion="reduced"] { scroll-behavior: auto; }
@@ -1525,4 +1621,9 @@ html[data-kmp-motion="reduced"] *::after {
   transition-duration: .01ms !important;
   animation: none !important;
 }
-html[data-kmp-motion="reduced"] .game-card:hover { transform: none; }
+html[data-kmp-motion="reduced"] .game-card:hover,
+html[data-kmp-motion="reduced"] .game-card:focus-within { transform: none; }
+html[data-kmp-motion="reduced"] .game-card:hover .game-preview,
+html[data-kmp-motion="reduced"] .game-card:focus-within .game-preview,
+html[data-kmp-motion="reduced"] .game-card:hover .game-card-arrow,
+html[data-kmp-motion="reduced"] .game-card:focus-within .game-card-arrow { transform: none; }
