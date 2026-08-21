@@ -575,8 +575,8 @@ h2 {
   display: flex;
   flex-direction: column;
   padding: 0;
-  aspect-ratio: .78 / 1;
-  min-height: 390px;
+  aspect-ratio: .6 / 1;
+  min-height: 520px;
   transition: transform var(--kmp-dur) var(--kmp-ease-out),
               box-shadow var(--kmp-dur) var(--kmp-ease-out);
 }
@@ -587,32 +587,89 @@ h2 {
   box-shadow: 0 12px 0 var(--kmp-card-line);
 }
 
+/* Two zones, so the whole phone screen is genuinely visible: a preview zone
+   that takes whatever height is left, and a content-sized text zone under
+   it. The sharp screenshot ENDS where the text begins — it is never slid
+   under the gradient. Only the blurred backdrop spans both. */
 .game-card-link {
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
   width: 100%;
   overflow: hidden;
   border-radius: var(--kmp-r-xl);
+  background: var(--kmp-card-tint);   /* seen only before the image decodes */
   color: inherit;
   text-decoration: none;
 }
 
-.game-preview {
+/* Decorative: the same screenshot blown up and blurred, filling the card
+   behind both zones so it still reads as one object in the game's colours.
+   Desaturated and darkened so it cannot compete with the sharp copy.
+   The scale exists to push the blurred edges outside the clip — `cover` on
+   an image narrower than the card lands them exactly on the left and right
+   edges, where blur() would otherwise bleed a pale fringe. Needs roughly
+   1 + (4 x blur) / card-width. */
+.game-preview-bg {
   position: absolute;
   inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  transform: scale(1.4);
+  filter: blur(32px) saturate(.85) brightness(.8);
+}
+
+/* A light wash of this game's own accent over the blurred backdrop. */
+.game-card-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--accent);
+  opacity: .22;
+}
+
+.game-card-preview {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px 14px;
+}
+
+/* The frame carries the screenshot's exact ratio, so the image inside fills
+   it with nothing cropped, and the rounded corners and shadow land on the
+   screenshot itself rather than on a wider box. max-width lets it shrink
+   rather than overflow if a card is ever narrower than expected. */
+.game-preview-frame {
+  flex: none;
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: 900 / 1809;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: var(--kmp-shadow-2);
+}
+
+.game-preview {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* frame ratio == image ratio, so nothing is cropped */
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .game-preview { transition: transform 320ms var(--kmp-ease-out); }
+  .game-preview-frame { transition: transform 320ms var(--kmp-ease-out); }
   .game-card-arrow { transition: transform var(--kmp-dur-fast) var(--kmp-ease-out); }
-  .game-card:hover .game-preview,
-  .game-card:focus-within .game-preview {
-    transform: scale(1.045);
+  .game-card:hover .game-preview-frame,
+  .game-card:focus-within .game-preview-frame {
+    transform: scale(1.025);
   }
   .game-card:hover .game-card-arrow,
   .game-card:focus-within .game-card-arrow {
@@ -620,22 +677,24 @@ h2 {
   }
 }
 
-/* Three-stage gradient: transparent over the top of the screenshot, tinted
-   with each game's own accent by the bottom so the text zone stays legible
-   and still reads as that game's colour, not a generic dark scrim. */
+/* The text zone: a flow sibling under the preview zone, not an overlay, so
+   its height comes from its own content and there is no magic pixel value
+   to keep in sync per breakpoint. The gradient fades in within this zone,
+   over the blurred backdrop, so it keeps the soft transition without ever
+   reaching up onto the sharp screenshot. */
 .game-card-overlay {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  z-index: 3;
+  flex: none;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--kmp-s-3);
-  padding: 24px;
+  padding: 26px 24px 24px;
   background: linear-gradient(
     to bottom,
-    transparent 18%,
-    rgba(8, 10, 8, .78) 38%,
-    var(--card-overlay) 55%
+    transparent 0%,
+    var(--card-overlay) 42%
   );
 }
 
@@ -742,11 +801,13 @@ h2 {
   border-radius: var(--kmp-r-xl);
 }
 
+/* Sized against the game cards next to it: they are now tall enough that a
+   small dog left the tile looking hollow. */
 .games-accent img {
   position: absolute;
-  right: -20px;
-  bottom: -16px;
-  height: 158px;
+  right: -24px;
+  bottom: -18px;
+  height: 210px;
   width: auto;
   pointer-events: none;
   animation: kmp-bob 4.6s ease-in-out infinite;
@@ -1565,9 +1626,13 @@ footer {
   .section-head { display: block; }
   .section-note { margin-top: 14px; }
   .game-grid { grid-template-columns: 1fr; }
-  .game-card { min-height: 300px; aspect-ratio: 1.15 / 1; }
+  /* Portrait, not landscape: these are phone screenshots shown whole, and a
+     wide card would shrink them to a thumbnail. */
+  .game-card { min-height: 420px; aspect-ratio: .65 / 1; }
   .game-card-overlay { padding: 20px; }
   .games-accent { min-height: 260px; }
+  /* The tile is short again here, so the bigger dog would crowd the text. */
+  .games-accent img { height: 150px; }
   .approach { padding: 62px 0 30px; }
   .approach-head { margin-bottom: 34px; }
   .approach-art { min-height: 240px; }
@@ -1600,8 +1665,8 @@ footer {
   }
   .game-card:hover,
   .game-card:focus-within { transform: none; }
-  .game-card:hover .game-preview,
-  .game-card:focus-within .game-preview,
+  .game-card:hover .game-preview-frame,
+  .game-card:focus-within .game-preview-frame,
   .game-card:hover .game-card-arrow,
   .game-card:focus-within .game-card-arrow { transform: none; }
 }
@@ -1615,7 +1680,7 @@ html[data-kmp-motion="reduced"] *::after {
 }
 html[data-kmp-motion="reduced"] .game-card:hover,
 html[data-kmp-motion="reduced"] .game-card:focus-within { transform: none; }
-html[data-kmp-motion="reduced"] .game-card:hover .game-preview,
-html[data-kmp-motion="reduced"] .game-card:focus-within .game-preview,
+html[data-kmp-motion="reduced"] .game-card:hover .game-preview-frame,
+html[data-kmp-motion="reduced"] .game-card:focus-within .game-preview-frame,
 html[data-kmp-motion="reduced"] .game-card:hover .game-card-arrow,
 html[data-kmp-motion="reduced"] .game-card:focus-within .game-card-arrow { transform: none; }
