@@ -575,8 +575,8 @@ h2 {
   display: flex;
   flex-direction: column;
   padding: 0;
-  aspect-ratio: .6 / 1;
-  min-height: 520px;
+  aspect-ratio: .78 / 1;
+  min-height: 0;
   transition: transform var(--kmp-dur) var(--kmp-ease-out),
               box-shadow var(--kmp-dur) var(--kmp-ease-out);
 }
