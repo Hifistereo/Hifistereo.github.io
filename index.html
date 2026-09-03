@@ -8,6 +8,7 @@
        so explicitly rather than leaving the door open. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
   <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="description" content="KidMindPath — bezmaksas un drošas izglītojošas spēles bērniem: valoda, lasīšana, matemātika, radošums un domāšana. Bez reklāmām, kontiem un izsekošanas.">
   <meta name="theme-color" content="#fffaf2">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,6 +25,12 @@
   <meta name="twitter:description" content="Piecas bezmaksas izglītojošas spēles bērniem: valoda, lasīšana, matemātika, radošums un domāšana. Bez reklāmām un bez izsekošanas.">
   <meta name="twitter:image" content="https://www.kidmindpath.com/icon-512.png">
   <link rel="canonical" href="https://www.kidmindpath.com/">
+  <!-- The site is Latvian; /en/ is a single English summary of it, not a
+       translated site. Both pages list both alternates, because hreflang is
+       only honoured when it is reciprocal. -->
+  <link rel="alternate" hreflang="lv" href="https://www.kidmindpath.com/">
+  <link rel="alternate" hreflang="en" href="https://www.kidmindpath.com/en/">
+  <link rel="alternate" hreflang="x-default" href="https://www.kidmindpath.com/">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.webmanifest">
@@ -50,37 +57,115 @@
         "@type": "Organization",
         "@id": "https://www.kidmindpath.com/#organization",
         "name": "KidMindPath",
+        "alternateName": "kidmindpath.com",
         "url": "https://www.kidmindpath.com/",
-        "logo": "https://www.kidmindpath.com/icon-512.png",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.kidmindpath.com/icon-512.png",
+          "width": 512,
+          "height": 512
+        },
+        "image": "https://www.kidmindpath.com/icon-512.png",
         "description": "Bezmaksas izglītojošu bērnu spēļu portāls bez reklāmām, kontiem un izsekošanas.",
-        "email": "mailto:elmars.builis@gmail.com"
+        "email": "mailto:elmars.builis@gmail.com",
+        "knowsLanguage": [
+          "lv",
+          "en"
+        ],
+        "areaServed": {
+          "@type": "Country",
+          "name": "Latvia"
+        },
+        "sameAs": [
+          "https://github.com/Hifistereo"
+        ]
       },
       {
         "@type": "WebSite",
         "@id": "https://www.kidmindpath.com/#website",
         "url": "https://www.kidmindpath.com/",
         "name": "KidMindPath",
+        "alternateName": "KidMindPath — bezmaksas spēles bērniem",
         "description": "Izglītojošu bērnu spēļu portāls valodai, lasīšanai, matemātikai, radošumam un domāšanai.",
-        "publisher": { "@id": "https://www.kidmindpath.com/#organization" },
+        "publisher": {
+          "@id": "https://www.kidmindpath.com/#organization"
+        },
         "inLanguage": "lv"
       },
       {
+        "@type": "WebPage",
+        "@id": "https://www.kidmindpath.com/#webpage",
+        "url": "https://www.kidmindpath.com/",
+        "name": "KidMindPath — mācīšanās caur spēli",
+        "description": "Piecas bezmaksas izglītojošas spēles bērniem 2–7 gadu vecumā latviešu valodā. Bez reklāmām, bez konta un bez izsekošanas.",
+        "isPartOf": {
+          "@id": "https://www.kidmindpath.com/#website"
+        },
+        "about": {
+          "@id": "https://www.kidmindpath.com/#organization"
+        },
+        "inLanguage": "lv",
+        "dateModified": "2026-09-03",
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://www.kidmindpath.com/icon-512.png"
+        },
+        "speakable": {
+          "@type": "SpeakableSpecification",
+          "cssSelector": [
+            ".hero-copy",
+            ".parents-list"
+          ]
+        }
+      },
+      {
         "@type": "ItemList",
+        "@id": "https://www.kidmindpath.com/#games",
         "name": "KidMindPath spēles",
+        "description": "Visas piecas KidMindPath spēles — bezmaksas, latviešu valodā, bērniem aptuveni 2–7 gadu vecumā.",
+        "numberOfItems": 5,
+        "itemListOrder": "https://schema.org/ItemListUnordered",
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "item": {
               "@type": "WebApplication",
+              "@id": "https://www.kidmindpath.com/PrataSala/#webapp",
               "name": "Prāta piedzīvojumu sala",
               "url": "https://www.kidmindpath.com/PrataSala/",
               "description": "Mini spēļu piedzīvojums uzmanībai, atmiņai un problēmu risināšanai.",
               "applicationCategory": "EducationalApplication",
+              "applicationSubCategory": "Game",
               "operatingSystem": "Any",
+              "browserRequirements": "Requires JavaScript. Darbojas jebkurā mūsdienu pārlūkprogrammā.",
               "isAccessibleForFree": true,
+              "isFamilyFriendly": true,
               "inLanguage": "lv-LV",
-              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+              "image": "https://www.kidmindpath.com/img/game-previews/prata-sala.webp",
+              "screenshot": "https://www.kidmindpath.com/img/game-previews/prata-sala.webp",
+              "learningResourceType": "game",
+              "educationalUse": "playful learning",
+              "teaches": [
+                "Uzmanība",
+                "Atmiņa",
+                "Problēmu risināšana"
+              ],
+              "typicalAgeRange": "4-7",
+              "audience": {
+                "@type": "PeopleAudience",
+                "suggestedMinAge": 4,
+                "suggestedMaxAge": 7
+              },
+              "publisher": {
+                "@id": "https://www.kidmindpath.com/#organization"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              }
             }
           },
           {
@@ -88,13 +173,41 @@
             "position": 2,
             "item": {
               "@type": "WebApplication",
+              "@id": "https://www.kidmindpath.com/Paint/#webapp",
               "name": "Little Fingers Paint",
               "url": "https://www.kidmindpath.com/Paint/",
               "description": "Vienkārša zīmēšana ar pirkstu, krāsām, otām, uzlīmēm un krāsojamiem attēliem.",
               "applicationCategory": "EducationalApplication",
+              "applicationSubCategory": "Game",
               "operatingSystem": "Any",
+              "browserRequirements": "Requires JavaScript. Darbojas jebkurā mūsdienu pārlūkprogrammā.",
               "isAccessibleForFree": true,
-              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+              "isFamilyFriendly": true,
+              "inLanguage": "lv-LV",
+              "image": "https://www.kidmindpath.com/img/game-previews/paint.webp",
+              "screenshot": "https://www.kidmindpath.com/img/game-previews/paint.webp",
+              "learningResourceType": "game",
+              "educationalUse": "playful learning",
+              "teaches": [
+                "Radošums",
+                "Smalkā motorika",
+                "Krāsas"
+              ],
+              "typicalAgeRange": "2-7",
+              "audience": {
+                "@type": "PeopleAudience",
+                "suggestedMinAge": 2,
+                "suggestedMaxAge": 7
+              },
+              "publisher": {
+                "@id": "https://www.kidmindpath.com/#organization"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              }
             }
           },
           {
@@ -102,14 +215,40 @@
             "position": 3,
             "item": {
               "@type": "WebApplication",
+              "@id": "https://www.kidmindpath.com/KidlaTest/#webapp",
               "name": "Burtu Feja",
               "url": "https://www.kidmindpath.com/KidlaTest/",
               "description": "Latviešu burtu un lasīšanas piedzīvojums ar bērnam draudzīgiem uzdevumiem.",
               "applicationCategory": "EducationalApplication",
+              "applicationSubCategory": "Game",
               "operatingSystem": "Any",
+              "browserRequirements": "Requires JavaScript. Darbojas jebkurā mūsdienu pārlūkprogrammā.",
               "isAccessibleForFree": true,
+              "isFamilyFriendly": true,
               "inLanguage": "lv-LV",
-              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+              "image": "https://www.kidmindpath.com/img/game-previews/burtu-feja.webp",
+              "screenshot": "https://www.kidmindpath.com/img/game-previews/burtu-feja.webp",
+              "learningResourceType": "game",
+              "educationalUse": "playful learning",
+              "teaches": [
+                "Latviešu burti",
+                "Lasīšana"
+              ],
+              "typicalAgeRange": "5-6",
+              "audience": {
+                "@type": "PeopleAudience",
+                "suggestedMinAge": 5,
+                "suggestedMaxAge": 6
+              },
+              "publisher": {
+                "@id": "https://www.kidmindpath.com/#organization"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              }
             }
           },
           {
@@ -117,13 +256,39 @@
             "position": 4,
             "item": {
               "@type": "WebApplication",
+              "@id": "https://www.kidmindpath.com/ENG-learning/#webapp",
               "name": "Mācāmies angliski!",
               "url": "https://www.kidmindpath.com/ENG-learning/",
               "description": "Angļu valodas spēle latviešu bērniem ar diviem vecuma līmeņiem un mācīšanos savā tempā.",
               "applicationCategory": "EducationalApplication",
+              "applicationSubCategory": "Game",
               "operatingSystem": "Any",
+              "browserRequirements": "Requires JavaScript. Darbojas jebkurā mūsdienu pārlūkprogrammā.",
               "isAccessibleForFree": true,
-              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+              "isFamilyFriendly": true,
+              "inLanguage": "lv-LV",
+              "image": "https://www.kidmindpath.com/img/game-previews/eng-learning.webp",
+              "screenshot": "https://www.kidmindpath.com/img/game-previews/eng-learning.webp",
+              "learningResourceType": "game",
+              "educationalUse": "playful learning",
+              "teaches": [
+                "Angļu valodas vārdu krājums"
+              ],
+              "typicalAgeRange": "2-7",
+              "audience": {
+                "@type": "PeopleAudience",
+                "suggestedMinAge": 2,
+                "suggestedMaxAge": 7
+              },
+              "publisher": {
+                "@id": "https://www.kidmindpath.com/#organization"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              }
             }
           },
           {
@@ -131,13 +296,41 @@
             "position": 5,
             "item": {
               "@type": "WebApplication",
+              "@id": "https://www.kidmindpath.com/Memory/#webapp",
               "name": "Ciparu dārzs",
               "url": "https://www.kidmindpath.com/Memory/",
               "description": "Piecas draudzīgas atmiņas un agrīnās matemātikas spēles mazajiem pētniekiem.",
               "applicationCategory": "EducationalApplication",
+              "applicationSubCategory": "Game",
               "operatingSystem": "Any",
+              "browserRequirements": "Requires JavaScript. Darbojas jebkurā mūsdienu pārlūkprogrammā.",
               "isAccessibleForFree": true,
-              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+              "isFamilyFriendly": true,
+              "inLanguage": "lv-LV",
+              "image": "https://www.kidmindpath.com/img/game-previews/ciparu-darzs.webp",
+              "screenshot": "https://www.kidmindpath.com/img/game-previews/ciparu-darzs.webp",
+              "learningResourceType": "game",
+              "educationalUse": "playful learning",
+              "teaches": [
+                "Atmiņa",
+                "Skaitīšana",
+                "Agrīnā matemātika"
+              ],
+              "typicalAgeRange": "2-6",
+              "audience": {
+                "@type": "PeopleAudience",
+                "suggestedMinAge": 2,
+                "suggestedMaxAge": 6
+              },
+              "publisher": {
+                "@id": "https://www.kidmindpath.com/#organization"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              }
             }
           }
         ]
@@ -436,10 +629,11 @@
         <a href="/palidziba.html">Palīdzība</a>
         <a href="/kluda.html">Ziņot par kļūdu</a>
         <a href="/privatums.html">Privātums</a>
+        <a href="/en/" hreflang="en" lang="en">English</a>
       </div>
       <span>Mācīšanās, kas sākas ar ziņkāri.</span>
       <!-- Bump this by hand whenever site content changes. -->
-      <span class="footer-version">v1.4</span>
+      <span class="footer-version">v1.5</span>
     </div>
   </footer>
 </body>

@@ -1443,6 +1443,74 @@ footer {
   font-size: var(--kmp-t-sm);
 }
 
+/* ---------- prose tables ---------- */
+
+/* A five-column comparison table does not fit a 360px phone, and a table is
+   the one element that cannot reflow. The wrapper scrolls instead of the page:
+   `overflow-x: auto` on a container the table can overflow, never on <body>.
+   tabindex is what makes that scroll region reachable from the keyboard —
+   a scrollable box with no focusable child is otherwise unreachable. */
+.table-scroll {
+  overflow-x: auto;
+  margin: var(--kmp-s-5) 0 var(--kmp-s-6);
+  border: 1px solid var(--kmp-line);
+  border-radius: var(--kmp-r-md);
+  background: var(--kmp-surface);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--kmp-t-sm);
+  /* Below this the columns wrap into unreadable slivers; past it the wrapper
+     scrolls. */
+  min-width: 34rem;
+}
+
+.prose caption {
+  padding: var(--kmp-s-3) var(--kmp-s-4);
+  color: var(--kmp-ink-soft);
+  font-size: var(--kmp-t-xs);
+  text-align: left;
+}
+
+.prose th,
+.prose td {
+  padding: var(--kmp-s-3) var(--kmp-s-4);
+  border-bottom: 1px solid var(--kmp-line);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.prose thead th {
+  color: var(--kmp-ink);
+  font-family: var(--kmp-font-display);
+  font-weight: 700;
+  background: var(--kmp-paper-sunk);
+  white-space: nowrap;
+}
+
+/* Row headers carry the game name; the body cells are secondary. */
+.prose tbody th {
+  color: var(--kmp-ink);
+  font-weight: 700;
+}
+
+.prose tbody td {
+  color: var(--kmp-ink-soft);
+}
+
+/* An age range is one atomic value; "2–7 / gadi" over two lines reads as two. */
+.prose td.col-age {
+  white-space: nowrap;
+}
+
+.prose tbody tr:last-child th,
+.prose tbody tr:last-child td {
+  border-bottom: 0;
+}
+
 /* ---------- FAQ accordion (native <details>, no JS) ---------- */
 
 .faq-list {

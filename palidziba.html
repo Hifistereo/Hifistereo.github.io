@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
   <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="description" content="Palīdzība: ko darīt, ja latviešu teksts kādā no KidMindPath spēlēm tiek izrunāts ar svešvalodas akcentu, un kā ierīcē iestatīt pareizu Text-to-Speech valodu.">
   <meta name="theme-color" content="#fffaf2">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,6 +31,165 @@
   <link rel="stylesheet" href="/shared/kidmindpath-ui.css">
   <link rel="stylesheet" href="/styles.css">
   <script type="module" src="/js/site.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.kidmindpath.com/palidziba.html#webpage",
+        "url": "https://www.kidmindpath.com/palidziba.html",
+        "name": "Palīdzība — KidMindPath",
+        "description": "Ko darīt, ja latviešu teksts kādā no KidMindPath spēlēm tiek izrunāts ar svešvalodas akcentu, un kā Android, iPhone vai iPad ierīcē iestatīt pareizu Text-to-Speech valodu.",
+        "isPartOf": {
+          "@id": "https://www.kidmindpath.com/#website"
+        },
+        "breadcrumb": {
+          "@id": "https://www.kidmindpath.com/palidziba.html#breadcrumb"
+        },
+        "inLanguage": "lv",
+        "datePublished": "2026-08-08",
+        "dateModified": "2026-09-03",
+        "about": {
+          "@type": "Thing",
+          "name": "Latviešu valodas Text-to-Speech izruna"
+        },
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Latviešu teksts tiek izrunāts ar angļu akcentu. Ko darīt?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Vispirms pārbaudiet, vai ierīcē ir pievienota latviešu valoda un Text-to-Speech funkcijai ir izvēlēta latviešu valoda. Atveriet Settings / Iestatījumi, meklēšanas laukā ierakstiet Text-to-Speech, TTS vai Teksta pārvēršana runā, atveriet Text-to-Speech output, pārbaudiet Preferred engine (ja iespējams, izvēlieties Speech Recognition & Synthesis from Google), atveriet Language un izvēlieties Latvian / Latviešu. Ja latviešu valoda vēl nav pieejama, pievienojiet to ierīces valodu sarakstam. Pēc tam pilnībā aizveriet aplikāciju vai pārlūkprogrammu un atveriet to vēlreiz. Ja izruna joprojām nav pareiza, pārstartējiet ierīci."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kā pievienot latviešu valodu Android ierīcei?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Parasti: Settings → System / General management → Languages & input → Languages → Add language → Latvian / Latviešu. Latviešu valodai nav obligāti jākļūst par telefona galveno izvēļņu valodu — pietiek, ka tā ir pievienota ierīces valodu sarakstam. Pēc tam vēlreiz pārbaudiet Text-to-Speech → Language → Latvian."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kā salabot latviešu izrunu Samsung telefonā vai planšetē?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Samsung ierīcēs pēc noklusējuma var būt izvēlēts Samsung Text-to-Speech dzinējs. Atveriet Settings → General management → Text-to-Speech, pie Preferred engine izvēlieties Speech Recognition & Synthesis from Google, pēc tam Language → Latvian / Latviešu. Ja Google runas serviss nav aktuāls, atveriet Google Play Store, sameklējiet Speech Recognition & Synthesis from Google, nospiediet Update un pēc atjaunināšanas vēlreiz izvēlieties latviešu valodu. Šis ir viens no biežākajiem risinājumiem, kad Samsung ierīce latviešu tekstu lasa ar svešvalodas akcentu."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kā salabot latviešu izrunu Xiaomi vai Redmi ierīcē?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Xiaomi un Redmi ierīcēs parasti: Settings → Additional settings → Languages & input → Text-to-Speech output. Pārbaudiet, ka Preferred engine ir Google Speech Services, Language ir Latvian / Latviešu, Speech rate ir Normal un Pitch ir Normal. Ja latviešu valoda nav pieejama, vispirms pievienojiet to sadaļā Settings → Additional settings → Languages & input → Languages. Pēc izmaiņām aizveriet aplikāciju un atveriet to vēlreiz."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kā salabot latviešu izrunu Huawei telefonā vai planšetē?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Huawei ierīču iespējas var atšķirties atkarībā no modeļa, EMUI/HarmonyOS versijas un tā, vai ierīcē ir pieejami Google pakalpojumi. Vispirms atveriet Settings → System & updates → Language & input → Language and region un pievienojiet Latviešu / Latvian. Pēc tam ierīces Settings meklētājā meklējiet Text-to-Speech, Speech vai TTS un, ja ierīce piedāvā izvēlēties TTS valodu, izvēlieties Latvian. Dažām Huawei ierīcēm Google Speech Services nav pieejams — tad izmantojiet ierīces piedāvāto Text-to-Speech dzinēju un pārbaudiet, vai tas piedāvā latviešu valodu."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Ko darīt, ja Google Speech Services nav instalēts?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Android ierīcē atveriet Google Play Store un sameklējiet Speech Recognition & Synthesis from Google. Tad instalējiet vai atjauniniet aplikāciju, atveriet ierīces Text-to-Speech iestatījumus, izvēlieties Google kā vēlamo TTS dzinēju, izvēlieties Latvian / Latviešu un pārstartējiet aplikāciju."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Latviešu valoda Text-to-Speech sarakstā neparādās. Ko darīt?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pamēģiniet šādā secībā: atjauniniet ierīces operētājsistēmu; atjauniniet Google Speech Services, ja ierīce tos izmanto; pievienojiet Latviešu ierīces sistēmas valodu sarakstam; vēlreiz atveriet Text-to-Speech iestatījumus; pārbaudiet pieejamās valodas; pārstartējiet ierīci. Dažās ierīcēs konkrēta latviešu Text-to-Speech balss var nebūt pieejama — pieejamās balsis ir atkarīgas no ierīces, operētājsistēmas un TTS dzinēja."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Ko darīt, ja izmantoju iPhone vai iPad?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Vispirms pārliecinieties, ka ierīcē ir pievienota latviešu valoda: Settings → General → Language & Region → Add Language → Latvian. Latviešu valodai nav obligāti jābūt jūsu iPhone vai iPad galvenajai valodai. Pēc tam pilnībā aizveriet Safari vai citu pārlūkprogrammu, atveriet to vēlreiz un atkārtoti palaidiet aplikāciju. Ja nepieciešams, pārstartējiet iPhone vai iPad."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kur iPhone vai iPad var pārbaudīt sistēmas balsis?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Atveriet Settings → Accessibility → Read & Speak / Spoken Content. Atkarībā no iOS/iPadOS versijas šeit var būt pieejami Voices, Default Language, Detect Languages un Speaking Rate. Ja pieejama latviešu valoda vai latviešu balss, izvēlieties to un nepieciešamības gadījumā lejupielādējiet balsi."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Ko darīt, ja iPhone vai iPad nepiedāvā latviešu balsi?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Tas var būt normāli — Apple nepiedāvā vienādu Text-to-Speech valodu un balsu klāstu visās valodās un visās iOS/iPadOS versijās. Ja latviešu valoda nav pieejama sadaļā Voices / Default Language, lietotājs nevar manuāli instalēt Android Google Speech Services ekvivalentu. Šādā gadījumā pārliecinieties, ka Latvian ir pievienota sadaļā Language & Region, atjauniniet iOS/iPadOS, aizveriet un atkārtoti atveriet Safari, pārstartējiet ierīci un vēlreiz pārbaudiet aplikācijas izrunu. Ja latviešu balss joprojām nav pieejama, tas var būt konkrētās iOS/iPadOS versijas sistēmas balss atbalsta ierobežojums."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kāpēc telefonā aplikācija runā pareizi, bet planšetē nepareizi?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Tas nenozīmē, ka aplikācijas versijas atšķiras. Viena un tā pati aplikācija dažādās ierīcēs var izmantot dažādas sistēmas balsis: telefonā Latvian → Google TTS → pareiza latviešu izruna, bet planšetē English → ražotāja TTS → latviešu teksts ar angļu akcentu. Tāpēc iestatījumi jāpārbauda tieši tajā ierīcē, kurā rodas problēma."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Balss ir sievietes vietā vīrieša balss vai otrādi. Vai to var mainīt?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Tas ir normāli. Pieejamās balsis nosaka konkrētā ierīce un tās Text-to-Speech sistēma. Dažās ierīcēs var būt vairākas latviešu balsis, citās tikai viena, bet dažās latviešu balss var nebūt pieejama vispār. Svarīgākais ir, lai būtu izvēlēta Latvian / Latviešu valoda un izruna būtu skaidra."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Es visu nomainīju, bet balss joprojām nav mainījusies. Ko vēl var darīt?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Izmēģiniet: pilnībā aizveriet aplikāciju; pilnībā aizveriet pārlūkprogrammu; atveriet pārlūkprogrammu un aplikāciju vēlreiz; pārstartējiet ierīci; pārbaudiet sistēmas atjauninājumus; Android ierīcēs pārbaudiet Text-to-Speech dzinēja atjauninājumus; vēlreiz pārbaudiet, vai TTS valoda ir Latvian / Latviešu."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kāpēc izruna vispār atšķiras dažādās ierīcēs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Aplikācija izmanto jūsu telefona, planšetes vai pārlūkprogrammas pieejamo Text-to-Speech (TTS) funkciju, tāpēc pati aplikācija ne vienmēr nosaka konkrēto balsi. Izruna var būt atkarīga no ierīces operētājsistēmas, instalētā Text-to-Speech dzinēja, ierīcē pieejamajām valodām, instalētajām balsīm, pārlūkprogrammas un ierīces ražotāja. Tādēļ vienā telefonā latviešu valoda var skanēt pareizi, bet citā telefonā vai planšetē tā pati aplikācija var izmantot balsi ar angļu vai citas valodas akcentu."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.kidmindpath.com/palidziba.html#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Sākums",
+            "item": "https://www.kidmindpath.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Palīdzība",
+            "item": "https://www.kidmindpath.com/palidziba.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#saturs">Pāriet uz saturu</a>
@@ -280,7 +440,7 @@
       <h2>Jautājumi</h2>
       <p>Ja izmēģinājāt visu iepriekš minēto un problēma joprojām saglabājas, rakstiet uz <a href="mailto:elmars.builis@gmail.com">elmars.builis@gmail.com</a>.</p>
 
-      <p class="updated">Pēdējoreiz atjaunināts: 2026. gada augustā.</p>
+      <p class="updated">Pēdējoreiz atjaunināts: <time datetime="2026-09-03">2026. gada 3. septembrī</time>.</p>
     </div>
   </main>
 
@@ -292,10 +452,11 @@
         <a href="/palidziba.html">Palīdzība</a>
         <a href="/kluda.html">Ziņot par kļūdu</a>
         <a href="/privatums.html">Privātums</a>
+        <a href="/en/" hreflang="en" lang="en">English</a>
       </div>
       <span>Mācīšanās, kas sākas ar ziņkāri.</span>
       <!-- Bump this by hand whenever site content changes. -->
-      <span class="footer-version">v1.4</span>
+      <span class="footer-version">v1.5</span>
     </div>
   </footer>
 </body>

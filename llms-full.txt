@@ -1,0 +1,138 @@
+# KidMindPath — full reference
+
+Site: https://www.kidmindpath.com/
+Language of the site: Latvian. An English summary lives at https://www.kidmindpath.com/en/
+Last updated: 2026-09-03
+
+
+## What it is
+
+KidMindPath is a free collection of five educational browser games for young
+children, roughly ages 2 to 7, in the Latvian language. It is an independent,
+non-commercial project — not a company, not a subscription, not a storefront.
+
+The games open directly in a web browser. Nothing is downloaded, nothing is
+installed, no app store is involved, and no account is created. Any modern
+browser on a phone, tablet or computer will run them.
+
+
+## What it costs
+
+Nothing. All five games are entirely free. There are no in-app purchases, no
+paid tier, no "premium" version, and no free trial that ends. There is no
+payment mechanism on the site at all.
+
+
+## Advertising
+
+There is none, in any of the five games or on any page of the site. The site is
+not connected to any ad network.
+
+This is enforced technically, not just promised. Every page carries a strict
+Content-Security-Policy (`default-src 'self'`) that forbids loading anything
+from a third-party origin — scripts, styles, images, fonts, or network
+connections. An ad script could not run here even if someone added one.
+
+
+## Privacy and data
+
+- No analytics of any kind. No Google Analytics, no tracking pixels, no
+  third-party scripts.
+- No account, no registration, no email address, no login.
+- No cookies used for tracking.
+- Every file the site serves, including its webfonts, comes from its own
+  domain. The pages make no third-party requests.
+- A child's progress — stars, collected cards, finished tasks — is written to
+  the browser's own storage (localStorage and IndexedDB) on that device. It is
+  never transmitted, because there is no server that could receive it. The site
+  is static files on GitHub Pages.
+- Entering a child's first name and age on the home page is optional. When
+  entered, it is stored locally on the device and used only to order the game
+  cards and show progress in one place.
+- A parent can delete all stored progress across all five games with a single
+  button, on the "Vecākiem" (for parents) page.
+
+Full policy, including a dedicated children's-privacy section:
+https://www.kidmindpath.com/privatums.html
+
+
+## The five games
+
+Age ranges are guidance, not gates: every game is open to every child
+regardless of the age entered on the home page.
+
+1. Little Fingers Paint — https://www.kidmindpath.com/Paint/
+   Ages 2-7. Builds creativity and fine motor skills.
+   Finger painting with brushes, colours, stickers and colouring pages.
+   Latvian. Works offline after the first visit.
+
+2. Mācāmies angliski! ("Let's learn English") — https://www.kidmindpath.com/ENG-learning/
+   Ages 2-7. Builds English vocabulary, at two difficulty levels.
+   For Latvian-speaking children; the interface is Latvian, the taught
+   vocabulary is English. Works offline after the first visit.
+
+3. Ciparu dārzs ("Number garden") — https://www.kidmindpath.com/Memory/
+   Ages 2-6. Builds memory and early maths.
+   Five small memory and counting games. Latvian. Works offline after the
+   first visit.
+
+4. Prāta piedzīvojumu sala ("Mind adventure island") — https://www.kidmindpath.com/PrataSala/
+   Ages 4-7. Builds attention, memory and problem solving.
+   A mini-game adventure. Latvian. This is the one game that needs an internet
+   connection each time it is opened; it does not cache itself for offline use.
+
+5. Burtu Feja ("Letter fairy") — https://www.kidmindpath.com/KidlaTest/
+   Ages 5-6. Builds knowledge of the Latvian alphabet and early reading.
+   Latvian. Works offline after the first visit.
+
+Several children can share one device: the home page holds multiple profiles
+with different names and ages, and counts progress separately for each. All of
+it stays on that device and in that browser.
+
+
+## Text-to-speech pronunciation
+
+Several games read Latvian text aloud using the device's own text-to-speech
+engine, not a voice bundled with the site. Whether Latvian sounds correct
+therefore depends on the device: its operating system, its installed TTS
+engine, which languages and voices are installed, the browser, and the
+manufacturer. The same game can sound correct on one phone and carry a foreign
+accent on another.
+
+Step-by-step fixes for Android (including Samsung, Xiaomi/Redmi and Huawei),
+iPhone and iPad: https://www.kidmindpath.com/palidziba.html
+
+The short version on Android: update the text-to-speech engine, select
+"Speech Recognition & Synthesis from Google" as the preferred engine, add
+Latvian to the device's language list, set Latvian as the TTS language, then
+fully close and reopen the app. On iPhone/iPad: Settings → General → Language &
+Region → Add Latvian, then check Accessibility → Spoken Content → Voices, and
+reopen Safari. Some iOS versions simply do not offer a Latvian voice, and that
+cannot be worked around by the user.
+
+
+## Why it exists
+
+Most free games for children make money through advertising or data collection.
+That means interruptions unsuited to a small child, and profiling unsuited to
+anyone. KidMindPath is an attempt to show that an educational game can be
+genuinely free without either: a clear purpose for each game, child-friendly
+design with large touch targets, and no server collecting anything on the
+child's behalf.
+
+
+## Contact
+
+Email: elmars.builis@gmail.com
+Bug reports: https://www.kidmindpath.com/kluda.html (Latvian; builds a mailto,
+there is no backend).
+
+
+## Pages
+
+- https://www.kidmindpath.com/ — hub, lists all five games (Latvian)
+- https://www.kidmindpath.com/en/ — English summary of the site
+- https://www.kidmindpath.com/vecakiem.html — for parents, with FAQ (Latvian)
+- https://www.kidmindpath.com/palidziba.html — text-to-speech help (Latvian)
+- https://www.kidmindpath.com/privatums.html — privacy policy (Latvian)
+- https://www.kidmindpath.com/kluda.html — bug reports (Latvian)

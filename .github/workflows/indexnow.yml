@@ -31,8 +31,16 @@ jobs:
           set -eu
           BASE="https://www.kidmindpath.com"
 
+          # A directory index is served at its directory URL, and that is the
+          # form the sitemap lists — "en/index.html" is "/en/", not
+          # "/en/index.html". Getting this wrong does not fail loudly: the URL
+          # simply never matches a sitemap entry and the page is skipped.
           path_for() {
-            if [ "$1" = "index.html" ]; then echo "/"; else echo "/$1"; fi
+            case "$1" in
+              index.html) echo "/" ;;
+              */index.html) echo "/${1%index.html}" ;;
+              *) echo "/$1" ;;
+            esac
           }
 
           MODE="diff"

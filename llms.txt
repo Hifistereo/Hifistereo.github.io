@@ -2,28 +2,37 @@
 
 > KidMindPath (www.kidmindpath.com) is a free, ad-free, privacy-first hub of five
 > browser-based educational games for young children (roughly ages 2-7), in the
-> Latvian language. No ads, no accounts, no third-party analytics or tracking —
-> enforced by a strict Content-Security-Policy. All game progress stays on the
-> child's own device (localStorage/IndexedDB); nothing is sent to any server.
+> Latvian language. No ads, no accounts, no in-app purchases, no third-party
+> analytics or tracking — enforced by a strict Content-Security-Policy, not just
+> promised. Nothing is downloaded or installed; the games open in any modern
+> browser. All game progress stays on the child's own device (localStorage /
+> IndexedDB); there is no server to receive it. Run as an independent,
+> non-commercial project; contact elmars.builis@gmail.com.
 >
-> Note: this file is provided for experimental compatibility with tools that
-> read it. As of mid-2026, Google has stated it does not use llms.txt for
-> Search or AI Overviews — it neither helps nor hurts visibility there.
+> Note: support for llms.txt varies by tool, and Google has stated it does not
+> use the file for Search or AI Overviews. `/llms-full.txt` carries the same
+> facts in full prose.
 
 ## Games
 
-- [Prāta piedzīvojumu sala](https://www.kidmindpath.com/PrataSala/): Mini-game adventure for attention, memory, and problem-solving. Ages ~4-7.
-- [Little Fingers Paint](https://www.kidmindpath.com/Paint/): Simple finger painting with brushes, stickers, and coloring pages. Ages ~2-7.
-- [Burtu Feja](https://www.kidmindpath.com/KidlaTest/): Latvian alphabet and reading game for children. Ages 5-6.
-- [Mācāmies angliski!](https://www.kidmindpath.com/ENG-learning/): English-learning game for Latvian-speaking children, two difficulty levels. Ages ~2-7.
-- [Ciparu dārzs](https://www.kidmindpath.com/Memory/): Five friendly memory and early-math games. Ages ~2-6.
+- [Prāta piedzīvojumu sala](https://www.kidmindpath.com/PrataSala/): Mini-game adventure for attention, memory, and problem-solving. Ages 4-7. Latvian. Needs an internet connection each time.
+- [Little Fingers Paint](https://www.kidmindpath.com/Paint/): Finger painting with brushes, stickers, and colouring pages; creativity and fine motor skills. Ages 2-7. Latvian. Works offline after the first visit.
+- [Burtu Feja](https://www.kidmindpath.com/KidlaTest/): Latvian alphabet and early reading. Ages 5-6. Latvian. Works offline after the first visit.
+- [Mācāmies angliski!](https://www.kidmindpath.com/ENG-learning/): English vocabulary for Latvian-speaking children, two difficulty levels. Ages 2-7. Latvian and English. Works offline after the first visit.
+- [Ciparu dārzs](https://www.kidmindpath.com/Memory/): Five memory and early-maths games. Ages 2-6. Latvian. Works offline after the first visit.
+
+All five are free, ad-free, and require no account. Age ranges are guidance, not
+gates — every game is open to every child.
 
 ## About
 
-- [Vecākiem](https://www.kidmindpath.com/vecakiem.html): Full explanation for parents — what the site is, safety and privacy details, age guidance, and an FAQ.
-- [Privātuma politika](https://www.kidmindpath.com/privatums.html): Full privacy policy, including a dedicated children's-privacy section.
-- [Palīdzība](https://www.kidmindpath.com/palidziba.html): FAQ for Latvian text-to-speech pronunciation issues.
+- [In English](https://www.kidmindpath.com/en/): English-language summary of the whole site — what it is, the five games, ages, privacy, FAQ. The site itself is in Latvian.
+- [Vecākiem](https://www.kidmindpath.com/vecakiem.html): Full explanation for parents (Latvian) — what the site is, safety and privacy, age guidance, a comparison table of the five games, and an FAQ.
+- [Privātuma politika](https://www.kidmindpath.com/privatums.html): Full privacy policy (Latvian), including a dedicated children's-privacy section.
+- [Palīdzība](https://www.kidmindpath.com/palidziba.html): Step-by-step fixes (Latvian) for Latvian text-to-speech pronunciation on Android, Samsung, Xiaomi, Huawei, iPhone and iPad.
 
 ## Optional
 
 - [Sākumlapa](https://www.kidmindpath.com/): Hub page listing all five games.
+- [Ziņot par kļūdu](https://www.kidmindpath.com/kluda.html): Bug report page (builds a mailto; there is no backend).
+- [llms-full.txt](https://www.kidmindpath.com/llms-full.txt): Every quotable fact about the site in one plain-text file.
