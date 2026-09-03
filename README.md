@@ -35,6 +35,7 @@ and how to sync a change.
 | Path | What it is |
 |---|---|
 | `index.html` | the hub — hero, the five game cards, "who is playing" |
+| `en/index.html` | the one English page — what the site is, the five games, an FAQ |
 | `kolekcija.html` | everything a child has collected across all five games |
 | `vecakiem.html` | the parent page: article, then a gated cross-game dashboard |
 | `palidziba.html` | FAQ for Latvian text-to-speech pronunciation |
@@ -71,7 +72,8 @@ Every page loads `js/site.js`. Pages that read the shared profile also load
 | `scripts/extract-catalogues.mjs` | regenerates `js/catalogues.js` |
 | `.github/workflows/indexnow.yml` | pings IndexNow when a page changes |
 | `icon.svg`, `icon-*.png`, `apple-touch-icon.png` | app icons |
-| `manifest.webmanifest`, `robots.txt`, `sitemap.xml`, `llms.txt` | site metadata |
+| `manifest.webmanifest`, `robots.txt`, `sitemap.xml` | site metadata |
+| `llms.txt`, `llms-full.txt` | the site described for AI answer engines |
 | `.nojekyll` | serve files as-is, no Jekyll processing |
 
 ## `img/` — the hub illustrations
@@ -159,8 +161,15 @@ other participating search engines) about the changed page URLs. The key file
 at the repo root (`1342b2628f07868a2645d226e9c8aec2.txt`) proves domain
 ownership to IndexNow — it's meant to be public, not a secret.
 
-A new page needs three edits to be found: `sitemap.xml`, the nav in the other
-pages' headers, and `llms.txt`.
+A new page needs four edits to be found: `sitemap.xml`, the nav in the other
+pages' headers, `llms.txt`, and — if it is a language variant — the `hreflang`
+block, which must be **reciprocal**: `/` and `/en/` each list both alternates
+plus `x-default`, or search engines ignore the pairing entirely.
+
+`sitemap.xml` lists a directory index at its directory URL (`/en/`, not
+`/en/index.html`), and `indexnow.yml`'s `path_for()` maps changed files the same
+way. The two have to agree — a mismatch is silent: the URL just never matches a
+sitemap entry and the page is never submitted.
 
 ## Conventions worth keeping
 
@@ -169,6 +178,16 @@ pages' headers, and `llms.txt`.
   with no `unsafe-inline`. Adding an inline style or script silently breaks it.
 - **No third-party requests.** No CDN fonts, no analytics, no embeds. The CSP
   says `default-src 'self'` and the privacy page promises it in writing.
+- **JSON-LD is content, not decoration.** Every indexable page carries a
+  `<script type="application/ld+json">` graph, and `FAQPage` answers on
+  `vecakiem.html`, `palidziba.html` and `en/index.html` are the pages' own
+  *visible* text. Google requires the answer to be on the page; paraphrasing it
+  in the schema, or marking up an answer that is not rendered, is a violation.
+  Editing one of those Q&A blocks means editing the schema in the same commit.
+  There is deliberately no `aggregateRating` — there are no real ratings.
+- **`robots.txt` allows every AI crawler on purpose**, training bots included.
+  It is spelled out group by group so that narrowing it has to be a deliberate
+  choice per crawler, not a side effect of editing the `*` group.
 - **Don't add `frame-ancestors` to the meta CSP.** Browsers ignore it when the
   policy arrives in a `<meta>` element and log an error on every page load. It
   needs a real response header, which GitHub Pages does not let us set — so

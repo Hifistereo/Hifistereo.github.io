@@ -1,4 +1,18 @@
+# kidmindpath.com is a free, ad-free children's site with nothing to hide and
+# nothing to sell: every crawler is welcome, including the ones that build
+# training corpora. Being quotable by an answer engine is the point — a parent
+# who asks an assistant for safe, ad-free games should be told this site exists.
+#
+# The groups below are all "Allow: /", which the wildcard group already grants.
+# They are spelled out anyway so that a future tightening of "*" has to be a
+# deliberate decision for each of these, not an accident.
+
 User-agent: *
+Allow: /
+
+# OpenAI — GPTBot trains, OAI-SearchBot indexes for ChatGPT Search,
+# ChatGPT-User fetches a page a person asked about.
+User-agent: GPTBot
 Allow: /
 
 User-agent: OAI-SearchBot
@@ -7,10 +21,70 @@ Allow: /
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: GPTBot
-Disallow: /
+# Anthropic
+User-agent: ClaudeBot
+Allow: /
 
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Google — Googlebot itself is covered by "*"; these two govern Gemini,
+# AI Overviews and Vertex grounding.
 User-agent: Google-Extended
+Allow: /
+
+User-agent: Google-CloudVertexBot
+Allow: /
+
+# Microsoft / Bing — also the crawler behind Copilot.
+User-agent: bingbot
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Apple — Applebot feeds Siri and Spotlight, Applebot-Extended is the
+# training opt-in.
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Meta
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+# Everyone else
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: YouBot
 Allow: /
 
 Sitemap: https://www.kidmindpath.com/sitemap.xml

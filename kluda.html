@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
   <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="description" content="Paziņot par kļūdu KidMindPath spēlēs vai vietnē: aprakstiet, kas notika, un nosūtiet e-pastu.">
   <meta name="theme-color" content="#fffaf2">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -31,6 +32,60 @@
   <link rel="stylesheet" href="/styles.css">
   <script type="module" src="/js/site.js"></script>
   <script type="module" src="/js/kluda.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ContactPage",
+        "@id": "https://www.kidmindpath.com/kluda.html#webpage",
+        "url": "https://www.kidmindpath.com/kluda.html",
+        "name": "Paziņot par kļūdu — KidMindPath",
+        "description": "Paziņot par kļūdu KidMindPath spēlēs vai vietnē: aprakstiet, kas notika, un nosūtiet e-pastu.",
+        "isPartOf": {
+          "@id": "https://www.kidmindpath.com/#website"
+        },
+        "about": {
+          "@id": "https://www.kidmindpath.com/#organization"
+        },
+        "breadcrumb": {
+          "@id": "https://www.kidmindpath.com/kluda.html#breadcrumb"
+        },
+        "inLanguage": "lv",
+        "dateModified": "2026-09-03"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.kidmindpath.com/kluda.html#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Sākums",
+            "item": "https://www.kidmindpath.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Paziņot par kļūdu",
+            "item": "https://www.kidmindpath.com/kluda.html"
+          }
+        ]
+      },
+      {
+        "@type": "ContactPoint",
+        "@id": "https://www.kidmindpath.com/kluda.html#contact",
+        "contactType": "customer support",
+        "email": "elmars.builis@gmail.com",
+        "availableLanguage": [
+          "lv",
+          "en"
+        ],
+        "areaServed": "LV"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#saturs">Pāriet uz saturu</a>
@@ -90,7 +145,7 @@
            JavaScript off. -->
       <p><a id="kluda-submit" class="kmp-btn" href="mailto:elmars.builis@gmail.com?subject=K%C4%BC%C5%ABdas%20zi%C5%86ojums%3A%20KidMindPath">Sagatavot e-pastu</a></p>
 
-      <p class="updated">Pēdējoreiz atjaunināts: 2026. gada augustā.</p>
+      <p class="updated">Pēdējoreiz atjaunināts: <time datetime="2026-09-03">2026. gada 3. septembrī</time>.</p>
     </div>
   </main>
 
@@ -102,10 +157,11 @@
         <a href="/palidziba.html">Palīdzība</a>
         <a href="/kluda.html">Ziņot par kļūdu</a>
         <a href="/privatums.html">Privātums</a>
+        <a href="/en/" hreflang="en" lang="en">English</a>
       </div>
       <span>Mācīšanās, kas sākas ar ziņkāri.</span>
       <!-- Bump this by hand whenever site content changes. -->
-      <span class="footer-version">v1.4</span>
+      <span class="footer-version">v1.5</span>
     </div>
   </footer>
 </body>
